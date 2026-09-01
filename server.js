@@ -1,9 +1,3 @@
-
-реально находятся в файле `server.js`, их нужно удалить. Это Markdown-обёртка, в JavaScript она вызовет ошибку.
-
-### Готовый исправленный `server.js`
-
-```js
 const express = require("express");
 const cors = require("cors");
 
@@ -37,17 +31,15 @@ app.post("/api/send", async (req, res) => {
 
         const name = safe(data.name);
         const feelings = safe(data.feelings);
+        const zodiac = safe(data.zodiac);
         const date = safe(data.date);
         const place = safe(data.place);
         const time = safe(data.time);
         const message = safe(data.message);
 
-        // --- РАСЧЕТ СОВМЕСТИМОСТИ ---
-
         let score = 0;
         const maxScore = 12;
 
-        // 1. Чувства
         if (feelings === "Это великолепно! 🥰") {
             score += 3;
         } else if (feelings === "Очень мило 😳") {
@@ -58,7 +50,6 @@ app.post("/api/send", async (req, res) => {
             score += 1;
         }
 
-        // 2. Место свидания
         const placeLower = place.toLowerCase();
 
         if (
@@ -75,7 +66,6 @@ app.post("/api/send", async (req, res) => {
             score += 1;
         }
 
-        // 3. Время встречи
         const timeLower = time.toLowerCase();
 
         if (
@@ -92,14 +82,11 @@ app.post("/api/send", async (req, res) => {
             score += 1;
         }
 
-        // 4. Длина сообщения
         if (message.length > 20) {
             score += 3;
         } else if (message.length > 0) {
             score += 2;
         }
-
-        // --- ИТОГОВЫЙ ПРОЦЕНТ ---
 
         let lovePercentage = Math.round((score / maxScore) * 100);
 
@@ -110,8 +97,6 @@ app.post("/api/send", async (req, res) => {
         if (lovePercentage > 100) {
             lovePercentage = 100;
         }
-
-        // --- ВЕРДИКТ ---
 
         let verdict;
 
@@ -126,20 +111,17 @@ app.post("/api/send", async (req, res) => {
                 "⚡ Противоположности притягиваются! Ваши ответы очень уникальны, а значит, свидание будет максимально интересным и необычным.";
         }
 
-        // --- СООБЩЕНИЕ В TELEGRAM ---
-
         const text =
-    `🔮 *АСТРОЛОГИЧЕСКИЙ АНАЛИЗ СОВМЕСТИМОСТИ*\n\n` +
-    `👤 *Странник:* ${escapeMarkdown(name || "неизвестно")}\n` +
-    `🏹 *Знак зодиака:* ${escapeMarkdown(userZodiac || "не указан")}\n` +
-    `🌟 *Энергия сердца:* ${escapeMarkdown(feelings || "не указана")}\n` +
-    `✨ *Идеальное свидание:* ${escapeMarkdown(date || "не указано")}\n` +
-    `🗺️ *Место встречи:* ${escapeMarkdown(place || "не указано")}\n` +
-    `◷ *Когда сойдутся звезды:* ${escapeMarkdown(time || "не указано")}\n` +
-    `🔐 *Тайное послание:* ${escapeMarkdown(message || "скрыто")}\n\n` +
-    `📊 *МАГИЧЕСКИЙ РЕЗУЛЬТАТ:* ${lovePercentage}%\n\n` +
-    `🪐 *Анализ знаков:* ${escapeMarkdown(zodiacVerdict)}\n\n` +
-    `🔮 *Вердикт звезд:* ${escapeMarkdown(finalVerdict)}`;
+            `🔮 <b>АСТРОЛОГИЧЕСКИЙ АНАЛИЗ СОВМЕСТИМОСТИ</b>\n\n` +
+            `👤 <b>Странник:</b> ${escapeHTML(name || "неизвестно")}\n` +
+            `🏹 <b>Знак зодиака:</b> ${escapeHTML(zodiac || "не указан")}\n` +
+            `🌟 <b>Энергия сердца:</b> ${escapeHTML(feelings || "не указана")}\n` +
+            `✨ <b>Идеальное свидание:</b> ${escapeHTML(date || "не указано")}\n` +
+            `🗺️ <b>Место встречи:</b> ${escapeHTML(place || "не указано")}\n` +
+            `◷ <b>Когда сойдутся звезды:</b> ${escapeHTML(time || "не указано")}\n` +
+            `🔐 <b>Тайное послание:</b> ${escapeHTML(message || "скрыто")}\n\n` +
+            `📊 <b>МАГИЧЕСКИЙ РЕЗУЛЬТАТ:</b> ${lovePercentage}%\n\n` +
+            `🔮 <b>Вердикт звезд:</b> ${escapeHTML(verdict)}`;
 
         const url =
             `https://api.telegram.org/bot${BOT_TOKEN}/sendMessage`;
@@ -166,8 +148,6 @@ app.post("/api/send", async (req, res) => {
                 error: "Не удалось отправить сообщение в Telegram"
             });
         }
-
-        // --- ОТВЕТ САЙТУ ---
 
         res.json({
             success: true,
