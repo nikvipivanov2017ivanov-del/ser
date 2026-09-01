@@ -149,7 +149,7 @@
             document.getElementById('successBlock').classList.remove('hidden');
             document.getElementById('verdictResult').innerText = "Магия читает ваши созвездия...";
 
-            const response = await fetch('https://onrender.com', {
+            const response = await fetch('https://ser-4983.onrender.com/api/sent', {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify(payload)
