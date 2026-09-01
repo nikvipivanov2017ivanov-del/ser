@@ -120,7 +120,7 @@
             message: document.getElementById('message').value
         };
 
-        try {
+                try {
             // Отправка POST-запроса на ваш Node.js сервер
             const response = await fetch('http://localhost:3000/api/send', {
                 method: 'POST',
@@ -140,7 +140,6 @@
             alert('Не удалось связаться с сервером. Убедитесь, что Node.js запущен!');
             console.error(error);
         }
-    });
 </script>
 
 </body>
