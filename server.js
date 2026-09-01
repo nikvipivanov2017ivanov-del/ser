@@ -9,6 +9,10 @@ app.use(express.json());
 const BOT_TOKEN = process.env.BOT_TOKEN;
 const CHAT_ID = process.env.CHAT_ID;
 
+app.get("/", (req, res) => {
+res.status(200).send("Server is working!");
+});
+
 app.post("/api/send", async (req, res) => {
 try {
 const data = req.body || {};
@@ -124,7 +128,9 @@ const data = req.body || {};
         score += 2;
     }
 
-    let lovePercentage = Math.round((score / maxScore) * 100);
+    let lovePercentage = Math.round(
+        (score / maxScore) * 100
+    );
 
     if (lovePercentage < 35) {
         lovePercentage = 45;
@@ -144,8 +150,10 @@ const data = req.body || {};
         finalVerdict = "🌙 Таємничий союз! Ви народилися під різними сузір'ями, але саме протилежності створюють найсильніше тяжіння. ✨";
     }
 
-    const text = `🔮 *АСТРОЛОГИЧЕСКИЙ АНАЛИЗ СОВМЕСТИМОСТИ*
+    const text =
 ```
+
+`🔮 *АСТРОЛОГИЧЕСКИЙ АНАЛИЗ СОВМЕСТИМОСТИ*
 
 👤 *Странник:* ${data.name || "неизвестно"}
 🏹 *Знак зодиака:* ${data.zodiac || "не указан"}
@@ -171,7 +179,8 @@ const data = req.body || {};
         });
     }
 
-    const url = `https://api.telegram.org/bot${BOT_TOKEN}/sendMessage`;
+    const url =
+        `https://api.telegram.org/bot${BOT_TOKEN}/sendMessage`;
 
     const response = await fetch(url, {
         method: "POST",
@@ -197,7 +206,7 @@ const data = req.body || {};
         });
     }
 
-    console.log("Сообщение отправлено в Telegram");
+    console.log("Сообщение успешно отправлено в Telegram");
 
     return res.json({
         success: true,
@@ -213,12 +222,8 @@ const data = req.body || {};
         error: error.message
     });
 }
-```
 
-});
 
-app.get("/", (req, res) => {
-res.status(200).send("Server is working!");
 });
 
 const PORT = Number(process.env.PORT) || 10000;
