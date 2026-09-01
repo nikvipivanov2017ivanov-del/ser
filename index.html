@@ -85,7 +85,7 @@ const data = req.body || {};
     score += zodiacBonus;
 
     const feelings = data.feelings
-        ? String(data.feelings)
+        ? String(data.feelings).trim()
         : "";
 
     if (
@@ -115,7 +115,7 @@ const data = req.body || {};
     }
 
     const placeLower = data.place
-        ? String(data.place).toLowerCase()
+        ? String(data.place).toLowerCase().trim()
         : "";
 
     if (
@@ -136,7 +136,7 @@ const data = req.body || {};
     }
 
     const timeLower = data.time
-        ? String(data.time).toLowerCase()
+        ? String(data.time).toLowerCase().trim()
         : "";
 
     if (
@@ -187,10 +187,10 @@ const data = req.body || {};
             "🌙 Таємничий союз! Ви народилися під різними сузір'ями, але саме протилежності створюють найсильніше тяжіння. ✨";
     }
 
-    const text =
+    const text = `
 ```
 
-`🔮 *АСТРОЛОГИЧЕСКИЙ АНАЛИЗ СОВМЕСТИМОСТИ*
+🔮 *АСТРОЛОГИЧЕСКИЙ АНАЛИЗ СОВМЕСТИМОСТИ*
 
 👤 *Странник:* ${data.name || "неизвестно"}
 🏹 *Знак зодиака:* ${data.zodiac || "не указан"}
@@ -204,11 +204,15 @@ const data = req.body || {};
 
 🪐 *Анализ знаков:* *${zodiacVerdict}*
 
-🔮 *Вердикт звезд:* *${finalVerdict}*`;
+🔮 *Вердикт звезд:* *${finalVerdict}*
+`.trim();
 
 ```
     if (!BOT_TOKEN || !CHAT_ID) {
+        console.error("BOT_TOKEN или CHAT_ID не настроены");
+
         return res.status(500).json({
+            success: false,
             error: "BOT_TOKEN или CHAT_ID не настроены"
         });
     }
@@ -230,15 +234,19 @@ const data = req.body || {};
 
     const result = await response.json();
 
-    if (!result.ok) {
+    if (!response.ok || !result.ok) {
         console.error("Telegram error:", result);
 
         return res.status(500).json({
-            error: result
+            success: false,
+            error: "Ошибка отправки сообщения в Telegram",
+            telegram: result
         });
     }
 
-    res.json({
+    console.log("Сообщение успешно отправлено в Telegram");
+
+    return res.json({
         success: true,
         percentage: lovePercentage,
         verdict: `${zodiacVerdict} ${finalVerdict}`
@@ -247,12 +255,20 @@ const data = req.body || {};
 } catch (error) {
     console.error("Server error:", error);
 
-    res.status(500).json({
+    return res.status(500).json({
+        success: false,
         error: error.message
     });
 }
 ```
 
+});
+
+app.get("/", (req, res) => {
+res.json({
+status: "ok",
+message: "Сервер работает"
+});
 });
 
 const PORT = process.env.PORT || 3000;
