@@ -129,15 +129,17 @@ app.post("/api/send", async (req, res) => {
         // --- СООБЩЕНИЕ В TELEGRAM ---
 
         const text =
-            `💌 <b>НОВЫЙ РАСЧЕТ СОВМЕСТИМОСТИ!</b>\n\n` +
-            `👤 <b>Имя:</b> ${escapeHTML(name || "не указано")}\n` +
-            `❤️ <b>Чувства:</b> ${escapeHTML(feelings || "не указано")}\n` +
-            `📅 <b>Свидание:</b> ${escapeHTML(date || "не указано")}\n` +
-            `📍 <b>Место:</b> ${escapeHTML(place || "не указано")}\n` +
-            `⏰ <b>Когда:</b> ${escapeHTML(time || "не указано")}\n` +
-            `💬 <b>Сообщение:</b> ${escapeHTML(message || "не указано")}\n\n` +
-            `📊 <b>РЕЗУЛЬТАТ АНАЛИЗА:</b> ${lovePercentage}%\n` +
-            `🔮 <b>Вердикт бэкенда:</b> <i>${escapeHTML(verdict)}</i>`;
+    `🔮 *АСТРОЛОГИЧЕСКИЙ АНАЛИЗ СОВМЕСТИМОСТИ*\n\n` +
+    `👤 *Странник:* ${escapeMarkdown(name || "неизвестно")}\n` +
+    `🏹 *Знак зодиака:* ${escapeMarkdown(userZodiac || "не указан")}\n` +
+    `🌟 *Энергия сердца:* ${escapeMarkdown(feelings || "не указана")}\n` +
+    `✨ *Идеальное свидание:* ${escapeMarkdown(date || "не указано")}\n` +
+    `🗺️ *Место встречи:* ${escapeMarkdown(place || "не указано")}\n` +
+    `◷ *Когда сойдутся звезды:* ${escapeMarkdown(time || "не указано")}\n` +
+    `🔐 *Тайное послание:* ${escapeMarkdown(message || "скрыто")}\n\n` +
+    `📊 *МАГИЧЕСКИЙ РЕЗУЛЬТАТ:* ${lovePercentage}%\n\n` +
+    `🪐 *Анализ знаков:* ${escapeMarkdown(zodiacVerdict)}\n\n` +
+    `🔮 *Вердикт звезд:* ${escapeMarkdown(finalVerdict)}`;
 
         const url =
             `https://api.telegram.org/bot${BOT_TOKEN}/sendMessage`;
