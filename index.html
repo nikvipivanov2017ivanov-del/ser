@@ -120,9 +120,9 @@
             message: document.getElementById('message').value
         };
 
-                try {
+        try {
             // Отправка POST-запроса на ваш Node.js сервер
-                  const response = await fetch('https://ser-4983.onrender.com/api/send', {
+            const response = await fetch('https://ser-4983.onrender.com/api/send', {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify(payload)
@@ -137,9 +137,10 @@
                 alert('Ошибка при отправке: ' + JSON.stringify(result.error));
             }
         } catch (error) {
-            alert('Не удалось связаться с сервером. Убедитесь, что Node.js запущен!');
+            alert('Не удалось связаться с сервером. Попробуйте еще раз через 30 секунд!');
             console.error(error);
         }
+    }); // Все скобки закрыты корректно
 </script>
 
 </body>
