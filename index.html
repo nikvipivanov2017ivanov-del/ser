@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Любовный Опрос 💖</title>
+    <style>
+        :root {
+            --primary: #ff4d6d;
+            --bg: #fff0f3;
+            --text: #590d22;
+        }
+        body {
+            font-family: 'Segoe UI', sans-serif;
+            background-color: var(--bg);
+            color: var(--text);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            margin: 0;
+        }
+        .quiz-card {
+            background: white;
+            padding: 30px;
+            border-radius: 20px;
+            box-shadow: 0 10px 25px rgba(255, 77, 109, 0.15);
+            max-width: 450px;
+            width: 90%;
+        }
+        h2 { text-align: center; color: var(--primary); margin-bottom: 25px; }
+        .form-group { margin-bottom: 15px; }
+        label { display: block; margin-bottom: 5px; font-weight: bold; }
+        input, select, textarea {
+            width: 100%;
+            padding: 10px;
+            border: 2px solid #ffb3c1;
+            border-radius: 10px;
+            box-sizing: border-box;
+            outline: none;
+        }
+        input:focus, select:focus, textarea:focus { border-color: var(--primary); }
+        button {
+            width: 100%;
+            background: var(--primary);
+            color: white;
+            border: none;
+            padding: 12px;
+            font-size: 16px;
+            font-weight: bold;
+            border-radius: 50px;
+            cursor: pointer;
+            margin-top: 15px;
+            transition: transform 0.2s;
+        }
+        button:hover { transform: translateY(-2px); }
+        .success-msg { text-align: center; color: #2a9d8f; font-size: 18px; font-weight: bold; }
+        .hidden { display: none; }
+    </style>
+</head>
+<body>
+
+<div class="quiz-card">
+    <form id="loveForm">
+        <h2>Форма Симпатии 💌</h2>
+        
+        <div class="form-group">
+            <label>Твое Имя:</label>
+            <input type="text" id="name" required placeholder="Как тебя зовут?">
+        </div>
+
+        <div class="form-group">
+            <label>Что ты чувствуешь к организации опроса?</label>
+            <select id="feelings">
+                <option value="Это великолепно! 🥰">Это великолепно! 🥰</option>
+                <option value="Очень мило 😳">Очень мило 😳</option>
+                <option value="Мне нравится статус-код 200 😏">Мне нравится статус-код 200 😏</option>
+            </select>
+        </div>
+
+        <div class="form-group">
+            <label>Идеальный тип свидания:</label>
+            <input type="text" id="date" required placeholder="Например: Прогулка под луной">
+        </div>
+
+        <div class="form-group">
+            <label>Где встретимся (Место):</label>
+            <input type="text" id="place" required placeholder="Например: Уютное кафе">
+        </div>
+
+        <div class="form-group">
+            <label>Когда (Время):</label>
+            <input type="text" id="time" required placeholder="Например: В эту субботу в 18:00">
+        </div>
+
+        <div class="form-group">
+            <label>Тайное сообщение (необязательно):</label>
+            <textarea id="message" rows="3" placeholder="Пару теплых слов..."></textarea>
+        </div>
+
+        <button type="submit">Отправить Валентинку 🚀</button>
+    </form>
+
+    <div id="successBlock" class="hidden">
+        <p class="success-msg">🎉 Данные успешно отправлены на сервер и улетели в Telegram!</p>
+    </div>
+</div>
+
+<script>
+    document.getElementById('loveForm').addEventListener('submit', async (e) => {
+        e.preventDefault();
+
+        // Сбор данных из полей формы
+        const payload = {
+            name: document.getElementById('name').value,
+            feelings: document.getElementById('feelings').value,
+            date: document.getElementById('date').value,
+            place: document.getElementById('place').value,
+            time: document.getElementById('time').value,
+            message: document.getElementById('message').value
+        };
+
+        try {
+            // Отправка POST-запроса на ваш Node.js сервер
+            const response = await fetch('http://localhost:3000/api/send', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify(payload)
+            });
+
+            const result = await response.json();
+
+            if (result.success) {
+                document.getElementById('loveForm').classList.add('hidden');
+                document.getElementById('successBlock').classList.remove('hidden');
+            } else {
+                alert('Ошибка при отправке: ' + JSON.stringify(result.error));
+            }
+        } catch (error) {
+            alert('Не удалось связаться с сервером. Убедитесь, что Node.js запущен!');
+            console.error(error);
+        }
+    });
+</script>
+
+</body>
+</html>
