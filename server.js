@@ -179,20 +179,21 @@ const data = req.body || {};
         });
     }
 
-    const url =
-        `https://api.telegram.org/bot${BOT_TOKEN}/sendMessage`;
+    const telegramUrl = `https://api.telegram.org/bot${BOT_TOKEN}/sendMessage`;
 
-    const response = await fetch(url, {
-        method: "POST",
-        headers: {
-            "Content-Type": "application/json"
-        },
-        body: JSON.stringify({
-            chat_id: CHAT_ID,
-            text: text,
-            parse_mode: "Markdown"
-        })
-    });
+
+   const response = await fetch(telegramUrl, {
+    method: "POST",
+    headers: {
+    "Content-Type": "application/json"
+    },
+    body: JSON.stringify({
+    chat_id: CHAT_ID,
+    text: text,
+    parse_mode: "Markdown"
+})
+});
+
 
     const result = await response.json();
 
