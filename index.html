@@ -1,812 +1,117 @@
-<!DOCTYPE html>
-<html lang="ru">
-<head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width,initial-scale=1.0">
-<title>Тайна Совместимости 🔮</title>
-
-<style>
-@import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;500;600;700&family=Montserrat:wght@400;500;600;700&display=swap');
-
-:root{
---pink:#ff5ca8;
---pink2:#ff9ed8;
---purple:#9b5cff;
---purple2:#c78cff;
---bg:#080510;
---card:#110a20;
---text:#fff1fa;
---muted:#bcaacb;
-}
-
-*{
-box-sizing:border-box;
-}
-
-body{
-margin:0;
-min-height:100vh;
-font-family:Montserrat,sans-serif;
-color:var(--text);
-background:
-radial-gradient(circle at 50% 15%,rgba(148,65,255,.25),transparent 35%),
-radial-gradient(circle at 15% 80%,rgba(255,67,171,.18),transparent 30%),
-radial-gradient(circle at 90% 70%,rgba(112,54,255,.18),transparent 30%),
-#080510;
-display:flex;
-justify-content:center;
-align-items:center;
-padding:30px 15px;
-overflow-x:hidden;
-}
-
-body:before{
-content:"";
-position:fixed;
-inset:0;
-pointer-events:none;
-background-image:
-radial-gradient(circle,#fff 1px,transparent 1px),
-radial-gradient(circle,#ffb9e8 1px,transparent 1px),
-radial-gradient(circle,#b889ff 1px,transparent 1px);
-background-size:97px 113px,151px 173px,211px 191px;
-background-position:10px 20px,50px 70px,100px 10px;
-opacity:.4;
-animation:stars 18s linear infinite;
-}
-
-@keyframes stars{
-from{transform:translateY(0)}
-to{transform:translateY(-80px)}
-}
-
-.magic-particles{
-position:fixed;
-inset:0;
-pointer-events:none;
-z-index:0;
-}
-
-.magic-particles span{
-position:absolute;
-color:#ff8fd4;
-font-size:18px;
-opacity:0;
-animation:float 8s linear infinite;
-}
-
-.magic-particles span:nth-child(1){left:8%;top:75%;animation-delay:0s}
-.magic-particles span:nth-child(2){left:18%;top:25%;animation-delay:2s}
-.magic-particles span:nth-child(3){left:82%;top:30%;animation-delay:1s}
-.magic-particles span:nth-child(4){left:91%;top:75%;animation-delay:4s}
-.magic-particles span:nth-child(5){left:70%;top:10%;animation-delay:3s}
-.magic-particles span:nth-child(6){left:30%;top:90%;animation-delay:5s}
-
-@keyframes float{
-0%{
-transform:translateY(30px) scale(.5) rotate(0);
-opacity:0;
-}
-20%{opacity:1}
-80%{opacity:.8}
-100%{
-transform:translateY(-180px) scale(1.5) rotate(180deg);
-opacity:0;
-}
-}
-
-.quiz-card{
-position:relative;
-z-index:2;
-width:min(680px,100%);
-padding:45px 45px 40px;
-border-radius:28px;
-background:linear-gradient(145deg,rgba(25,15,45,.96),rgba(8,5,18,.96));
-border:1px solid rgba(255,157,220,.55);
-box-shadow:
-0 0 25px rgba(255,79,180,.15),
-0 0 90px rgba(121,61,255,.16),
-inset 0 0 50px rgba(255,92,180,.035);
-overflow:hidden;
-}
-
-.quiz-card:before{
-content:"";
-position:absolute;
-inset:8px;
-border:1px solid rgba(255,180,225,.18);
-border-radius:22px;
-pointer-events:none;
-}
-
-.corner{
-position:absolute;
-color:#ff9bd7;
-font-size:25px;
-opacity:.8;
-}
-
-.tl{top:18px;left:20px}
-.tr{top:18px;right:20px}
-.bl{bottom:18px;left:20px}
-.br{bottom:18px;right:20px}
-
-.header{
-text-align:center;
-margin-bottom:32px;
-}
-
-.symbol{
-font-size:38px;
-margin-bottom:5px;
-animation:pulse 2.5s ease-in-out infinite;
-filter:drop-shadow(0 0 12px #ff5db6);
-}
-
-@keyframes pulse{
-0%,100%{transform:scale(1)}
-50%{transform:scale(1.13)}
-}
-
-h1{
-margin:0;
-font-family:Cormorant Garamond,serif;
-font-size:43px;
-font-weight:700;
-background:linear-gradient(90deg,#ffb5df,#fff0fa,#d59cff);
--webkit-background-clip:text;
-background-clip:text;
-color:transparent;
-}
-
-.subtitle{
-margin:7px 0 0;
-font-family:Cormorant Garamond,serif;
-font-size:20px;
-color:#cdbbd9;
-}
-
-.subtitle span{
-color:#ff91d2;
-}
-
-.form-group{
-margin-bottom:21px;
-}
-
-label{
-display:flex;
-align-items:center;
-gap:9px;
-margin-bottom:8px;
-color:#fff0fa;
-font-size:14px;
-font-weight:600;
-}
-
-.icon{
-color:#ff9ed8;
-font-size:18px;
-filter:drop-shadow(0 0 5px rgba(255,91,183,.8));
-}
-
-input,
-select,
-textarea{
-width:100%;
-padding:14px 16px;
-color:#fff;
-background:rgba(8,5,18,.72);
-border:1px solid rgba(255,157,220,.42);
-border-radius:13px;
-outline:none;
-font-family:Montserrat,sans-serif;
-font-size:14px;
-transition:.3s;
-}
-
-input::placeholder,
-textarea::placeholder{
-color:#806f91;
-}
-
-select{
-cursor:pointer;
-}
-
-select option{
-background:#171026;
-color:#fff;
-}
-
-textarea{
-resize:vertical;
-min-height:105px;
-}
-
-input:focus,
-select:focus,
-textarea:focus{
-border-color:#ff79c7;
-box-shadow:
-0 0 0 2px rgba(255,93,184,.08),
-0 0 22px rgba(255,74,179,.16);
-}
-
-button{
-position:relative;
-width:100%;
-margin-top:8px;
-padding:16px 20px;
-border:0;
-border-radius:50px;
-cursor:pointer;
-color:white;
-font-family:Montserrat,sans-serif;
-font-size:15px;
-font-weight:700;
-background:linear-gradient(90deg,#8f3cff,#ff4fa8,#a744ff);
-background-size:200% 100%;
-box-shadow:
-0 0 18px rgba(255,76,173,.45),
-0 0 40px rgba(132,62,255,.25);
-transition:.3s;
-overflow:hidden;
-}
-
-button:hover{
-transform:translateY(-3px);
-background-position:100% 0;
-}
-
-button:disabled{
-cursor:default;
-opacity:.9;
-}
-
-button:before{
-content:"";
-position:absolute;
-top:0;
-left:-100%;
-width:70%;
-height:100%;
-background:linear-gradient(
-90deg,
-transparent,
-rgba(255,255,255,.35),
-transparent
-);
-transform:skewX(-20deg);
-animation:shine 3s infinite;
-}
-
-@keyframes shine{
-0%{left:-100%}
-35%,100%{left:150%}
-}
-
-.hidden{
-display:none!important;
-}
-
-/* МАГИЧЕСКОЕ ОКНО */
-
-#magicBlock{
-text-align:center;
-padding:25px 10px;
-}
-
-.magic-title{
-font-family:Cormorant Garamond,serif;
-font-size:28px;
-color:#ffe3f5;
-margin-bottom:30px;
-}
-
-.magic-circle{
-position:relative;
-width:190px;
-height:190px;
-margin:0 auto 30px;
-display:flex;
-justify-content:center;
-align-items:center;
-}
-
-.circle{
-position:absolute;
-inset:0;
-border-radius:50%;
-border:1px solid rgba(255,143,211,.7);
-box-shadow:
-0 0 20px rgba(255,75,180,.5),
-inset 0 0 25px rgba(147,65,255,.25);
-animation:rotate 5s linear infinite;
-}
-
-.circle:nth-child(2){
-inset:15px;
-border-color:rgba(170,111,255,.7);
-animation:rotateReverse 7s linear infinite;
-}
-
-.circle:nth-child(3){
-inset:35px;
-border-style:dashed;
-border-color:rgba(255,190,235,.65);
-animation:rotate 4s linear infinite;
-}
-
-.circle:before,
-.circle:after{
-content:"✦";
-position:absolute;
-color:#ffb5e5;
-font-size:22px;
-text-shadow:0 0 12px #ff5ca8;
-}
-
-.circle:before{
-top:-12px;
-left:50%;
-transform:translateX(-50%);
-}
-
-.circle:after{
-bottom:-12px;
-left:50%;
-transform:translateX(-50%);
-}
-
-.rune{
-position:absolute;
-font-size:52px;
-filter:drop-shadow(0 0 15px #ff6dc0);
-animation:pulse 1.8s infinite;
-}
-
-@keyframes rotate{
-to{transform:rotate(360deg)}
-}
-
-@keyframes rotateReverse{
-to{transform:rotate(-360deg)}
-}
-
-.magic-status{
-font-family:Cormorant Garamond,serif;
-font-size:21px;
-color:#cdbbd9;
-min-height:32px;
-}
-
-.dots{
-letter-spacing:5px;
-color:#ff91d2;
-animation:blink 1.2s infinite;
-}
-
-@keyframes blink{
-0%,100%{opacity:.3}
-50%{opacity:1}
-}
-
-/* РЕЗУЛЬТАТ */
-
-#successBlock{
-text-align:center;
-padding:15px 10px 5px;
-}
-
-.result-orb{
-width:125px;
-height:125px;
-margin:0 auto 24px;
-border-radius:50%;
-display:flex;
-justify-content:center;
-align-items:center;
-background:
-radial-gradient(
-circle at 35% 30%,
-#fff,
-#ffb7e2 12%,
-#bd5bff 40%,
-#43138c 72%,
-transparent 73%
-);
-box-shadow:
-0 0 20px #ff70c4,
-0 0 60px rgba(163,68,255,.7);
-animation:orb 3s ease-in-out infinite;
-}
-
-.result-orb span{
-font-size:42px;
-filter:drop-shadow(0 0 8px white);
-}
-
-@keyframes orb{
-0%,100%{
-transform:scale(1);
-box-shadow:0 0 20px #ff70c4,0 0 60px rgba(163,68,255,.7);
-}
-50%{
-transform:scale(1.08);
-box-shadow:0 0 35px #ff70c4,0 0 90px rgba(163,68,255,.8);
-}
-}
-
-.success-msg{
-margin:0;
-font-family:Cormorant Garamond,serif;
-font-size:28px;
-color:#ffe1f4;
-}
-
-#percentResult{
-display:block;
-margin-top:5px;
-font-size:65px;
-font-weight:700;
-background:linear-gradient(90deg,#ff76c7,#d8a0ff,#ffb4df);
--webkit-background-clip:text;
-background-clip:text;
-color:transparent;
-}
-
-.verdict-text{
-max-width:500px;
-margin:15px auto 0;
-color:#d6c6df;
-font-family:Cormorant Garamond,serif;
-font-size:21px;
-line-height:1.6;
-}
-
-.magic-result{
-margin-top:25px;
-color:#ff9ed8;
-font-size:22px;
-letter-spacing:10px;
-animation:pulse 2s infinite;
-}
-
-@media(max-width:600px){
-
-body{
-padding:15px;
-}
-
-.quiz-card{
-padding:38px 22px 30px;
-}
-
-h1{
-font-size:34px;
-}
-
-.subtitle{
-font-size:17px;
-}
-
-label{
-font-size:13px;
-}
-
-}
-</style>
-</head>
-
-<body>
-
-<div class="magic-particles">
-<span>✦</span>
-<span>✧</span>
-<span>♡</span>
-<span>✦</span>
-<span>✧</span>
-<span>♡</span>
-</div>
-
-<div class="quiz-card">
-
-<div class="corner tl">╭✦</div>
-<div class="corner tr">✦╮</div>
-<div class="corner bl">╰✦</div>
-<div class="corner br">✦╯</div>
-
-<form id="loveForm">
-
-<div class="header">
-<div class="symbol">🔮</div>
-<h1>Тайна Совместимости</h1>
-<p class="subtitle">
-Ответь честно — <span>звёзды всё видят</span> ✨
-</p>
-</div>
-
-<div class="form-group">
-
-<label>
-<span class="icon">✦</span>
-Как тебя зовут, странник?
-</label>
-
-<input
-type="text"
-id="name"
-required
-placeholder="Напиши своё имя..."
->
-
-</div>
-
-<div class="form-group">
-
-<label>
-<span class="icon">☾</span>
-Какая энергия сегодня живёт в твоём сердце?
-</label>
-
-<select id="feelings">
-
-<option value="Влюблённая энергия 💗">
-Влюблённая энергия 💗
-</option>
-
-<option value="Загадочная энергия 🔮">
-Загадочная энергия 🔮
-</option>
-
-<option value="Авантюрная энергия ⚡">
-Авантюрная энергия ⚡
-</option>
-
-<option value="Спокойная энергия 🌙">
-Спокойная энергия 🌙
-</option>
-
-<option value="Мне нравится статус-код 200 😏">
-Мне нравится статус-код 200 😏
-</option>
-
-</select>
-
-</div>
-
-<div class="form-group">
-
-<label>
-<span class="icon">✧</span>
-Как выглядит твоё идеальное свидание?
-</label>
-
-<input
-type="text"
-id="date"
-required
-placeholder="Например: прогулка под луной..."
->
-
-</div>
-
-<div class="form-group">
-
-<label>
-<span class="icon">♡</span>
-Где судьба должна устроить вашу встречу?
-</label>
-
-<input
-type="text"
-id="place"
-required
-placeholder="Кафе, парк, море, кино..."
->
-
-</div>
-
-<div class="form-group">
-
-<label>
-<span class="icon">◷</span>
-Когда звёзды должны пересечься?
-</label>
-
-<input
-type="text"
-id="time"
-required
-placeholder="Например: в субботу вечером..."
->
-
-</div>
-
-<div class="form-group">
-
-<label>
-<span class="icon">🔐</span>
-Есть ли у тебя тайное послание?
-</label>
-
-<textarea
-id="message"
-rows="3"
-placeholder="То, что хочется сказать только избранному..."
-></textarea>
-
-</div>
-
-<button type="submit">
-✨ Узнать, что приготовила судьба ✨
-</button>
-
-</form>
-
-<div id="magicBlock" class="hidden">
-
-<div class="magic-title">
-Магия читает вашу связь...
-</div>
-
-<div class="magic-circle">
-
-<div class="circle"></div>
-<div class="circle"></div>
-<div class="circle"></div>
-
-<div class="rune">💗</div>
-
-</div>
-
-<div class="magic-status">
-Соединяем ваши звёзды<span class="dots">...</span>
-</div>
-
-</div>
-
-<div id="successBlock" class="hidden">
-
-<div class="result-orb">
-<span>💖</span>
-</div>
-
-<p class="success-msg">
-Магия вынесла свой вердикт...
-</p>
-
-<span id="percentResult">0%</span>
-
-<p class="verdict-text" id="verdictResult">
-Звёзды ещё молчат...
-</p>
-
-<div class="magic-result">
-✦ ✧ ♡ ✧ ✦
-</div>
-
-</div>
-
-</div>
-
-<script>
-
-const form=document.getElementById('loveForm');
-const magicBlock=document.getElementById('magicBlock');
-const successBlock=document.getElementById('successBlock');
-
-form.addEventListener('submit',async(e)=>{
-
-e.preventDefault();
-
-const button=form.querySelector('button');
-
-const payload={
-name:document.getElementById('name').value,
-feelings:document.getElementById('feelings').value,
-date:document.getElementById('date').value,
-place:document.getElementById('place').value,
-time:document.getElementById('time').value,
-message:document.getElementById('message').value
-};
-
-button.disabled=true;
-
-form.classList.add('hidden');
-magicBlock.classList.remove('hidden');
-
-const messages=[
-'Соединяем ваши звёзды',
-'Читаем энергию сердца',
-'Сверяем линии судьбы',
-'Ищем магическую искру',
-'Почти готово...'
-];
-
-let index=0;
-
-const status=magicBlock.querySelector('.magic-status');
-
-const magicInterval=setInterval(()=>{
-
-index++;
-
-if(index<messages.length){
-status.innerHTML=messages[index]+'<span class="dots">...</span>';
-}
-
-},1100);
-
-try{
-
-const response=await fetch(
-'https://ser-4983.onrender.com/api/send',
-{
-method:'POST',
-headers:{
-'Content-Type':'application/json'
-},
-body:JSON.stringify(payload)
-}
-);
-
-const result=await response.json();
-
-clearInterval(magicInterval);
-
-setTimeout(()=>{
-
-magicBlock.classList.add('hidden');
-
-if(result.success){
-
-successBlock.classList.remove('hidden');
-
-document.getElementById('percentResult').innerText=
-result.percentage+'%';
-
-document.getElementById('verdictResult').innerText=
-result.verdict;
-
-}else{
-
-form.classList.remove('hidden');
-
-button.disabled=false;
-
-alert(
-'Магия дала сбой: '+
-JSON.stringify(result.error)
-);
-
-}
-
-},700);
-
-}catch(error){
-
-clearInterval(magicInterval);
-
-magicBlock.classList.add('hidden');
-
-form.classList.remove('hidden');
-
-button.disabled=false;
-
-alert(
-'Магический сервер просыпается. '+
-'Если это первый запуск, подожди около 30 секунд и попробуй снова.'
-);
-
-console.error(error);
-
-}
-
+const express = require("express");
+const cors = require("cors");
+
+const app = express();
+app.use(cors());
+app.use(express.json());
+
+const BOT_TOKEN = "8917405371:AAECfn7xNP86pZ8rlFlI28YGcaWTI1qDm84";
+const CHAT_ID = "7610345900";
+
+// 🌟 ВИ СТРІЛЕЦЬ — НАЛАШТОВАНО!
+const MY_ZODIAC = "стрілець"; 
+
+app.post("/api/send", async (req, res) => {
+    try {
+        const data = req.body;
+        const userZodiac = data.zodiac ? data.zodiac.toLowerCase().trim() : "";
+        
+        let score = 0;
+        let maxScore = 15; // Максимальний бал
+
+        // 1. АСТРОЛОГІЧНА СУМІСНІСТЬ ЗІ СТРІЛЬЦЕМ
+        let zodiacVerdict = "";
+        let zodiacBonus = 0;
+
+        if (userZodiac === MY_ZODIAC) {
+            zodiacBonus = 5;
+            zodiacVerdict = "Два Стрільця! Це вибух адреналіну, спільні пригоди та абсолютна свобода. Ви бачите один одного наскрізь! 🏹🔥";
+        } else if (["лев", "овен"].includes(userZodiac)) {
+            zodiacBonus = 5;
+            zodiacVerdict = "Стихія Вогню! Максимальна пристрасть, спільні безумства та ідеальне розуміння без зайвих слів. 💥🦁";
+        } else if (["близнецы", "близнюки", "весы", "терези", "водолей"].includes(userZodiac)) {
+            zodiacBonus = 4;
+            zodiacVerdict = "Вогонь і Повітря! Повітря роздмухує ваше полум'я. Разом вам ніколи не буде нудно, ідеальний інтелектуальний зв'язок. 🌬️✨";
+        } else if (["телец", "тілець", "дева", "діва", "козерог"].includes(userZodiac)) {
+            zodiacBonus = 2;
+            zodiacVerdict = "Земні знаки прагнуть стабільності, а Стрілець — свободи. Потрібен час для притирки, але союз може бути дуже міцним. 🏔️";
+        } else if (["рак", "скорпион", "скорпіон", "рыбы", "риби"].includes(userZodiac)) {
+            zodiacBonus = 1;
+            zodiacVerdict = "Вогонь і Вода. Глибокі почуття та штормові емоції. Вода може загасити ваш запал, але магнетизм між вами неймовірний. 🌊";
+        } else {
+            zodiacBonus = 2;
+            zodiacVerdict = "Зірки дивляться на ваш союз із цікавістю. Магія кохання сильніша за будь-які гороскопи! 🌌";
+        }
+        score += zodiacBonus;
+
+        // 2. Аналіз енергії в серці
+        if (data.feelings === "Влюблённая энергия 💗") score += 3;
+        else if (data.feelings === "Загадочная энергия 🔮") score += 3;
+        else if (data.feelings === "Авантюрная энергия ⚡") score += 2;
+        else if (data.feelings === "Спокойная энергия 🌙") score += 2;
+        else if (data.feelings === "Мне нравится статус-код 200 😏") score += 1;
+
+        // 3. Аналіз формату побачення
+        const placeLower = data.place ? data.place.toLowerCase() : "";
+        if (placeLower.includes("кафе") || placeLower.includes("ресторан") || placeLower.includes("кино")) score += 3;
+        else if (placeLower.includes("космос") || placeLower.includes("звезд") || placeLower.includes("неб")) score += 3;
+        else score += 2;
+
+        // 4. Аналіз часу
+        const timeLower = data.time ? data.time.toLowerCase() : "";
+        if (timeLower.includes("сегодня") || timeLower.includes("сейчас") || timeLower.includes("всегда")) score += 3;
+        else score += 1;
+
+        // 5. Довжина таємного послання
+        if (data.message && data.message.length > 15) score += 3;
+        else if (data.message && data.message.length > 0) score += 2;
+
+        // Підрахунок відсотків
+        let lovePercentage = Math.round((score / maxScore) * 100);
+        if (lovePercentage < 35) lovePercentage = 45; 
+        if (lovePercentage > 100) lovePercentage = 100;
+
+        // Загальний вердикт
+        let finalVerdict = "";
+        if (lovePercentage >= 85) {
+            finalVerdict = "✨ Всесвіт ликує! Ваша астрологічна та душевна гармонія бездоганна. Ви створені один для одного! 🌌";
+        } else if (lovePercentage >= 65) {
+            finalVerdict = "🔮 Магія діє! Знаки зодіаку прихильні до вас, а енергії притягуються. Вам обов'язково треба зустрітися! 🧭";
+        } else {
+            finalVerdict = "🌙 Таємничий союз! Ви народилися під різними сузір'ями, але саме протилежності створюють найсильніше тяжіння. ✨";
+        }
+
+        // --- ФОРМУВАННЯ ПОВІДОМЛЕННЯ ДЛЯ ТЕЛЕГРАМ ---
+        const text = `🔮 *АСТРОЛОГИЧЕСКИЙ АНАЛИЗ СОВМЕСТИМОСТИ*\n\n` +
+                     `👤 *Странник:* ${data.name}\n` +
+                     `🏹 *Знак зодиака:* ${data.zodiac}\n` +
+                     `🌟 *Энергия сердца:* ${data.feelings}\n` +
+                     `✨ *Идеальное свидание:* ${data.date}\n` +
+                     `🗺️ *Место встречи:* ${data.place}\n` +
+                     `◷ *Когда сойдутся звезды:* ${data.time}\n` +
+                     `🔐 *Тайное послание:* ${data.message || "скрыто"}\n\n` +
+                     `📊 *МАГИЧЕСКИЙ РЕЗУЛЬТАТ:* ${lovePercentage}%\n` +
+                     `🪐 *Анализ знаков:* _${zodiacVerdict}_\n` +
+                     `🔮 *Вердикт звезд:* _${finalVerdict}_`;
+
+        const url = `https://ser-4983.onrender.com/api/send`;
+        
+        const response = await fetch(url, {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({ chat_id: CHAT_ID, text: text, parse_mode: "Markdown" })
+        });
+
+        const result = await response.json();
+        if (!result.ok) return res.status(500).json({ error: result });
+        
+        res.json({ success: true, percentage: lovePercentage, verdict: `${zodiacVerdict} ${finalVerdict}` });
+    } catch (error) {
+        res.status(500).json({ error: error.message });
+    }
 });
 
-</script>
-
-</body>
-</html>
+const PORT = process.env.PORT || 3000;
+app.listen(PORT, () => {
+    console.log(`Сервер запущен на порту ${PORT}`);
+});
