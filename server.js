@@ -62,7 +62,10 @@ app.post("/api/send", async (req, res) => {
                      `📊 *РЕЗУЛЬТАТ АНАЛИЗА:* ${lovePercentage}%\n` +
                      `🔮 *Вердикт бэкенда:* _${verdict}_`;
 
-        const response = await fetch(`https://telegram.org{BOT_TOKEN}/sendMessage`, {
+        // ЗДЕСЬ АДРЕС ИСПРАВЛЕН НА 100% ПРАВИЛЬНЫЙ И БЕЗ СЛОЖНЫХ КАВЫЧЕК
+      const url = `https://api.telegram.org/bot${BOT_TOKEN}/sendMessage`;
+        
+        const response = await fetch(url, {
             method: "POST",
             headers: { "Content-Type": "application/json" },
             body: JSON.stringify({
@@ -78,7 +81,7 @@ app.post("/api/send", async (req, res) => {
             return res.status(500).json({ error: result });
         }
         
-        // Возвращаем результат обратно на сайт, чтобы пользователь тоже его увидел!
+        // Возвращаем результат обратно на сайт
         res.json({ success: true, percentage: lovePercentage, verdict: verdict });
     } catch (error) {
         res.status(500).json({ error: error.message });
