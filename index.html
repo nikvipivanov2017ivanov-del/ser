@@ -1,278 +1,174 @@
-const express = require("express");
-const cors = require("cors");
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Тайна Совместимости 🔮</title>
+    <style>
+        :root {
+            --primary: #ff4d6d;
+            --bg: #fff0f3;
+            --text: #590d22;
+        }
+        body {
+            font-family: 'Segoe UI', sans-serif;
+            background-color: var(--bg);
+            color: var(--text);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            margin: 0;
+        }
+        .quiz-card {
+            background: white;
+            padding: 30px;
+            border-radius: 20px;
+            box-shadow: 0 10px 25px rgba(255, 77, 109, 0.15);
+            max-width: 450px;
+            width: 90%;
+        }
+        h2 { text-align: center; color: var(--primary); margin-bottom: 25px; }
+        .form-group { margin-bottom: 15px; }
+        label { display: block; margin-bottom: 5px; font-weight: bold; }
+        input, select, textarea {
+            width: 100%;
+            padding: 10px;
+            border: 2px solid #ffb3c1;
+            border-radius: 10px;
+            box-sizing: border-box;
+            outline: none;
+        }
+        input:focus, select:focus, textarea:focus { border-color: var(--primary); }
+        button {
+            width: 100%;
+            background: var(--primary);
+            color: white;
+            border: none;
+            padding: 12px;
+            font-size: 16px;
+            font-weight: bold;
+            border-radius: 50px;
+            cursor: pointer;
+            margin-top: 15px;
+            transition: transform 0.2s;
+        }
+        button:hover { transform: translateY(-2px); }
+        .success-msg { text-align: center; color: var(--primary); font-size: 24px; font-weight: bold; }
+        .verdict-text { text-align: center; font-size: 16px; color: #590d22; line-height: 1.5; margin-top: 15px; }
+        .hidden { display: none; }
+    </style>
+</head>
+<body>
 
-const app = express();
+<div class="quiz-card">
+    <form id="loveForm">
+        <h2>Тайна Совместимости 🔮</h2>
+        
+        <div class="form-group">
+            <label>✦ Как тебя зовут, странник?</label>
+            <input type="text" id="name" required placeholder="Ваше имя">
+        </div>
 
-app.use(cors());
-app.use(express.json());
+        <div class="form-group">
+            <label>🪐 Твой знак зодиака:</label>
+            <select id="zodiac" required>
+                <option value="" disabled selected>Выберите знак...</option>
+                <option value="Овен">Овен ♈</option>
+                <option value="Телец">Телец ♉</option>
+                <option value="Близнецы">Близнецы ♊</option>
+                <option value="Рак">Рак ♋</option>
+                <option value="Лев">Лев ♌</option>
+                <option value="Дева">Дева ♍</option>
+                <option value="Весы">Весы ♎</option>
+                <option value="Скорпион">Скорпион ♏</option>
+                <option value="Стрелец">Стрелец ♐</option>
+                <option value="Козерог">Козерог ♑</option>
+                <option value="Водолей">Водолей ♒</option>
+                <option value="Рыбы">Рыбы ♓</option>
+            </select>
+        </div>
 
-const BOT_TOKEN = process.env.BOT_TOKEN;
-const CHAT_ID = process.env.CHAT_ID;
+        <div class="form-group">
+            <label>☾ Какая энергия сегодня живёт в твоём сердце?</label>
+            <select id="feelings">
+                <option value="Влюблённая энергия 💗">Влюблённая энергия 💗</option>
+                <option value="Загадочная энергия 🔮">Загадочная энергия 🔮</option>
+                <option value="Авантюрная энергия ⚡">Авантюрная энергия ⚡</option>
+                <option value="Спокойная энергия 🌙">Спокойная энергия 🌙</option>
+                <option value="Мне нравится статус-код 200 😏">Мне нравится статус-код 200 😏</option>
+            </select>
+        </div>
 
-const MY_ZODIAC = "стрілець";
+        <div class="form-group">
+            <label>✧ Как выглядит твоё идеальное свидание?</label>
+            <input type="text" id="date" required placeholder="Например: Прогулка под звёздами">
+        </div>
 
-app.post("/api/send", async (req, res) => {
-try {
-const data = req.body || {};
+        <div class="form-group">
+            <label>♡ Где судьба должна устроить вашу встречу?</label>
+            <input type="text" id="place" required placeholder="Например: Уютное кафе">
+        </div>
 
-```
-    const userZodiac = data.zodiac
-        ? String(data.zodiac).toLowerCase().trim()
-        : "";
+        <div class="form-group">
+            <label>◷ Когда звёзды должны пересечься?</label>
+            <input type="text" id="time" required placeholder="Например: В эти выходные">
+        </div>
 
-    let score = 0;
-    const maxScore = 17;
+        <div class="form-group">
+            <label>🔐 Есть ли у тебя тайное послание?</label>
+            <textarea id="message" rows="3" placeholder="Ваши мысли..."></textarea>
+        </div>
 
-    let zodiacVerdict = "";
-    let zodiacBonus = 0;
+        <button type="submit">✨ Узнать, что приготовила судьба ✨</button>
+    </form>
 
-    if (
-        userZodiac === "стрілець" ||
-        userZodiac === "стрелец"
-    ) {
-        zodiacBonus = 5;
-        zodiacVerdict =
-            "Два Стрільця! Це вибух адреналіну, спільні пригоди та абсолютна свобода. Ви бачите один одного наскрізь! 🏹🔥";
-    } else if (
-        ["лев", "овен"].includes(userZodiac)
-    ) {
-        zodiacBonus = 5;
-        zodiacVerdict =
-            "Стихія Вогню! Максимальна пристрасть, спільні безумства та ідеальне розуміння без зайвих слів. 💥🦁";
-    } else if (
-        [
-            "близнецы",
-            "близнюки",
-            "весы",
-            "терези",
-            "водолей"
-        ].includes(userZodiac)
-    ) {
-        zodiacBonus = 4;
-        zodiacVerdict =
-            "Вогонь і Повітря! Повітря роздмухує ваше полум'я. Разом вам ніколи не буде нудно — ідеальний інтелектуальний зв'язок. 🌬️✨";
-    } else if (
-        [
-            "телец",
-            "тілець",
-            "дева",
-            "діва",
-            "козерог",
-            "козеріг"
-        ].includes(userZodiac)
-    ) {
-        zodiacBonus = 2;
-        zodiacVerdict =
-            "Земні знаки прагнуть стабільності, а Стрілець — свободи. Потрібен час для притирки, але союз може бути дуже міцним. 🏔️";
-    } else if (
-        [
-            "рак",
-            "скорпион",
-            "скорпіон",
-            "рыбы",
-            "риби"
-        ].includes(userZodiac)
-    ) {
-        zodiacBonus = 1;
-        zodiacVerdict =
-            "Вогонь і Вода. Глибокі почуття та штормові емоції. Вода може загасити ваш запал, але магнетизм між вами неймовірний. 🌊";
-    } else {
-        zodiacBonus = 2;
-        zodiacVerdict =
-            "Зірки дивляться на ваш союз із цікавістю. Магія кохання сильніша за будь-які гороскопи! 🌌";
-    }
+    <div id="successBlock" class="hidden">
+        <h2 style="margin-bottom: 5px;">Вердикт Магии 🔮</h2>
+        <p class="success-msg"><span id="percentResult">0%</span></p>
+        <p class="verdict-text" id="verdictResult">Соединяем ваши звёзды...</p>
+    </div>
+</div>
 
-    score += zodiacBonus;
+<script>
+    document.getElementById('loveForm').addEventListener('submit', async (e) => {
+        e.preventDefault();
 
-    const feelings = data.feelings
-        ? String(data.feelings).trim()
-        : "";
+        const payload = {
+            name: document.getElementById('name').value,
+            zodiac: document.getElementById('zodiac').value,
+            feelings: document.getElementById('feelings').value,
+            date: document.getElementById('date').value,
+            place: document.getElementById('place').value,
+            time: document.getElementById('time').value,
+            message: document.getElementById('message').value
+        };
 
-    if (
-        feelings === "Влюблённая энергия 💗" ||
-        feelings === "Закохана енергія 💗"
-    ) {
-        score += 3;
-    } else if (
-        feelings === "Загадочная энергия 🔮" ||
-        feelings === "Загадкова енергія 🔮"
-    ) {
-        score += 3;
-    } else if (
-        feelings === "Авантюрная энергия ⚡" ||
-        feelings === "Авантюрна енергія ⚡"
-    ) {
-        score += 2;
-    } else if (
-        feelings === "Спокойная энергия 🌙" ||
-        feelings === "Спокійна енергія 🌙"
-    ) {
-        score += 2;
-    } else if (
-        feelings === "Мне нравится статус-код 200 😏"
-    ) {
-        score += 1;
-    }
+        try {
+            document.getElementById('loveForm').classList.add('hidden');
+            document.getElementById('successBlock').classList.remove('hidden');
+            document.getElementById('verdictResult').innerText = "Магия читает ваши созвездия...";
 
-    const placeLower = data.place
-        ? String(data.place).toLowerCase().trim()
-        : "";
+            const response = await fetch('https://onrender.com', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify(payload)
+            });
 
-    if (
-        placeLower.includes("кафе") ||
-        placeLower.includes("ресторан") ||
-        placeLower.includes("кино")
-    ) {
-        score += 3;
-    } else if (
-        placeLower.includes("космос") ||
-        placeLower.includes("звезд") ||
-        placeLower.includes("зір") ||
-        placeLower.includes("неб")
-    ) {
-        score += 3;
-    } else {
-        score += 2;
-    }
+            const result = await response.json();
 
-    const timeLower = data.time
-        ? String(data.time).toLowerCase().trim()
-        : "";
-
-    if (
-        timeLower.includes("сегодня") ||
-        timeLower.includes("сьогодні") ||
-        timeLower.includes("сейчас") ||
-        timeLower.includes("зараз") ||
-        timeLower.includes("всегда") ||
-        timeLower.includes("завжди")
-    ) {
-        score += 3;
-    } else {
-        score += 1;
-    }
-
-    const message = data.message
-        ? String(data.message).trim()
-        : "";
-
-    if (message.length > 15) {
-        score += 3;
-    } else if (message.length > 0) {
-        score += 2;
-    }
-
-    let lovePercentage = Math.round(
-        (score / maxScore) * 100
-    );
-
-    if (lovePercentage < 35) {
-        lovePercentage = 45;
-    }
-
-    if (lovePercentage > 100) {
-        lovePercentage = 100;
-    }
-
-    let finalVerdict = "";
-
-    if (lovePercentage >= 85) {
-        finalVerdict =
-            "✨ Всесвіт ликує! Ваша астрологічна та душевна гармонія бездоганна. Ви створені один для одного! 🌌";
-    } else if (lovePercentage >= 65) {
-        finalVerdict =
-            "🔮 Магія діє! Знаки зодіаку прихильні до вас, а енергії притягуються. Вам обов'язково треба зустрітися! 🧭";
-    } else {
-        finalVerdict =
-            "🌙 Таємничий союз! Ви народилися під різними сузір'ями, але саме протилежності створюють найсильніше тяжіння. ✨";
-    }
-
-    const text = `
-```
-
-🔮 *АСТРОЛОГИЧЕСКИЙ АНАЛИЗ СОВМЕСТИМОСТИ*
-
-👤 *Странник:* ${data.name || "неизвестно"}
-🏹 *Знак зодиака:* ${data.zodiac || "не указан"}
-🌟 *Энергия сердца:* ${data.feelings || "не указана"}
-✨ *Идеальное свидание:* ${data.date || "не указано"}
-🗺️ *Место встречи:* ${data.place || "не указано"}
-◷ *Когда сойдутся звезды:* ${data.time || "не указано"}
-🔐 *Тайное послание:* ${message || "скрыто"}
-
-📊 *МАГИЧЕСКИЙ РЕЗУЛЬТАТ:* ${lovePercentage}%
-
-🪐 *Анализ знаков:* *${zodiacVerdict}*
-
-🔮 *Вердикт звезд:* *${finalVerdict}*
-`.trim();
-
-```
-    if (!BOT_TOKEN || !CHAT_ID) {
-        console.error("BOT_TOKEN или CHAT_ID не настроены");
-
-        return res.status(500).json({
-            success: false,
-            error: "BOT_TOKEN или CHAT_ID не настроены"
-        });
-    }
-
-    const url =
-        `https://api.telegram.org/bot${BOT_TOKEN}/sendMessage`;
-
-    const response = await fetch(url, {
-        method: "POST",
-        headers: {
-            "Content-Type": "application/json"
-        },
-        body: JSON.stringify({
-            chat_id: CHAT_ID,
-            text: text,
-            parse_mode: "Markdown"
-        })
+            if (result.success) {
+                document.getElementById('percentResult').innerText = result.percentage + '%';
+                document.getElementById('verdictResult').innerText = result.verdict;
+            } else {
+                alert('Магия прервалась: ' + JSON.stringify(result.error));
+            }
+        } catch (error) {
+            alert('Звёзды просыпаются. Попробуйте нажать кнопку еще раз через 20 секунд!');
+            console.error(error);
+        }
     });
+</script>
 
-    const result = await response.json();
-
-    if (!response.ok || !result.ok) {
-        console.error("Telegram error:", result);
-
-        return res.status(500).json({
-            success: false,
-            error: "Ошибка отправки сообщения в Telegram",
-            telegram: result
-        });
-    }
-
-    console.log("Сообщение успешно отправлено в Telegram");
-
-    return res.json({
-        success: true,
-        percentage: lovePercentage,
-        verdict: `${zodiacVerdict} ${finalVerdict}`
-    });
-
-} catch (error) {
-    console.error("Server error:", error);
-
-    return res.status(500).json({
-        success: false,
-        error: error.message
-    });
-}
-```
-
-});
-
-app.get("/", (req, res) => {
-res.json({
-status: "ok",
-message: "Сервер работает"
-});
-});
-
-const PORT = process.env.PORT || 3000;
-
-app.listen(PORT, () => {
-console.log(`Сервер запущен на порту ${PORT}`);
-});
+</body>
+</html>
