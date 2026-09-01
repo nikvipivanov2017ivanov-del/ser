@@ -9,164 +9,283 @@ app.use(express.json());
 const BOT_TOKEN = process.env.BOT_TOKEN;
 const CHAT_ID = process.env.CHAT_ID;
 
-if (!BOT_TOKEN || !CHAT_ID) {
-    console.error("❌ Не заданы BOT_TOKEN или CHAT_ID");
-    process.exit(1);
-}
-
-function safe(value) {
-    return String(value ?? "").trim();
-}
-
-function escapeHTML(value) {
-    return safe(value)
-        .replace(/&/g, "&amp;")
-        .replace(/</g, "&lt;")
-        .replace(/>/g, "&gt;");
-}
+const MY_ZODIAC = "стрілець";
 
 app.post("/api/send", async (req, res) => {
-    try {
-        const data = req.body || {};
+try {
+const data = req.body || {};
 
-        const name = safe(data.name);
-        const feelings = safe(data.feelings);
-        const zodiac = safe(data.zodiac);
-        const date = safe(data.date);
-        const place = safe(data.place);
-        const time = safe(data.time);
-        const message = safe(data.message);
+```
+    const userZodiac = data.zodiac
+        ? String(data.zodiac).toLowerCase().trim()
+        : "";
 
-        let score = 0;
-        const maxScore = 12;
+    let score = 0;
 
-        if (feelings === "Это великолепно! 🥰") {
-            score += 3;
-        } else if (feelings === "Очень мило 😳") {
-            score += 2;
-        } else if (feelings === "Мне нравится статус-код 200 😏") {
-            score += 1;
-        } else {
-            score += 1;
-        }
+    // Максимально возможный результат:
+    // Зодиак 5 + энергия 3 + место 3 + время 3 + сообщение 3 = 17
+    const maxScore = 17;
 
-        const placeLower = place.toLowerCase();
+    let zodiacVerdict = "";
+    let zodiacBonus = 0;
 
-        if (
-            placeLower.includes("кафе") ||
-            placeLower.includes("ресторан")
-        ) {
-            score += 3;
-        } else if (
-            placeLower.includes("дом") ||
-            placeLower.includes("кино")
-        ) {
-            score += 2;
-        } else {
-            score += 1;
-        }
+    // ЗОДИАК
+    if (
+        userZodiac === "стрілець" ||
+        userZodiac === "стрелец"
+    ) {
+        zodiacBonus = 5;
+        zodiacVerdict =
+            "Два Стрільця! Це вибух адреналіну, спільні пригоди та абсолютна свобода. Ви бачите один одного наскрізь! 🏹🔥";
+    } else if (
+        ["лев", "овен"].includes(userZodiac)
+    ) {
+        zodiacBonus = 5;
+        zodiacVerdict =
+            "Стихія Вогню! Максимальна пристрасть, спільні безумства та ідеальне розуміння без зайвих слів. 💥🦁";
+    } else if (
+        [
+            "близнецы",
+            "близнюки",
+            "весы",
+            "терези",
+            "водолей"
+        ].includes(userZodiac)
+    ) {
+        zodiacBonus = 4;
+        zodiacVerdict =
+            "Вогонь і Повітря! Повітря роздмухує ваше полум'я. Разом вам ніколи не буде нудно — ідеальний інтелектуальний зв'язок. 🌬️✨";
+    } else if (
+        [
+            "телец",
+            "тілець",
+            "дева",
+            "діва",
+            "козерог",
+            "козеріг"
+        ].includes(userZodiac)
+    ) {
+        zodiacBonus = 2;
+        zodiacVerdict =
+            "Земні знаки прагнуть стабільності, а Стрілець — свободи. Потрібен час для притирки, але союз може бути дуже міцним. 🏔️";
+    } else if (
+        [
+            "рак",
+            "скорпион",
+            "скорпіон",
+            "рыбы",
+            "риби"
+        ].includes(userZodiac)
+    ) {
+        zodiacBonus = 1;
+        zodiacVerdict =
+            "Вогонь і Вода. Глибокі почуття та штормові емоції. Вода може загасити ваш запал, але магнетизм між вами неймовірний. 🌊";
+    } else {
+        zodiacBonus = 2;
+        zodiacVerdict =
+            "Зірки дивляться на ваш союз із цікавістю. Магія кохання сильніша за будь-які гороскопи! 🌌";
+    }
 
-        const timeLower = time.toLowerCase();
+    score += zodiacBonus;
 
-        if (
-            timeLower.includes("сегодня") ||
-            timeLower.includes("сейчас")
-        ) {
-            score += 3;
-        } else if (
-            timeLower.includes("суббот") ||
-            timeLower.includes("выходн")
-        ) {
-            score += 2;
-        } else {
-            score += 1;
-        }
+    // ЭНЕРГИЯ
+    const feelings = data.feelings
+        ? String(data.feelings).trim()
+        : "";
 
-        if (message.length > 20) {
-            score += 3;
-        } else if (message.length > 0) {
-            score += 2;
-        }
+    if (
+        feelings === "Влюблённая энергия 💗" ||
+        feelings === "Закохана енергія 💗"
+    ) {
+        score += 3;
+    } else if (
+        feelings === "Загадочная энергия 🔮" ||
+        feelings === "Загадкова енергія 🔮"
+    ) {
+        score += 3;
+    } else if (
+        feelings === "Авантюрная энергия ⚡" ||
+        feelings === "Авантюрна енергія ⚡"
+    ) {
+        score += 2;
+    } else if (
+        feelings === "Спокойная энергия 🌙" ||
+        feelings === "Спокійна енергія 🌙"
+    ) {
+        score += 2;
+    } else if (
+        feelings === "Мне нравится статус-код 200 😏"
+    ) {
+        score += 1;
+    }
 
-        let lovePercentage = Math.round((score / maxScore) * 100);
+    // МЕСТО
+    const placeLower = data.place
+        ? String(data.place).toLowerCase().trim()
+        : "";
 
-        if (lovePercentage < 30) {
-            lovePercentage = 35;
-        }
+    if (
+        placeLower.includes("кафе") ||
+        placeLower.includes("ресторан") ||
+        placeLower.includes("кино")
+    ) {
+        score += 3;
+    } else if (
+        placeLower.includes("космос") ||
+        placeLower.includes("звезд") ||
+        placeLower.includes("зір") ||
+        placeLower.includes("неб")
+    ) {
+        score += 3;
+    } else {
+        score += 2;
+    }
 
-        if (lovePercentage > 100) {
-            lovePercentage = 100;
-        }
+    // ВРЕМЯ
+    const timeLower = data.time
+        ? String(data.time).toLowerCase().trim()
+        : "";
 
-        let verdict;
+    if (
+        timeLower.includes("сегодня") ||
+        timeLower.includes("сьогодні") ||
+        timeLower.includes("сейчас") ||
+        timeLower.includes("зараз") ||
+        timeLower.includes("всегда") ||
+        timeLower.includes("завжди")
+    ) {
+        score += 3;
+    } else {
+        score += 1;
+    }
 
-        if (lovePercentage >= 85) {
-            verdict =
-                "🔥 Идеальное совпадение! Ваши биоритмы и планы на свидание синхронизированы на максимум. Срочно бегите на встречу!";
-        } else if (lovePercentage >= 60) {
-            verdict =
-                "💞 Отличная совместимость! У вас очень похожие взгляды, искра определенно есть. Осталось обсудить детали.";
-        } else {
-            verdict =
-                "⚡ Противоположности притягиваются! Ваши ответы очень уникальны, а значит, свидание будет максимально интересным и необычным.";
-        }
+    // СООБЩЕНИЕ
+    const message = data.message
+        ? String(data.message).trim()
+        : "";
 
-        const text =
-            `🔮 <b>АСТРОЛОГИЧЕСКИЙ АНАЛИЗ СОВМЕСТИМОСТИ</b>\n\n` +
-            `👤 <b>Странник:</b> ${escapeHTML(name || "неизвестно")}\n` +
-            `🏹 <b>Знак зодиака:</b> ${escapeHTML(zodiac || "не указан")}\n` +
-            `🌟 <b>Энергия сердца:</b> ${escapeHTML(feelings || "не указана")}\n` +
-            `✨ <b>Идеальное свидание:</b> ${escapeHTML(date || "не указано")}\n` +
-            `🗺️ <b>Место встречи:</b> ${escapeHTML(place || "не указано")}\n` +
-            `◷ <b>Когда сойдутся звезды:</b> ${escapeHTML(time || "не указано")}\n` +
-            `🔐 <b>Тайное послание:</b> ${escapeHTML(message || "скрыто")}\n\n` +
-            `📊 <b>МАГИЧЕСКИЙ РЕЗУЛЬТАТ:</b> ${lovePercentage}%\n\n` +
-            `🔮 <b>Вердикт звезд:</b> ${escapeHTML(verdict)}`;
+    if (message.length > 15) {
+        score += 3;
+    } else if (message.length > 0) {
+        score += 2;
+    }
 
-        const url =
-            `https://api.telegram.org/bot${BOT_TOKEN}/sendMessage`;
+    // ПРОЦЕНТ
+    let lovePercentage = Math.round(
+        (score / maxScore) * 100
+    );
 
-        const response = await fetch(url, {
-            method: "POST",
-            headers: {
-                "Content-Type": "application/json"
-            },
-            body: JSON.stringify({
-                chat_id: CHAT_ID,
-                text: text,
-                parse_mode: "HTML"
-            })
-        });
+    if (lovePercentage < 35) {
+        lovePercentage = 45;
+    }
 
-        const result = await response.json();
+    if (lovePercentage > 100) {
+        lovePercentage = 100;
+    }
 
-        if (!response.ok || !result.ok) {
-            console.error("Ошибка Telegram:", result);
+    // ФИНАЛЬНЫЙ ВЕРДИКТ
+    let finalVerdict = "";
 
-            return res.status(500).json({
-                success: false,
-                error: "Не удалось отправить сообщение в Telegram"
-            });
-        }
+    if (lovePercentage >= 85) {
+        finalVerdict =
+            "✨ Всесвіт ликує! Ваша астрологічна та душевна гармонія бездоганна. Ви створені один для одного! 🌌";
+    } else if (lovePercentage >= 65) {
+        finalVerdict =
+            "🔮 Магія діє! Знаки зодіаку прихильні до вас, а енергії притягуються. Вам обов'язково треба зустрітися! 🧭";
+    } else {
+        finalVerdict =
+            "🌙 Таємничий союз! Ви народилися під різними сузір'ями, але саме протилежності створюють найсильніше тяжіння. ✨";
+    }
 
-        res.json({
-            success: true,
-            percentage: lovePercentage,
-            verdict: verdict
-        });
+    // СООБЩЕНИЕ ДЛЯ TELEGRAM
+    const text =
+```
 
-    } catch (error) {
-        console.error("Ошибка сервера:", error);
+`🔮 *АСТРОЛОГИЧЕСКИЙ АНАЛИЗ СОВМЕСТИМОСТИ*
 
-        res.status(500).json({
+👤 *Странник:* ${data.name || "неизвестно"}
+🏹 *Знак зодиака:* ${data.zodiac || "не указан"}
+🌟 *Энергия сердца:* ${data.feelings || "не указана"}
+✨ *Идеальное свидание:* ${data.date || "не указано"}
+🗺️ *Место встречи:* ${data.place || "не указано"}
+◷ *Когда сойдутся звезды:* ${data.time || "не указано"}
+🔐 *Тайное послание:* ${message || "скрыто"}
+
+📊 *МАГИЧЕСКИЙ РЕЗУЛЬТАТ:* ${lovePercentage}%
+
+🪐 *Анализ знаков:* *${zodiacVerdict}*
+
+🔮 *Вердикт звезд:* *${finalVerdict}*`;
+
+```
+    // ПРОВЕРКА ENV
+    if (!BOT_TOKEN || !CHAT_ID) {
+        console.error("BOT_TOKEN или CHAT_ID не настроены");
+
+        return res.status(500).json({
             success: false,
-            error: "Внутренняя ошибка сервера"
+            error: "BOT_TOKEN или CHAT_ID не настроены"
         });
     }
+
+    // TELEGRAM
+    const url =
+        `https://api.telegram.org/bot${BOT_TOKEN}/sendMessage`;
+
+    const response = await fetch(url, {
+        method: "POST",
+        headers: {
+            "Content-Type": "application/json"
+        },
+        body: JSON.stringify({
+            chat_id: CHAT_ID,
+            text: text,
+            parse_mode: "Markdown"
+        })
+    });
+
+    const result = await response.json();
+
+    if (!response.ok || !result.ok) {
+        console.error("Telegram error:", result);
+
+        return res.status(500).json({
+            success: false,
+            error: "Ошибка отправки сообщения в Telegram",
+            telegram: result
+        });
+    }
+
+    console.log("Сообщение успешно отправлено в Telegram");
+
+    return res.json({
+        success: true,
+        percentage: lovePercentage,
+        verdict: `${zodiacVerdict} ${finalVerdict}`
+    });
+
+} catch (error) {
+    console.error("Server error:", error);
+
+    return res.status(500).json({
+        success: false,
+        error: error.message
+    });
+}
+```
+
+});
+
+// Проверка работы сервера
+app.get("/", (req, res) => {
+res.json({
+status: "ok",
+message: "Сервер работает"
+});
 });
 
 const PORT = process.env.PORT || 3000;
 
 app.listen(PORT, () => {
-    console.log(`✅ Сервер запущен на порту ${PORT}`);
+console.log(`Сервер запущен на порту ${PORT}`);
 });
