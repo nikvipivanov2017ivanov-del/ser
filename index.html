@@ -34,7 +34,7 @@ body{
 }
 
 /* =========================
-   ДВА ФОНА
+   ФОНЫ
 ========================= */
 
 .zodiac-background{
@@ -49,53 +49,82 @@ body{
     position:absolute;
     top:0;
     bottom:0;
-    width:50%;
 
-    background-size:cover;
-    background-position:center;
+    width:55%;
+
     background-repeat:no-repeat;
+    background-size:cover;
+    background-position:center center;
 
     transition:
-        opacity .7s ease,
-        filter .7s ease,
-        background-image .7s ease;
+        opacity .8s ease,
+        filter .8s ease,
+        background-image .8s ease,
+        background-position .8s ease;
 }
 
 .left-side{
     left:0;
     background-image:url("Image026.png");
-    background-position:center left;
 }
 
 .right-side{
     right:0;
     background-image:url("Image026.png");
-    background-position:center right;
 }
 
-/* мягкое затемнение */
-.zodiac-background::after{
+/* затемнение каждой стороны */
+.zodiac-side::after{
     content:"";
     position:absolute;
     inset:0;
 
     background:
         linear-gradient(
-            90deg,
-            rgba(2,1,10,.12) 0%,
-            rgba(2,1,10,.20) 18%,
-            rgba(2,1,10,.54) 36%,
-            rgba(2,1,10,.76) 48%,
-            rgba(2,1,10,.76) 52%,
-            rgba(2,1,10,.54) 64%,
-            rgba(2,1,10,.20) 82%,
-            rgba(2,1,10,.12) 100%
+            to bottom,
+            rgba(0,0,0,.06),
+            rgba(0,0,0,.02) 35%,
+            rgba(0,0,0,.16) 78%,
+            rgba(0,0,0,.38)
         );
 
     pointer-events:none;
 }
 
-/* цветное свечение слева */
+/* плавное соединение двух картинок */
+.zodiac-background::after{
+    content:"";
+    position:absolute;
+    inset:0;
+
+    pointer-events:none;
+
+    background:
+        linear-gradient(
+            90deg,
+
+            rgba(2,1,10,.04) 0%,
+            rgba(2,1,10,.10) 18%,
+
+            rgba(2,1,10,.28) 33%,
+            rgba(2,1,10,.55) 42%,
+
+            rgba(2,1,10,.78) 48%,
+            rgba(2,1,10,.84) 50%,
+            rgba(2,1,10,.78) 52%,
+
+            rgba(2,1,10,.55) 58%,
+            rgba(2,1,10,.28) 67%,
+
+            rgba(2,1,10,.10) 82%,
+            rgba(2,1,10,.04) 100%
+        );
+}
+
+/* =========================
+   ЦВЕТНОЕ СВЕЧЕНИЕ
+========================= */
+
 .left-glow{
     position:fixed;
     inset:0 50% 0 0;
@@ -113,7 +142,6 @@ body{
     transition:.8s;
 }
 
-/* цветное свечение справа */
 .right-glow{
     position:fixed;
     inset:0 0 0 50%;
@@ -145,8 +173,9 @@ body{
 .particles span{
     position:absolute;
     opacity:0;
-    animation:particleFloat 8s linear infinite;
+    font-size:16px;
     filter:drop-shadow(0 0 8px currentColor);
+    animation:particleFloat 8s linear infinite;
 }
 
 .particles span:nth-child(odd){
@@ -163,6 +192,8 @@ body{
 .particles span:nth-child(4){left:72%;top:82%;animation-delay:1s}
 .particles span:nth-child(5){left:86%;top:48%;animation-delay:3s}
 .particles span:nth-child(6){left:95%;top:73%;animation-delay:5s}
+.particles span:nth-child(7){left:18%;top:20%;animation-delay:1.4s}
+.particles span:nth-child(8){left:80%;top:18%;animation-delay:4.3s}
 
 @keyframes particleFloat{
     0%{
@@ -185,7 +216,7 @@ body{
 }
 
 /* =========================
-   ОСНОВНОЙ КОНТЕНТ
+   КОНТЕНТ
 ========================= */
 
 .page{
@@ -354,7 +385,6 @@ label{
 
     font-size:14px;
     font-weight:600;
-
     line-height:1.35;
 
     color:#fff5fb;
@@ -388,7 +418,6 @@ textarea{
     outline:none;
 
     font-family:'Montserrat',sans-serif;
-
     font-size:14px;
 
     transition:.3s;
@@ -484,9 +513,7 @@ textarea:focus{
     color:#cdbbd9;
 
     font-family:'Cormorant Garamond',serif;
-
     font-size:16px;
-
     line-height:1.4;
 }
 
@@ -504,7 +531,6 @@ button{
     padding:16px 20px;
 
     border:0;
-
     border-radius:50px;
 
     cursor:pointer;
@@ -514,7 +540,6 @@ button{
     font-family:'Montserrat',sans-serif;
 
     font-size:15px;
-
     font-weight:700;
 
     background:
@@ -550,7 +575,6 @@ button::before{
     content:"";
 
     position:absolute;
-
     top:0;
     left:-100%;
 
@@ -706,7 +730,6 @@ button::before{
     margin:15px auto;
 
     font-family:'Cormorant Garamond',serif;
-
     font-size:21px;
     line-height:1.6;
 
@@ -774,21 +797,21 @@ button::before{
 
     .zodiac-side{
         width:100%;
-        opacity:.45;
+        opacity:.42;
     }
 
     .right-side{
         display:none;
     }
 }
+
 </style>
 </head>
 
 <body>
 
-<!-- ФОНЫ -->
-
 <div class="zodiac-background">
+
     <div
         id="leftBackground"
         class="zodiac-side left-side"
@@ -798,6 +821,7 @@ button::before{
         id="rightBackground"
         class="zodiac-side right-side"
     ></div>
+
 </div>
 
 <div class="left-glow"></div>
@@ -810,6 +834,8 @@ button::before{
     <span>✦</span>
     <span>✧</span>
     <span>♦</span>
+    <span>✦</span>
+    <span>✧</span>
 </div>
 
 <div class="page">
@@ -1095,13 +1121,11 @@ id="energyResult"
 </div>
 
 </div>
-
 </div>
 
 <script>
 
-const DEFAULT_BG =
-    "Image026.png";
+const DEFAULT_BG = "Image026.png";
 
 const zodiacBackgrounds = {
     овен: "aries-bg.png",
@@ -1119,99 +1143,28 @@ const zodiacBackgrounds = {
 };
 
 const zodiacData = {
-    овен:{
-        name:"Овен",
-        symbol:"♈",
-        element:"fire"
-    },
-
-    телец:{
-        name:"Телец",
-        symbol:"♉",
-        element:"earth"
-    },
-
-    близнецы:{
-        name:"Близнецы",
-        symbol:"♊",
-        element:"air"
-    },
-
-    рак:{
-        name:"Рак",
-        symbol:"♋",
-        element:"water"
-    },
-
-    лев:{
-        name:"Лев",
-        symbol:"♌",
-        element:"fire"
-    },
-
-    дева:{
-        name:"Дева",
-        symbol:"♍",
-        element:"earth"
-    },
-
-    весы:{
-        name:"Весы",
-        symbol:"♎",
-        element:"air"
-    },
-
-    скорпион:{
-        name:"Скорпион",
-        symbol:"♏",
-        element:"water"
-    },
-
-    стрелец:{
-        name:"Стрелец",
-        symbol:"♐",
-        element:"fire"
-    },
-
-    козерог:{
-        name:"Козерог",
-        symbol:"♑",
-        element:"earth"
-    },
-
-    водолей:{
-        name:"Водолей",
-        symbol:"♒",
-        element:"air"
-    },
-
-    рыбы:{
-        name:"Рыбы",
-        symbol:"♓",
-        element:"water"
-    }
+    овен:{name:"Овен",symbol:"♈",element:"fire"},
+    телец:{name:"Телец",symbol:"♉",element:"earth"},
+    близнецы:{name:"Близнецы",symbol:"♊",element:"air"},
+    рак:{name:"Рак",symbol:"♋",element:"water"},
+    лев:{name:"Лев",symbol:"♌",element:"fire"},
+    дева:{name:"Дева",symbol:"♍",element:"earth"},
+    весы:{name:"Весы",symbol:"♎",element:"air"},
+    скорпион:{name:"Скорпион",symbol:"♏",element:"water"},
+    стрелец:{name:"Стрелец",symbol:"♐",element:"fire"},
+    козерог:{name:"Козерог",symbol:"♑",element:"earth"},
+    водолей:{name:"Водолей",symbol:"♒",element:"air"},
+    рыбы:{name:"Рыбы",symbol:"♓",element:"water"}
 };
 
 const zodiacThemes = {
-    fire:{
-        color:"#ff445a"
-    },
-
-    earth:{
-        color:"#d6a24e"
-    },
-
-    air:{
-        color:"#4edfff"
-    },
-
-    water:{
-        color:"#5175ff"
-    }
+    fire:{color:"#ff445a"},
+    earth:{color:"#d6a24e"},
+    air:{color:"#4edfff"},
+    water:{color:"#5175ff"}
 };
 
 const energyThemes = {
-
     "Влюблённая энергия 💗":{
         accent:"#ff4f9c",
         symbol:"💗",
@@ -1241,87 +1194,36 @@ const energyThemes = {
         symbol:"😎",
         text:"😎 Сегодня хочется играть по своим правилам и бросить судьбе вызов."
     }
-
 };
 
-const form =
-    document.getElementById(
-        "loveForm"
-    );
+const form = document.getElementById("loveForm");
+const zodiac1 = document.getElementById("zodiac1");
+const zodiac2 = document.getElementById("zodiac2");
+const feelings = document.getElementById("feelings");
+const preview = document.getElementById("compatibilityPreview");
+const energyInfo = document.getElementById("energyInfo");
+const magicRune = document.getElementById("magicRune");
+const magicBlock = document.getElementById("magicBlock");
+const successBlock = document.getElementById("successBlock");
+const magicStatus = document.getElementById("magicStatus");
 
-const zodiac1 =
-    document.getElementById(
-        "zodiac1"
-    );
-
-const zodiac2 =
-    document.getElementById(
-        "zodiac2"
-    );
-
-const feelings =
-    document.getElementById(
-        "feelings"
-    );
-
-const preview =
-    document.getElementById(
-        "compatibilityPreview"
-    );
-
-const energyInfo =
-    document.getElementById(
-        "energyInfo"
-    );
-
-const magicRune =
-    document.getElementById(
-        "magicRune"
-    );
-
-const magicBlock =
-    document.getElementById(
-        "magicBlock"
-    );
-
-const successBlock =
-    document.getElementById(
-        "successBlock"
-    );
-
-const magicStatus =
-    document.getElementById(
-        "magicStatus"
-    );
-
-const leftBackground =
-    document.getElementById(
-        "leftBackground"
-    );
-
-const rightBackground =
-    document.getElementById(
-        "rightBackground"
-    );
+const leftBackground = document.getElementById("leftBackground");
+const rightBackground = document.getElementById("rightBackground");
 
 /* =========================
-   СМЕНА КАРТИНОК
+   СМЕНА ФОНОВ
 ========================= */
 
 function updateBackgrounds(){
 
     const leftImage =
         zodiac1.value
-        ? zodiacBackgrounds[
-            zodiac1.value
-        ]
+        ? zodiacBackgrounds[zodiac1.value]
         : DEFAULT_BG;
 
     const rightImage =
         zodiac2.value
-        ? zodiacBackgrounds[
-            zodiac2.value
-        ]
+        ? zodiacBackgrounds[zodiac2.value]
         : DEFAULT_BG;
 
     leftBackground.style.backgroundImage =
@@ -1332,82 +1234,43 @@ function updateBackgrounds(){
 }
 
 /* =========================
-   ЦВЕТА
+   ТЕМА
 ========================= */
 
 function applyTheme(){
 
-    let leftElement =
-        "water";
+    let leftElement = "water";
+    let rightElement = "fire";
 
-    let rightElement =
-        "fire";
-
-    if(
-        zodiac1.value &&
-        zodiacData[
-            zodiac1.value
-        ]
-    ){
-        leftElement =
-            zodiacData[
-                zodiac1.value
-            ].element;
+    if(zodiac1.value && zodiacData[zodiac1.value]){
+        leftElement = zodiacData[zodiac1.value].element;
     }
 
-    if(
-        zodiac2.value &&
-        zodiacData[
-            zodiac2.value
-        ]
-    ){
-        rightElement =
-            zodiacData[
-                zodiac2.value
-            ].element;
+    if(zodiac2.value && zodiacData[zodiac2.value]){
+        rightElement = zodiacData[zodiac2.value].element;
     }
 
-    const leftTheme =
-        zodiacThemes[
-            leftElement
-        ];
+    const leftTheme = zodiacThemes[leftElement];
+    const rightTheme = zodiacThemes[rightElement];
+    const energyTheme = energyThemes[feelings.value];
 
-    const rightTheme =
-        zodiacThemes[
-            rightElement
-        ];
+    document.documentElement.style.setProperty(
+        "--left",
+        leftTheme.color
+    );
 
-    const energyTheme =
-        energyThemes[
-            feelings.value
-        ];
+    document.documentElement.style.setProperty(
+        "--right",
+        rightTheme.color
+    );
 
-    document.documentElement
-        .style
-        .setProperty(
-            "--left",
-            leftTheme.color
-        );
+    document.documentElement.style.setProperty(
+        "--energy",
+        energyTheme.accent
+    );
 
-    document.documentElement
-        .style
-        .setProperty(
-            "--right",
-            rightTheme.color
-        );
-
-    document.documentElement
-        .style
-        .setProperty(
-            "--energy",
-            energyTheme.accent
-        );
-
-    energyInfo.innerText =
-        energyTheme.text;
-
-    magicRune.innerText =
-        energyTheme.symbol;
+    energyInfo.innerText = energyTheme.text;
+    magicRune.innerText = energyTheme.symbol;
 }
 
 /* =========================
@@ -1416,54 +1279,32 @@ function applyTheme(){
 
 function updatePreview(){
 
-    if(
-        zodiac1.value &&
-        zodiac2.value
-    ){
+    if(zodiac1.value && zodiac2.value){
 
-        const z1 =
-            zodiacData[
-                zodiac1.value
-            ];
-
-        const z2 =
-            zodiacData[
-                zodiac2.value
-            ];
+        const z1 = zodiacData[zodiac1.value];
+        const z2 = zodiacData[zodiac2.value];
 
         preview.innerHTML =
             `
-            <span
-                style="
-                    color:var(--left);
-                    text-shadow:
-                    0 0 10px
-                    var(--left);
-                "
-            >
-                ${z1.symbol}
-                ${z1.name}
+            <span style="
+                color:var(--left);
+                text-shadow:0 0 10px var(--left);
+            ">
+                ${z1.symbol} ${z1.name}
             </span>
 
-            <span
-                style="
-                    margin:0 15px;
-                    color:#fff;
-                "
-            >
+            <span style="
+                margin:0 15px;
+                color:#fff;
+            ">
                 ×
             </span>
 
-            <span
-                style="
-                    color:var(--right);
-                    text-shadow:
-                    0 0 10px
-                    var(--right);
-                "
-            >
-                ${z2.name}
-                ${z2.symbol}
+            <span style="
+                color:var(--right);
+                text-shadow:0 0 10px var(--right);
+            ">
+                ${z2.name} ${z2.symbol}
             </span>
             `;
 
@@ -1471,29 +1312,12 @@ function updatePreview(){
 
         preview.innerHTML =
             `
-            <span
-                style="
-                    color:var(--left)
-                "
-            >
-                ✦
-            </span>
-
-            &nbsp;
-            Выбери два знака
-            &nbsp;
-
-            <span
-                style="
-                    color:var(--right)
-                "
-            >
-                ✦
-            </span>
+            <span style="color:var(--left)">✦</span>
+            &nbsp; Выбери два знака &nbsp;
+            <span style="color:var(--right)">✦</span>
             `;
 
     }
-
 }
 
 /* =========================
@@ -1538,122 +1362,49 @@ form.addEventListener(
 
         e.preventDefault();
 
-        const button =
-            form.querySelector(
-                "button"
-            );
+        const button = form.querySelector("button");
 
         const payload = {
-
-            name:
-                document
-                    .getElementById(
-                        "name"
-                    )
-                    .value,
-
-            zodiac1:
-                zodiac1.value,
-
-            zodiac2:
-                zodiac2.value,
-
-            feelings:
-                feelings.value,
-
-            date:
-                document
-                    .getElementById(
-                        "date"
-                    )
-                    .value,
-
-            place:
-                document
-                    .getElementById(
-                        "place"
-                    )
-                    .value,
-
-            time:
-                document
-                    .getElementById(
-                        "time"
-                    )
-                    .value,
-
-            message:
-                document
-                    .getElementById(
-                        "message"
-                    )
-                    .value
-
+            name:document.getElementById("name").value,
+            zodiac1:zodiac1.value,
+            zodiac2:zodiac2.value,
+            feelings:feelings.value,
+            date:document.getElementById("date").value,
+            place:document.getElementById("place").value,
+            time:document.getElementById("time").value,
+            message:document.getElementById("message").value
         };
 
-        button.disabled =
-            true;
+        button.disabled = true;
 
-        form.classList.add(
-            "hidden"
-        );
+        form.classList.add("hidden");
+        magicBlock.classList.remove("hidden");
 
-        magicBlock
-            .classList
-            .remove(
-                "hidden"
-            );
-
-        const z1 =
-            zodiacData[
-                zodiac1.value
-            ];
-
-        const z2 =
-            zodiacData[
-                zodiac2.value
-            ];
+        const z1 = zodiacData[zodiac1.value];
+        const z2 = zodiacData[zodiac2.value];
 
         const messages = [
-
             `Открываем портал между ${z1.name} и ${z2.name}`,
-
             "Пробуждаем силы стихий",
-
             "Читаем энергию сердца",
-
             "Соединяем ваши созвездия",
-
             "Ищем скрытое притяжение",
-
             "Заглядываем в книгу судьбы",
-
             "Магический анализ почти завершён..."
-
         ];
 
-        let index =
-            0;
+        let index = 0;
 
-        magicStatus.innerText =
-            messages[0];
+        magicStatus.innerText = messages[0];
 
         const interval =
             setInterval(
                 ()=>{
-
                     index++;
 
-                    if(
-                        index <
-                        messages.length
-                    ){
-
-                        magicStatus.innerText =
-                            messages[index];
-
+                    if(index < messages.length){
+                        magicStatus.innerText = messages[index];
                     }
-
                 },
                 900
             );
@@ -1665,104 +1416,49 @@ form.addEventListener(
                     "https://ser-4983.onrender.com/api/send",
                     {
                         method:"POST",
-
                         headers:{
-                            "Content-Type":
-                                "application/json"
+                            "Content-Type":"application/json"
                         },
-
-                        body:
-                            JSON.stringify(
-                                payload
-                            )
+                        body:JSON.stringify(payload)
                     }
                 );
 
-            const result =
-                await response.json();
+            const result = await response.json();
 
-            clearInterval(
-                interval
-            );
+            clearInterval(interval);
 
-            magicBlock
-                .classList
-                .add(
-                    "hidden"
-                );
+            magicBlock.classList.add("hidden");
 
-            if(
-                result.success
-            ){
+            if(result.success){
 
-                successBlock
-                    .classList
-                    .remove(
-                        "hidden"
-                    );
+                successBlock.classList.remove("hidden");
 
-                document
-                    .getElementById(
-                        "resultPair"
-                    )
-                    .innerHTML =
+                document.getElementById("resultPair").innerHTML =
                     `
-                    <span
-                        style="
-                            color:
-                            var(--left)
-                        "
-                    >
-                        ${z1.symbol}
-                        ${z1.name}
+                    <span style="color:var(--left)">
+                        ${z1.symbol} ${z1.name}
                     </span>
 
                     &nbsp; × &nbsp;
 
-                    <span
-                        style="
-                            color:
-                            var(--right)
-                        "
-                    >
-                        ${z2.name}
-                        ${z2.symbol}
+                    <span style="color:var(--right)">
+                        ${z2.name} ${z2.symbol}
                     </span>
                     `;
 
-                document
-                    .getElementById(
-                        "percentResult"
-                    )
-                    .innerText =
-                    result.percentage +
-                    "%";
+                document.getElementById("percentResult").innerText =
+                    result.percentage + "%";
 
-                document
-                    .getElementById(
-                        "verdictResult"
-                    )
-                    .innerText =
+                document.getElementById("verdictResult").innerText =
                     result.verdict;
 
-                document
-                    .getElementById(
-                        "energyResult"
-                    )
-                    .innerText =
-                    result.energyVerdict ||
-                    "";
+                document.getElementById("energyResult").innerText =
+                    result.energyVerdict || "";
 
             }else{
 
-                form
-                    .classList
-                    .remove(
-                        "hidden"
-                    );
-
-                button.disabled =
-                    false;
+                form.classList.remove("hidden");
+                button.disabled = false;
 
                 alert(
                     "Ошибка: " +
@@ -1771,40 +1467,23 @@ form.addEventListener(
                         "неизвестная ошибка"
                     )
                 );
-
             }
 
         }catch(error){
 
-            clearInterval(
-                interval
-            );
+            clearInterval(interval);
 
-            magicBlock
-                .classList
-                .add(
-                    "hidden"
-                );
+            magicBlock.classList.add("hidden");
+            form.classList.remove("hidden");
 
-            form
-                .classList
-                .remove(
-                    "hidden"
-                );
-
-            button.disabled =
-                false;
+            button.disabled = false;
 
             alert(
                 "Магический сервер просыпается. Подожди немного и попробуй снова."
             );
 
-            console.error(
-                error
-            );
-
+            console.error(error);
         }
-
     }
 );
 
