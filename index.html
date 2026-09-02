@@ -3,454 +3,298 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
 <title>Тайна Совместимости 🔮</title>
 
 <style>
 @import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;500;600;700&family=Montserrat:wght@400;500;600;700&display=swap');
 
-:root {
-    --left: #5175ff;
-    --left2: #9c4cff;
-
-    --right: #ff445a;
-    --right2: #ff9d38;
-
-    --energy: #ff4f9c;
-
-    --text: #fff4fb;
-    --muted: #cdbbd8;
+:root{
+    --left:#5175ff;
+    --right:#ff445a;
+    --energy:#ff4f9c;
+    --text:#fff4fb;
+    --muted:#cdbbd8;
 }
 
-* {
-    box-sizing: border-box;
+*{
+    box-sizing:border-box;
 }
 
-html {
-    min-height: 100%;
+html{
+    min-height:100%;
 }
 
-body {
-    margin: 0;
-
-    min-height: 100vh;
-
-    font-family: 'Montserrat', sans-serif;
-
-    color: var(--text);
-
-    background-color: #05030d;
-
-    background-image:
-        linear-gradient(
-            rgba(2, 1, 10, .12),
-            rgba(2, 1, 10, .22)
-        ),
-        url("magic-bg.png");
-
-    background-size: cover;
-
-    background-position: center top;
-
-    background-repeat: no-repeat;
-
-    background-attachment: fixed;
-
-    display: flex;
-
-    justify-content: center;
-
-    align-items: flex-start;
-
-    padding: 32px 15px 70px;
-
-    overflow-x: hidden;
+body{
+    margin:0;
+    min-height:100vh;
+    font-family:'Montserrat',sans-serif;
+    color:var(--text);
+    background:#03020d;
+    overflow-x:hidden;
 }
 
-/* =========================================================
-   ДИНАМИЧЕСКИЕ ЦВЕТА ПОВЕРХ НАСТОЯЩЕГО ФОНА
-========================================================= */
+/* =========================
+   ДВА ФОНА
+========================= */
 
-.background-magic {
-    position: fixed;
-
-    inset: 0;
-
-    z-index: 0;
-
-    pointer-events: none;
-
-    overflow: hidden;
+.zodiac-background{
+    position:fixed;
+    inset:0;
+    z-index:0;
+    overflow:hidden;
+    background:#03020d;
 }
 
-/* Левая сторона — первый знак */
+.zodiac-side{
+    position:absolute;
+    top:0;
+    bottom:0;
+    width:50%;
 
-.background-magic::before {
-    content: "";
+    background-size:cover;
+    background-position:center;
+    background-repeat:no-repeat;
 
-    position: absolute;
-
-    inset: 0 50% 0 0;
-
-    background:
-        radial-gradient(
-            circle at 15% 32%,
-            color-mix(
-                in srgb,
-                var(--left) 26%,
-                transparent
-            ),
-            transparent 42%
-        ),
-
-        radial-gradient(
-            ellipse at 20% 85%,
-            color-mix(
-                in srgb,
-                var(--left2) 18%,
-                transparent
-            ),
-            transparent 48%
-        );
-
-    mix-blend-mode: screen;
-
-    transition: 1s;
+    transition:
+        opacity .7s ease,
+        filter .7s ease,
+        background-image .7s ease;
 }
 
-/* Правая сторона — второй знак */
-
-.background-magic::after {
-    content: "";
-
-    position: absolute;
-
-    inset: 0 0 0 50%;
-
-    background:
-        radial-gradient(
-            circle at 85% 32%,
-            color-mix(
-                in srgb,
-                var(--right) 28%,
-                transparent
-            ),
-            transparent 42%
-        ),
-
-        radial-gradient(
-            ellipse at 80% 85%,
-            color-mix(
-                in srgb,
-                var(--right2) 18%,
-                transparent
-            ),
-            transparent 48%
-        );
-
-    mix-blend-mode: screen;
-
-    transition: 1s;
+.left-side{
+    left:0;
+    background-image:url("Image026.png");
+    background-position:center left;
 }
 
-/* Затемняем только центр под формой */
+.right-side{
+    right:0;
+    background-image:url("Image026.png");
+    background-position:center right;
+}
 
-.center-darkness {
-    position: fixed;
-
-    inset: 0;
-
-    z-index: 1;
-
-    pointer-events: none;
+/* мягкое затемнение */
+.zodiac-background::after{
+    content:"";
+    position:absolute;
+    inset:0;
 
     background:
         linear-gradient(
             90deg,
-
-            rgba(3, 2, 12, .02) 0%,
-
-            rgba(3, 2, 12, .08) 16%,
-
-            rgba(3, 2, 15, .32) 29%,
-
-            rgba(3, 2, 15, .69) 39%,
-
-            rgba(3, 2, 15, .83) 50%,
-
-            rgba(3, 2, 15, .69) 61%,
-
-            rgba(3, 2, 15, .32) 71%,
-
-            rgba(3, 2, 12, .08) 84%,
-
-            rgba(3, 2, 12, .02) 100%
+            rgba(2,1,10,.12) 0%,
+            rgba(2,1,10,.20) 18%,
+            rgba(2,1,10,.54) 36%,
+            rgba(2,1,10,.76) 48%,
+            rgba(2,1,10,.76) 52%,
+            rgba(2,1,10,.54) 64%,
+            rgba(2,1,10,.20) 82%,
+            rgba(2,1,10,.12) 100%
         );
+
+    pointer-events:none;
 }
 
-/* =========================================================
-   МАГИЧЕСКИЕ ЧАСТИЦЫ
-========================================================= */
+/* цветное свечение слева */
+.left-glow{
+    position:fixed;
+    inset:0 50% 0 0;
+    z-index:1;
+    pointer-events:none;
 
-.particles {
-    position: fixed;
+    background:
+        radial-gradient(
+            circle at 20% 30%,
+            color-mix(in srgb,var(--left) 20%,transparent),
+            transparent 42%
+        );
 
-    inset: 0;
-
-    pointer-events: none;
-
-    z-index: 2;
+    mix-blend-mode:screen;
+    transition:.8s;
 }
 
-.particles span {
-    position: absolute;
+/* цветное свечение справа */
+.right-glow{
+    position:fixed;
+    inset:0 0 0 50%;
+    z-index:1;
+    pointer-events:none;
 
-    opacity: 0;
+    background:
+        radial-gradient(
+            circle at 80% 30%,
+            color-mix(in srgb,var(--right) 20%,transparent),
+            transparent 42%
+        );
 
-    font-size: 16px;
-
-    filter: drop-shadow(
-        0 0 8px currentColor
-    );
-
-    animation:
-        particleFloat 8s linear infinite;
+    mix-blend-mode:screen;
+    transition:.8s;
 }
 
-.particles span:nth-child(odd) {
-    color: var(--left);
+/* =========================
+   ЧАСТИЦЫ
+========================= */
+
+.particles{
+    position:fixed;
+    inset:0;
+    z-index:2;
+    pointer-events:none;
 }
 
-.particles span:nth-child(even) {
-    color: var(--right);
+.particles span{
+    position:absolute;
+    opacity:0;
+    animation:particleFloat 8s linear infinite;
+    filter:drop-shadow(0 0 8px currentColor);
 }
 
-.particles span:nth-child(1) {
-    left: 6%;
-    top: 73%;
+.particles span:nth-child(odd){
+    color:var(--left);
 }
 
-.particles span:nth-child(2) {
-    left: 15%;
-    top: 46%;
-    animation-delay: 2s;
+.particles span:nth-child(even){
+    color:var(--right);
 }
 
-.particles span:nth-child(3) {
-    left: 28%;
-    top: 89%;
-    animation-delay: 4s;
-}
+.particles span:nth-child(1){left:6%;top:73%}
+.particles span:nth-child(2){left:15%;top:46%;animation-delay:2s}
+.particles span:nth-child(3){left:28%;top:89%;animation-delay:4s}
+.particles span:nth-child(4){left:72%;top:82%;animation-delay:1s}
+.particles span:nth-child(5){left:86%;top:48%;animation-delay:3s}
+.particles span:nth-child(6){left:95%;top:73%;animation-delay:5s}
 
-.particles span:nth-child(4) {
-    left: 72%;
-    top: 82%;
-    animation-delay: 1s;
-}
-
-.particles span:nth-child(5) {
-    left: 86%;
-    top: 48%;
-    animation-delay: 3s;
-}
-
-.particles span:nth-child(6) {
-    left: 95%;
-    top: 73%;
-    animation-delay: 5s;
-}
-
-.particles span:nth-child(7) {
-    left: 20%;
-    top: 20%;
-    animation-delay: 1.5s;
-}
-
-.particles span:nth-child(8) {
-    left: 80%;
-    top: 18%;
-    animation-delay: 4.5s;
-}
-
-@keyframes particleFloat {
-    0% {
-        opacity: 0;
-
-        transform:
-            translateY(30px)
-            rotate(0deg)
-            scale(.6);
+@keyframes particleFloat{
+    0%{
+        opacity:0;
+        transform:translateY(30px) rotate(0deg) scale(.6);
     }
 
-    20% {
-        opacity: 1;
+    20%{
+        opacity:1;
     }
 
-    80% {
-        opacity: .75;
+    80%{
+        opacity:.75;
     }
 
-    100% {
-        opacity: 0;
-
-        transform:
-            translateY(-180px)
-            rotate(180deg)
-            scale(1.5);
+    100%{
+        opacity:0;
+        transform:translateY(-180px) rotate(180deg) scale(1.5);
     }
 }
 
-/* =========================================================
-   ОСНОВНАЯ ФОРМА
-========================================================= */
+/* =========================
+   ОСНОВНОЙ КОНТЕНТ
+========================= */
 
-.quiz-card {
-    position: relative;
+.page{
+    position:relative;
+    z-index:3;
 
-    z-index: 3;
+    min-height:100vh;
 
-    width: min(760px, 94vw);
+    display:flex;
+    justify-content:center;
+    align-items:flex-start;
 
-    padding: 42px 44px 40px;
+    padding:32px 15px 70px;
+}
 
-    border-radius: 28px;
+.quiz-card{
+    position:relative;
+
+    width:min(760px,94vw);
+
+    padding:42px 44px 40px;
+
+    border-radius:28px;
 
     background:
         linear-gradient(
             145deg,
-            rgba(7, 5, 24, .92),
-            rgba(4, 3, 17, .96)
+            rgba(7,5,24,.91),
+            rgba(4,3,17,.96)
         );
 
-    backdrop-filter: blur(14px);
-
-    -webkit-backdrop-filter: blur(14px);
+    backdrop-filter:blur(14px);
+    -webkit-backdrop-filter:blur(14px);
 
     border:
         1px solid
-        color-mix(
-            in srgb,
-            var(--energy) 45%,
-            transparent
-        );
+        color-mix(in srgb,var(--energy) 45%,transparent);
 
     box-shadow:
         -18px 0 55px
-        color-mix(
-            in srgb,
-            var(--left) 14%,
-            transparent
-        ),
+        color-mix(in srgb,var(--left) 15%,transparent),
 
         18px 0 55px
-        color-mix(
-            in srgb,
-            var(--right) 14%,
-            transparent
-        ),
+        color-mix(in srgb,var(--right) 15%,transparent),
 
         0 0 35px
-        color-mix(
-            in srgb,
-            var(--energy) 15%,
-            transparent
-        ),
+        color-mix(in srgb,var(--energy) 15%,transparent),
 
-        inset 0 0 45px
-        rgba(255, 255, 255, .018);
+        inset 0 0 45px rgba(255,255,255,.018);
 
-    overflow: hidden;
+    overflow:hidden;
 
-    transition:
-        border-color .8s,
-        box-shadow .8s;
+    transition:.8s;
 }
 
-.quiz-card::before {
-    content: "";
-
-    position: absolute;
-
-    inset: 7px;
-
-    border-radius: 21px;
-
-    border:
-        1px solid
-        rgba(255, 255, 255, .055);
-
-    pointer-events: none;
+.quiz-card::before{
+    content:"";
+    position:absolute;
+    inset:7px;
+    border-radius:21px;
+    border:1px solid rgba(255,255,255,.055);
+    pointer-events:none;
 }
 
-.quiz-card::after {
-    content: "✦";
-
-    position: absolute;
-
-    top: -15px;
-
-    left: 50%;
-
-    transform:
-        translateX(-50%);
-
-    font-size: 38px;
-
-    color: var(--energy);
+.quiz-card::after{
+    content:"✦";
+    position:absolute;
+    top:-15px;
+    left:50%;
+    transform:translateX(-50%);
+    font-size:38px;
+    color:var(--energy);
 
     text-shadow:
         0 0 10px var(--energy),
         0 0 25px var(--energy);
 }
 
-/* =========================================================
+/* =========================
    HEADER
-========================================================= */
+========================= */
 
-.header {
-    text-align: center;
-
-    margin-bottom: 27px;
+.header{
+    text-align:center;
+    margin-bottom:27px;
 }
 
-.main-orb {
-    font-size: 42px;
+.main-orb{
+    font-size:42px;
 
     filter:
-        drop-shadow(
-            0 0 10px
-            var(--energy)
-        )
-        drop-shadow(
-            0 0 22px
-            var(--energy)
-        );
+        drop-shadow(0 0 10px var(--energy))
+        drop-shadow(0 0 22px var(--energy));
 
-    animation:
-        orbPulse 2.4s ease-in-out infinite;
+    animation:orbPulse 2.4s ease-in-out infinite;
 }
 
-@keyframes orbPulse {
-    0%,
-    100% {
-        transform: scale(1);
-    }
-
-    50% {
-        transform: scale(1.13);
-    }
+@keyframes orbPulse{
+    0%,100%{transform:scale(1)}
+    50%{transform:scale(1.13)}
 }
 
-h1 {
-    margin: 3px 0 0;
+h1{
+    margin:3px 0 0;
 
-    font-family:
-        'Cormorant Garamond',
-        serif;
+    font-family:'Cormorant Garamond',serif;
 
-    font-size: 46px;
-
-    font-weight: 700;
+    font-size:46px;
+    font-weight:700;
 
     background:
         linear-gradient(
@@ -461,370 +305,217 @@ h1 {
             var(--right)
         );
 
-    background-size:
-        200% auto;
+    background-size:200% auto;
 
-    -webkit-background-clip:
-        text;
+    -webkit-background-clip:text;
+    background-clip:text;
 
-    background-clip:
-        text;
+    color:transparent;
 
-    color:
-        transparent;
-
-    animation:
-        titleGlow 7s linear infinite;
+    animation:titleGlow 7s linear infinite;
 }
 
-@keyframes titleGlow {
-    to {
-        background-position:
-            200% center;
+@keyframes titleGlow{
+    to{
+        background-position:200% center;
     }
 }
 
-.subtitle {
-    margin:
-        7px 0 0;
+.subtitle{
+    margin:7px 0 0;
 
-    font-family:
-        'Cormorant Garamond',
-        serif;
+    font-family:'Cormorant Garamond',serif;
 
-    font-size:
-        19px;
+    font-size:19px;
 
-    color:
-        #cfc0dc;
+    color:#cfc0dc;
 }
 
-/* =========================================================
+/* =========================
    FORM
-========================================================= */
+========================= */
 
-.form-row {
-    display:
-        grid;
-
-    grid-template-columns:
-        1fr 1fr;
-
-    gap:
-        16px;
+.form-row{
+    display:grid;
+    grid-template-columns:1fr 1fr;
+    gap:16px;
 }
 
-.form-group {
-    margin-bottom:
-        17px;
+.form-group{
+    margin-bottom:17px;
 }
 
-label {
-    display:
-        flex;
+label{
+    display:flex;
+    align-items:center;
+    gap:8px;
 
-    align-items:
-        center;
+    margin-bottom:8px;
 
-    gap:
-        8px;
+    font-size:14px;
+    font-weight:600;
 
-    margin-bottom:
-        8px;
+    line-height:1.35;
 
-    font-size:
-        14px;
-
-    font-weight:
-        600;
-
-    line-height:
-        1.35;
-
-    color:
-        #fff5fb;
+    color:#fff5fb;
 }
 
-.icon {
-    font-size:
-        18px;
-
-    color:
-        var(--energy);
+.icon{
+    font-size:18px;
+    color:var(--energy);
 
     filter:
-        drop-shadow(
-            0 0 6px
-            var(--energy)
-        );
+        drop-shadow(0 0 6px var(--energy));
 }
 
 input,
 select,
-textarea {
-    width:
-        100%;
+textarea{
+    width:100%;
 
-    padding:
-        13px 15px;
+    padding:13px 15px;
 
-    border-radius:
-        12px;
+    border-radius:12px;
 
     border:
         1px solid
-        color-mix(
-            in srgb,
-            var(--energy) 42%,
-            transparent
-        );
+        color-mix(in srgb,var(--energy) 42%,transparent);
 
-    background:
-        rgba(3, 2, 15, .76);
+    background:rgba(3,2,15,.76);
 
-    color:
-        #fff;
+    color:#fff;
 
-    outline:
-        none;
+    outline:none;
 
-    font-family:
-        'Montserrat',
-        sans-serif;
+    font-family:'Montserrat',sans-serif;
 
-    font-size:
-        14px;
+    font-size:14px;
 
-    transition:
-        .3s;
+    transition:.3s;
 }
 
 input::placeholder,
-textarea::placeholder {
-    color:
-        #756a83;
+textarea::placeholder{
+    color:#756a83;
 }
 
-select {
-    cursor:
-        pointer;
+select{
+    cursor:pointer;
 }
 
-select option {
-    background:
-        #090616;
-
-    color:
-        #fff;
+select option{
+    background:#090616;
+    color:#fff;
 }
 
-textarea {
-    min-height:
-        92px;
-
-    resize:
-        vertical;
+textarea{
+    min-height:92px;
+    resize:vertical;
 }
 
 input:focus,
 select:focus,
-textarea:focus {
-    transform:
-        translateY(-1px);
+textarea:focus{
+    transform:translateY(-1px);
 
-    border-color:
-        var(--energy);
+    border-color:var(--energy);
 
     box-shadow:
         0 0 20px
-        color-mix(
-            in srgb,
-            var(--energy) 30%,
-            transparent
-        );
+        color-mix(in srgb,var(--energy) 30%,transparent);
 }
 
-/* Первый знак */
-
-#zodiac1 {
+#zodiac1{
     border-color:
-        color-mix(
-            in srgb,
-            var(--left) 75%,
-            transparent
-        );
-
-    box-shadow:
-        0 0 12px
-        color-mix(
-            in srgb,
-            var(--left) 10%,
-            transparent
-        );
+        color-mix(in srgb,var(--left) 75%,transparent);
 }
 
-/* Второй знак */
-
-#zodiac2 {
+#zodiac2{
     border-color:
-        color-mix(
-            in srgb,
-            var(--right) 75%,
-            transparent
-        );
-
-    box-shadow:
-        0 0 12px
-        color-mix(
-            in srgb,
-            var(--right) 10%,
-            transparent
-        );
+        color-mix(in srgb,var(--right) 75%,transparent);
 }
 
-/* =========================================================
-   ПАРА ЗНАКОВ
-========================================================= */
+/* =========================
+   ПРЕВЬЮ
+========================= */
 
-.compatibility-preview {
-    margin:
-        0 0 20px;
+.compatibility-preview{
+    margin:0 0 20px;
 
-    padding:
-        14px;
+    padding:14px;
 
-    border-radius:
-        13px;
+    border-radius:13px;
 
-    border:
-        1px solid
-        rgba(255, 255, 255, .10);
+    border:1px solid rgba(255,255,255,.10);
 
     background:
         linear-gradient(
             90deg,
-
-            color-mix(
-                in srgb,
-                var(--left) 16%,
-                transparent
-            ),
-
-            rgba(
-                255,
-                255,
-                255,
-                .025
-            ),
-
-            color-mix(
-                in srgb,
-                var(--right) 16%,
-                transparent
-            )
+            color-mix(in srgb,var(--left) 16%,transparent),
+            rgba(255,255,255,.025),
+            color-mix(in srgb,var(--right) 16%,transparent)
         );
 
-    text-align:
-        center;
+    text-align:center;
 
-    font-family:
-        'Cormorant Garamond',
-        serif;
+    font-family:'Cormorant Garamond',serif;
 
-    font-size:
-        21px;
-
-    box-shadow:
-        inset 0 0 20px
-        rgba(
-            255,
-            255,
-            255,
-            .015
-        );
+    font-size:21px;
 }
 
-/* =========================================================
+/* =========================
    ENERGY
-========================================================= */
+========================= */
 
-.energy-info {
-    margin-top:
-        8px;
+.energy-info{
+    margin-top:8px;
 
-    padding:
-        11px 13px;
+    padding:11px 13px;
 
-    border-radius:
-        11px;
+    border-radius:11px;
 
     border:
         1px solid
-        color-mix(
-            in srgb,
-            var(--energy) 25%,
-            transparent
-        );
+        color-mix(in srgb,var(--energy) 25%,transparent);
 
     background:
-        color-mix(
-            in srgb,
-            var(--energy) 8%,
-            transparent
-        );
+        color-mix(in srgb,var(--energy) 8%,transparent);
 
-    color:
-        #cdbbd9;
+    color:#cdbbd9;
 
-    font-family:
-        'Cormorant Garamond',
-        serif;
+    font-family:'Cormorant Garamond',serif;
 
-    font-size:
-        16px;
+    font-size:16px;
 
-    line-height:
-        1.4;
+    line-height:1.4;
 }
 
-/* =========================================================
+/* =========================
    BUTTON
-========================================================= */
+========================= */
 
-button {
-    position:
-        relative;
+button{
+    position:relative;
 
-    width:
-        100%;
+    width:100%;
 
-    margin-top:
-        8px;
+    margin-top:8px;
 
-    padding:
-        16px 20px;
+    padding:16px 20px;
 
-    border:
-        0;
+    border:0;
 
-    border-radius:
-        50px;
+    border-radius:50px;
 
-    cursor:
-        pointer;
+    cursor:pointer;
 
-    color:
-        #fff;
+    color:#fff;
 
-    font-family:
-        'Montserrat',
-        sans-serif;
+    font-family:'Montserrat',sans-serif;
 
-    font-size:
-        15px;
+    font-size:15px;
 
-    font-weight:
-        700;
+    font-weight:700;
 
     background:
         linear-gradient(
@@ -834,277 +525,167 @@ button {
             var(--right)
         );
 
-    background-size:
-        200% 100%;
+    background-size:200% 100%;
 
     box-shadow:
         0 0 18px
-        color-mix(
-            in srgb,
-            var(--energy) 35%,
-            transparent
-        );
+        color-mix(in srgb,var(--energy) 35%,transparent);
 
-    overflow:
-        hidden;
+    overflow:hidden;
 
-    transition:
-        .3s;
+    transition:.3s;
 }
 
-button:hover {
-    transform:
-        translateY(-3px);
-
-    background-position:
-        100% 0;
+button:hover{
+    transform:translateY(-3px);
+    background-position:100% 0;
 }
 
-button:disabled {
-    opacity:
-        .8;
-
-    cursor:
-        default;
+button:disabled{
+    opacity:.8;
+    cursor:default;
 }
 
-button::before {
-    content:
-        "";
+button::before{
+    content:"";
 
-    position:
-        absolute;
+    position:absolute;
 
-    top:
-        0;
+    top:0;
+    left:-100%;
 
-    left:
-        -100%;
-
-    width:
-        65%;
-
-    height:
-        100%;
+    width:65%;
+    height:100%;
 
     background:
         linear-gradient(
             90deg,
             transparent,
-            rgba(
-                255,
-                255,
-                255,
-                .35
-            ),
+            rgba(255,255,255,.35),
             transparent
         );
 
-    transform:
-        skewX(-20deg);
+    transform:skewX(-20deg);
 
-    animation:
-        shine 3s infinite;
+    animation:shine 3s infinite;
 }
 
-@keyframes shine {
-    0% {
-        left:
-            -100%;
-    }
-
-    40%,
-    100% {
-        left:
-            150%;
-    }
+@keyframes shine{
+    0%{left:-100%}
+    40%,100%{left:150%}
 }
 
-/* =========================================================
-   MAGIC LOADING
-========================================================= */
+/* =========================
+   MAGIC
+========================= */
 
-.hidden {
-    display:
-        none !important;
+.hidden{
+    display:none!important;
 }
 
-#magicBlock {
-    text-align:
-        center;
-
-    padding:
-        35px 10px;
+#magicBlock{
+    text-align:center;
+    padding:35px 10px;
 }
 
-.magic-title {
-    font-family:
-        'Cormorant Garamond',
-        serif;
-
-    font-size:
-        30px;
-
-    margin-bottom:
-        30px;
+.magic-title{
+    font-family:'Cormorant Garamond',serif;
+    font-size:30px;
+    margin-bottom:30px;
 }
 
-.magic-circle {
-    position:
-        relative;
+.magic-circle{
+    position:relative;
 
-    width:
-        210px;
+    width:210px;
+    height:210px;
 
-    height:
-        210px;
+    margin:0 auto 30px;
 
-    margin:
-        0 auto 30px;
-
-    display:
-        flex;
-
-    justify-content:
-        center;
-
-    align-items:
-        center;
+    display:flex;
+    justify-content:center;
+    align-items:center;
 }
 
-.circle {
-    position:
-        absolute;
+.circle{
+    position:absolute;
+    inset:0;
 
-    inset:
-        0;
+    border-radius:50%;
 
-    border-radius:
-        50%;
-
-    border:
-        1px solid
-        var(--left);
+    border:1px solid var(--left);
 
     box-shadow:
-        0 0 20px
-        var(--left);
+        0 0 20px var(--left);
 
-    animation:
-        rotate 6s linear infinite;
+    animation:rotate 6s linear infinite;
 }
 
-.circle:nth-child(2) {
-    inset:
-        18px;
-
-    border-color:
-        var(--right);
-
-    animation:
-        rotateReverse
-        7s linear infinite;
+.circle:nth-child(2){
+    inset:18px;
+    border-color:var(--right);
+    animation:rotateReverse 7s linear infinite;
 }
 
-.circle:nth-child(3) {
-    inset:
-        38px;
-
-    border-style:
-        dashed;
-
-    border-color:
-        var(--energy);
-
-    animation:
-        rotate 4s linear infinite;
+.circle:nth-child(3){
+    inset:38px;
+    border-style:dashed;
+    border-color:var(--energy);
+    animation:rotate 4s linear infinite;
 }
 
-@keyframes rotate {
-    to {
-        transform:
-            rotate(360deg);
-    }
+@keyframes rotate{
+    to{transform:rotate(360deg)}
 }
 
-@keyframes rotateReverse {
-    to {
-        transform:
-            rotate(-360deg);
-    }
+@keyframes rotateReverse{
+    to{transform:rotate(-360deg)}
 }
 
-.magic-rune {
-    font-size:
-        58px;
+.magic-rune{
+    font-size:58px;
 
     filter:
-        drop-shadow(
-            0 0 15px
-            var(--energy)
-        );
+        drop-shadow(0 0 15px var(--energy));
 
-    animation:
-        orbPulse 1.6s infinite;
+    animation:orbPulse 1.6s infinite;
 }
 
-.magic-status {
-    min-height:
-        30px;
+.magic-status{
+    min-height:30px;
 
-    font-family:
-        'Cormorant Garamond',
-        serif;
+    font-family:'Cormorant Garamond',serif;
 
-    font-size:
-        22px;
+    font-size:22px;
 
-    color:
-        #cdbbd8;
+    color:#cdbbd8;
 }
 
-/* =========================================================
+/* =========================
    RESULT
-========================================================= */
+========================= */
 
-#successBlock {
-    text-align:
-        center;
-
-    padding:
-        20px 5px;
+#successBlock{
+    text-align:center;
+    padding:20px 5px;
 }
 
-.success-title {
-    font-family:
-        'Cormorant Garamond',
-        serif;
-
-    font-size:
-        31px;
+.success-title{
+    font-family:'Cormorant Garamond',serif;
+    font-size:31px;
 }
 
-.result-pair {
-    font-family:
-        'Cormorant Garamond',
-        serif;
-
-    font-size:
-        25px;
-
-    margin:
-        15px 0;
+.result-pair{
+    font-family:'Cormorant Garamond',serif;
+    font-size:25px;
+    margin:15px 0;
 }
 
-#percentResult {
-    display:
-        block;
+#percentResult{
+    display:block;
 
-    font-size:
-        74px;
-
-    font-weight:
-        700;
+    font-size:74px;
+    font-weight:700;
 
     background:
         linear-gradient(
@@ -1114,64 +695,34 @@ button::before {
             var(--right)
         );
 
-    -webkit-background-clip:
-        text;
+    -webkit-background-clip:text;
+    background-clip:text;
 
-    background-clip:
-        text;
-
-    color:
-        transparent;
-
-    filter:
-        drop-shadow(
-            0 0 10px
-            color-mix(
-                in srgb,
-                var(--energy) 20%,
-                transparent
-            )
-        );
+    color:transparent;
 }
 
-.verdict-text {
-    max-width:
-        600px;
+.verdict-text{
+    max-width:600px;
+    margin:15px auto;
 
-    margin:
-        15px auto;
+    font-family:'Cormorant Garamond',serif;
 
-    font-family:
-        'Cormorant Garamond',
-        serif;
+    font-size:21px;
+    line-height:1.6;
 
-    font-size:
-        21px;
-
-    line-height:
-        1.6;
-
-    color:
-        #ded0e7;
+    color:#ded0e7;
 }
 
-.result-detail {
-    margin-top:
-        20px;
+.result-detail{
+    margin-top:20px;
 
-    padding:
-        16px;
+    padding:16px;
 
-    border-radius:
-        14px;
+    border-radius:14px;
 
     border:
         1px solid
-        color-mix(
-            in srgb,
-            var(--energy) 20%,
-            transparent
-        );
+        color-mix(in srgb,var(--energy) 20%,transparent);
 
     background:
         color-mix(
@@ -1180,103 +731,77 @@ button::before {
             rgba(3,2,15,.60)
         );
 
-    font-family:
-        'Cormorant Garamond',
-        serif;
+    font-family:'Cormorant Garamond',serif;
 
-    font-size:
-        18px;
+    font-size:18px;
 
-    line-height:
-        1.5;
+    line-height:1.5;
 
-    color:
-        #cdbbd8;
+    color:#cdbbd8;
 }
 
-/* =========================================================
+/* =========================
    MOBILE
-========================================================= */
+========================= */
 
-@media(max-width:700px) {
+@media(max-width:700px){
 
-    body {
-        padding:
-            12px 8px 40px;
-
-        background-size:
-            auto 100vh;
-
-        background-position:
-            center top;
-
-        background-attachment:
-            fixed;
+    .page{
+        padding:12px 8px 40px;
     }
 
-    .background-magic::before,
-    .background-magic::after {
-        opacity:
-            .72;
+    .quiz-card{
+        width:100%;
+        padding:35px 18px 30px;
     }
 
-    .center-darkness {
-        background:
-            rgba(
-                3,
-                2,
-                15,
-                .47
-            );
+    .form-row{
+        grid-template-columns:1fr;
+        gap:0;
     }
 
-    .quiz-card {
-        width:
-            100%;
-
-        padding:
-            35px 18px 30px;
-
-        border-radius:
-            22px;
+    h1{
+        font-size:34px;
     }
 
-    .form-row {
-        grid-template-columns:
-            1fr;
-
-        gap:
-            0;
+    .subtitle{
+        font-size:17px;
     }
 
-    h1 {
-        font-size:
-            34px;
+    #percentResult{
+        font-size:58px;
     }
 
-    .subtitle {
-        font-size:
-            17px;
+    .zodiac-side{
+        width:100%;
+        opacity:.45;
     }
 
-    #percentResult {
-        font-size:
-            58px;
+    .right-side{
+        display:none;
     }
 }
 </style>
-
 </head>
 
 <body>
 
-<!-- НАСТОЯЩИЙ МАГИЧЕСКИЙ ФОН -->
+<!-- ФОНЫ -->
 
-<div class="background-magic"></div>
+<div class="zodiac-background">
+    <div
+        id="leftBackground"
+        class="zodiac-side left-side"
+    ></div>
 
-<div class="center-darkness"></div>
+    <div
+        id="rightBackground"
+        class="zodiac-side right-side"
+    ></div>
+</div>
 
-<!-- ЛЕТАЮЩИЕ ИСКРЫ -->
+<div class="left-glow"></div>
+<div class="right-glow"></div>
 
 <div class="particles">
     <span>✦</span>
@@ -1285,11 +810,9 @@ button::before {
     <span>✦</span>
     <span>✧</span>
     <span>♦</span>
-    <span>✦</span>
-    <span>✧</span>
 </div>
 
-<!-- ОСНОВНАЯ КАРТОЧКА -->
+<div class="page">
 
 <div class="quiz-card">
 
@@ -1297,21 +820,19 @@ button::before {
 
 <div class="header">
 
-<div class="main-orb">
-🔮
+    <div class="main-orb">
+        🔮
+    </div>
+
+    <h1>
+        Тайна Совместимости
+    </h1>
+
+    <p class="subtitle">
+        Узнай, как звёзды и энергия сердца влияют на вашу связь ✨
+    </p>
+
 </div>
-
-<h1>
-Тайна Совместимости
-</h1>
-
-<p class="subtitle">
-Узнай, как звёзды и энергия сердца влияют на вашу связь ✨
-</p>
-
-</div>
-
-<!-- ИМЯ -->
 
 <div class="form-group">
 
@@ -1329,8 +850,6 @@ placeholder="Напиши своё имя..."
 
 </div>
 
-<!-- ЗНАКИ -->
-
 <div class="form-row">
 
 <div class="form-group">
@@ -1340,10 +859,7 @@ placeholder="Напиши своё имя..."
 Твой знак зодиака
 </label>
 
-<select
-id="zodiac1"
-required
->
+<select id="zodiac1" required>
 
 <option value="">
 Выбери свой знак...
@@ -1373,10 +889,7 @@ required
 С каким знаком проверить совместимость?
 </label>
 
-<select
-id="zodiac2"
-required
->
+<select id="zodiac2" required>
 
 <option value="">
 Выбери второй знак...
@@ -1401,16 +914,12 @@ required
 
 </div>
 
-<!-- ПРЕВЬЮ -->
-
 <div
 class="compatibility-preview"
 id="compatibilityPreview"
 >
 ✦ Выбери два знака ✦
 </div>
-
-<!-- ЭНЕРГИЯ -->
 
 <div class="form-group">
 
@@ -1452,8 +961,6 @@ id="energyInfo"
 
 </div>
 
-<!-- СВИДАНИЕ -->
-
 <div class="form-group">
 
 <label>
@@ -1469,8 +976,6 @@ placeholder="Прогулка под звёздами у моря..."
 >
 
 </div>
-
-<!-- МЕСТО -->
 
 <div class="form-group">
 
@@ -1488,8 +993,6 @@ placeholder="Например: на крыше с красивым видом...
 
 </div>
 
-<!-- ВРЕМЯ -->
-
 <div class="form-group">
 
 <label>
@@ -1505,8 +1008,6 @@ placeholder="Например: вечером под полной луной..."
 >
 
 </div>
-
-<!-- СЕКРЕТ -->
 
 <div class="form-group">
 
@@ -1528,8 +1029,6 @@ placeholder="Ты — моё самое красивое приключение.
 
 </form>
 
-<!-- МАГИЯ -->
-
 <div
 id="magicBlock"
 class="hidden"
@@ -1542,9 +1041,7 @@ class="hidden"
 <div class="magic-circle">
 
 <div class="circle"></div>
-
 <div class="circle"></div>
-
 <div class="circle"></div>
 
 <div
@@ -1564,8 +1061,6 @@ id="magicStatus"
 </div>
 
 </div>
-
-<!-- РЕЗУЛЬТАТ -->
 
 <div
 id="successBlock"
@@ -1601,167 +1096,153 @@ id="energyResult"
 
 </div>
 
+</div>
+
 <script>
 
-/* =========================================================
-   ЗНАКИ
-========================================================= */
+const DEFAULT_BG =
+    "Image026.png";
+
+const zodiacBackgrounds = {
+    овен: "aries-bg.png",
+    телец: "taurus-bg.png",
+    близнецы: "gemini-bg.png",
+    рак: "cancer-bg.png",
+    лев: "leo-bg.png",
+    дева: "virgo-bg.png",
+    весы: "libra-bg.png",
+    скорпион: "scorpio-bg.png",
+    стрелец: "sagittarius-bg.png",
+    козерог: "capricorn-bg.png",
+    водолей: "aquarius-bg.png",
+    рыбы: "pisces-bg.png"
+};
 
 const zodiacData = {
-
-    овен: {
-        name: "Овен",
-        symbol: "♈",
-        element: "fire"
+    овен:{
+        name:"Овен",
+        symbol:"♈",
+        element:"fire"
     },
 
-    телец: {
-        name: "Телец",
-        symbol: "♉",
-        element: "earth"
+    телец:{
+        name:"Телец",
+        symbol:"♉",
+        element:"earth"
     },
 
-    близнецы: {
-        name: "Близнецы",
-        symbol: "♊",
-        element: "air"
+    близнецы:{
+        name:"Близнецы",
+        symbol:"♊",
+        element:"air"
     },
 
-    рак: {
-        name: "Рак",
-        symbol: "♋",
-        element: "water"
+    рак:{
+        name:"Рак",
+        symbol:"♋",
+        element:"water"
     },
 
-    лев: {
-        name: "Лев",
-        symbol: "♌",
-        element: "fire"
+    лев:{
+        name:"Лев",
+        symbol:"♌",
+        element:"fire"
     },
 
-    дева: {
-        name: "Дева",
-        symbol: "♍",
-        element: "earth"
+    дева:{
+        name:"Дева",
+        symbol:"♍",
+        element:"earth"
     },
 
-    весы: {
-        name: "Весы",
-        symbol: "♎",
-        element: "air"
+    весы:{
+        name:"Весы",
+        symbol:"♎",
+        element:"air"
     },
 
-    скорпион: {
-        name: "Скорпион",
-        symbol: "♏",
-        element: "water"
+    скорпион:{
+        name:"Скорпион",
+        symbol:"♏",
+        element:"water"
     },
 
-    стрелец: {
-        name: "Стрелец",
-        symbol: "♐",
-        element: "fire"
+    стрелец:{
+        name:"Стрелец",
+        symbol:"♐",
+        element:"fire"
     },
 
-    козерог: {
-        name: "Козерог",
-        symbol: "♑",
-        element: "earth"
+    козерог:{
+        name:"Козерог",
+        symbol:"♑",
+        element:"earth"
     },
 
-    водолей: {
-        name: "Водолей",
-        symbol: "♒",
-        element: "air"
+    водолей:{
+        name:"Водолей",
+        symbol:"♒",
+        element:"air"
     },
 
-    рыбы: {
-        name: "Рыбы",
-        symbol: "♓",
-        element: "water"
+    рыбы:{
+        name:"Рыбы",
+        symbol:"♓",
+        element:"water"
     }
-
 };
-
-/* =========================================================
-   СТИХИИ
-========================================================= */
 
 const zodiacThemes = {
-
-    fire: {
-        color: "#ff445a",
-        color2: "#ff9d38"
+    fire:{
+        color:"#ff445a"
     },
 
-    earth: {
-        color: "#d6a24e",
-        color2: "#73aa59"
+    earth:{
+        color:"#d6a24e"
     },
 
-    air: {
-        color: "#4edfff",
-        color2: "#6577ff"
+    air:{
+        color:"#4edfff"
     },
 
-    water: {
-        color: "#5175ff",
-        color2: "#9c4cff"
+    water:{
+        color:"#5175ff"
     }
-
 };
-
-/* =========================================================
-   ЭНЕРГИИ
-========================================================= */
 
 const energyThemes = {
 
-    "Влюблённая энергия 💗": {
-        accent: "#ff4f9c",
-        symbol: "💗",
-
-        text:
-            "💗 Сердце открыто любви, теплу, нежности и сильному притяжению."
+    "Влюблённая энергия 💗":{
+        accent:"#ff4f9c",
+        symbol:"💗",
+        text:"💗 Сердце открыто любви, теплу, нежности и сильному притяжению."
     },
 
-    "Загадочная энергия 🔮": {
-        accent: "#a855ff",
-        symbol: "🔮",
-
-        text:
-            "🔮 Тайны, знаки судьбы и ощущение чего-то необычного окружают тебя."
+    "Загадочная энергия 🔮":{
+        accent:"#a855ff",
+        symbol:"🔮",
+        text:"🔮 Тайны, знаки судьбы и ощущение чего-то необычного окружают тебя."
     },
 
-    "Авантюрная энергия ⚡": {
-        accent: "#ff9d38",
-        symbol: "⚡",
-
-        text:
-            "⚡ Судьба готовит приключения, движение и неожиданные повороты."
+    "Авантюрная энергия ⚡":{
+        accent:"#ff9d38",
+        symbol:"⚡",
+        text:"⚡ Судьба готовит приключения, движение и неожиданные повороты."
     },
 
-    "Спокойная энергия 🌙": {
-        accent: "#6da5ff",
-        symbol: "🌙",
-
-        text:
-            "🌙 Спокойствие усиливает доверие, искренность и глубокие чувства."
+    "Спокойная энергия 🌙":{
+        accent:"#6da5ff",
+        symbol:"🌙",
+        text:"🌙 Спокойствие усиливает доверие, искренность и глубокие чувства."
     },
 
-    "Дерзкая энергия 😎": {
-        accent: "#ff477e",
-        symbol: "😎",
-
-        text:
-            "😎 Сегодня хочется играть по своим правилам и бросить судьбе вызов."
+    "Дерзкая энергия 😎":{
+        accent:"#ff477e",
+        symbol:"😎",
+        text:"😎 Сегодня хочется играть по своим правилам и бросить судьбе вызов."
     }
 
 };
-
-/* =========================================================
-   ЭЛЕМЕНТЫ
-========================================================= */
 
 const form =
     document.getElementById(
@@ -1813,11 +1294,48 @@ const magicStatus =
         "magicStatus"
     );
 
-/* =========================================================
-   СМЕНА ТЕМЫ
-========================================================= */
+const leftBackground =
+    document.getElementById(
+        "leftBackground"
+    );
 
-function applyTheme() {
+const rightBackground =
+    document.getElementById(
+        "rightBackground"
+    );
+
+/* =========================
+   СМЕНА КАРТИНОК
+========================= */
+
+function updateBackgrounds(){
+
+    const leftImage =
+        zodiac1.value
+        ? zodiacBackgrounds[
+            zodiac1.value
+        ]
+        : DEFAULT_BG;
+
+    const rightImage =
+        zodiac2.value
+        ? zodiacBackgrounds[
+            zodiac2.value
+        ]
+        : DEFAULT_BG;
+
+    leftBackground.style.backgroundImage =
+        `url("${leftImage}")`;
+
+    rightBackground.style.backgroundImage =
+        `url("${rightImage}")`;
+}
+
+/* =========================
+   ЦВЕТА
+========================= */
+
+function applyTheme(){
 
     let leftElement =
         "water";
@@ -1825,24 +1343,24 @@ function applyTheme() {
     let rightElement =
         "fire";
 
-    if (
+    if(
         zodiac1.value &&
         zodiacData[
             zodiac1.value
         ]
-    ) {
+    ){
         leftElement =
             zodiacData[
                 zodiac1.value
             ].element;
     }
 
-    if (
+    if(
         zodiac2.value &&
         zodiacData[
             zodiac2.value
         ]
-    ) {
+    ){
         rightElement =
             zodiacData[
                 zodiac2.value
@@ -1874,22 +1392,8 @@ function applyTheme() {
     document.documentElement
         .style
         .setProperty(
-            "--left2",
-            leftTheme.color2
-        );
-
-    document.documentElement
-        .style
-        .setProperty(
             "--right",
             rightTheme.color
-        );
-
-    document.documentElement
-        .style
-        .setProperty(
-            "--right2",
-            rightTheme.color2
         );
 
     document.documentElement
@@ -1906,16 +1410,16 @@ function applyTheme() {
         energyTheme.symbol;
 }
 
-/* =========================================================
-   ПАРА ЗНАКОВ
-========================================================= */
+/* =========================
+   ПРЕВЬЮ
+========================= */
 
-function updatePreview() {
+function updatePreview(){
 
-    if (
+    if(
         zodiac1.value &&
         zodiac2.value
-    ) {
+    ){
 
         const z1 =
             zodiacData[
@@ -1963,7 +1467,7 @@ function updatePreview() {
             </span>
             `;
 
-    } else {
+    }else{
 
         preview.innerHTML =
             `
@@ -1989,15 +1493,17 @@ function updatePreview() {
             `;
 
     }
+
 }
 
-/* =========================================================
+/* =========================
    EVENTS
-========================================================= */
+========================= */
 
 zodiac1.addEventListener(
     "change",
-    () => {
+    ()=>{
+        updateBackgrounds();
         applyTheme();
         updatePreview();
     }
@@ -2005,7 +1511,8 @@ zodiac1.addEventListener(
 
 zodiac2.addEventListener(
     "change",
-    () => {
+    ()=>{
+        updateBackgrounds();
         applyTheme();
         updatePreview();
     }
@@ -2013,20 +1520,21 @@ zodiac2.addEventListener(
 
 feelings.addEventListener(
     "change",
-    () => {
+    ()=>{
         applyTheme();
     }
 );
 
+updateBackgrounds();
 applyTheme();
 
-/* =========================================================
+/* =========================
    SUBMIT
-========================================================= */
+========================= */
 
 form.addEventListener(
     "submit",
-    async (e) => {
+    async(e)=>{
 
         e.preventDefault();
 
@@ -2132,17 +1640,16 @@ form.addEventListener(
 
         const interval =
             setInterval(
-                () => {
+                ()=>{
 
                     index++;
 
-                    if (
+                    if(
                         index <
                         messages.length
-                    ) {
+                    ){
 
-                        magicStatus
-                            .innerText =
+                        magicStatus.innerText =
                             messages[index];
 
                     }
@@ -2151,16 +1658,15 @@ form.addEventListener(
                 900
             );
 
-        try {
+        try{
 
             const response =
                 await fetch(
                     "https://ser-4983.onrender.com/api/send",
                     {
-                        method:
-                            "POST",
+                        method:"POST",
 
-                        headers: {
+                        headers:{
                             "Content-Type":
                                 "application/json"
                         },
@@ -2185,9 +1691,9 @@ form.addEventListener(
                     "hidden"
                 );
 
-            if (
+            if(
                 result.success
-            ) {
+            ){
 
                 successBlock
                     .classList
@@ -2247,7 +1753,7 @@ form.addEventListener(
                     result.energyVerdict ||
                     "";
 
-            } else {
+            }else{
 
                 form
                     .classList
@@ -2268,7 +1774,7 @@ form.addEventListener(
 
             }
 
-        } catch (error) {
+        }catch(error){
 
             clearInterval(
                 interval
