@@ -58,8 +58,7 @@ body{
     transition:
         opacity .8s ease,
         filter .8s ease,
-        background-image .8s ease,
-        background-position .8s ease;
+        background-image .8s ease;
 }
 
 .left-side{
@@ -70,7 +69,6 @@ body{
     right:0;
 }
 
-/* затемнение каждой картинки */
 .zodiac-side::after{
     content:"";
     position:absolute;
@@ -79,16 +77,15 @@ body{
     background:
         linear-gradient(
             to bottom,
-            rgba(0,0,0,.06),
+            rgba(0,0,0,.05),
             rgba(0,0,0,.02) 35%,
-            rgba(0,0,0,.16) 78%,
-            rgba(0,0,0,.38)
+            rgba(0,0,0,.18) 78%,
+            rgba(0,0,0,.42)
         );
 
     pointer-events:none;
 }
 
-/* плавное соединение */
 .zodiac-background::after{
     content:"";
     position:absolute;
@@ -98,27 +95,22 @@ body{
     background:
         linear-gradient(
             90deg,
-
             rgba(2,1,10,.03) 0%,
             rgba(2,1,10,.08) 18%,
-
-            rgba(2,1,10,.22) 32%,
-            rgba(2,1,10,.48) 41%,
-
-            rgba(2,1,10,.72) 47%,
-            rgba(2,1,10,.84) 50%,
-            rgba(2,1,10,.72) 53%,
-
-            rgba(2,1,10,.48) 59%,
-            rgba(2,1,10,.22) 68%,
-
+            rgba(2,1,10,.24) 32%,
+            rgba(2,1,10,.52) 41%,
+            rgba(2,1,10,.76) 47%,
+            rgba(2,1,10,.86) 50%,
+            rgba(2,1,10,.76) 53%,
+            rgba(2,1,10,.52) 59%,
+            rgba(2,1,10,.24) 68%,
             rgba(2,1,10,.08) 82%,
             rgba(2,1,10,.03) 100%
         );
 }
 
 /* =========================
-   СВЕЧЕНИЕ
+   СВЕЧЕНИЯ
 ========================= */
 
 .left-glow{
@@ -135,7 +127,6 @@ body{
         );
 
     mix-blend-mode:screen;
-    transition:.8s;
 }
 
 .right-glow{
@@ -152,7 +143,6 @@ body{
         );
 
     mix-blend-mode:screen;
-    transition:.8s;
 }
 
 /* =========================
@@ -212,7 +202,7 @@ body{
 }
 
 /* =========================
-   КОНТЕНТ
+   PAGE
 ========================= */
 
 .page{
@@ -264,8 +254,6 @@ body{
         inset 0 0 45px rgba(255,255,255,.018);
 
     overflow:hidden;
-
-    transition:.8s;
 }
 
 .quiz-card::before{
@@ -350,11 +338,8 @@ h1{
 
 .subtitle{
     margin:7px 0 0;
-
     font-family:'Cormorant Garamond',serif;
-
     font-size:19px;
-
     color:#cfc0dc;
 }
 
@@ -461,7 +446,7 @@ textarea:focus{
 }
 
 /* =========================
-   ПРЕВЬЮ
+   PREVIEW
 ========================= */
 
 .compatibility-preview{
@@ -567,34 +552,6 @@ button:disabled{
     cursor:default;
 }
 
-button::before{
-    content:"";
-
-    position:absolute;
-    top:0;
-    left:-100%;
-
-    width:65%;
-    height:100%;
-
-    background:
-        linear-gradient(
-            90deg,
-            transparent,
-            rgba(255,255,255,.35),
-            transparent
-        );
-
-    transform:skewX(-20deg);
-
-    animation:shine 3s infinite;
-}
-
-@keyframes shine{
-    0%{left:-100%}
-    40%,100%{left:150%}
-}
-
 /* =========================
    MAGIC
 ========================= */
@@ -632,11 +589,9 @@ button::before{
     inset:0;
 
     border-radius:50%;
-
     border:1px solid var(--left);
 
-    box-shadow:
-        0 0 20px var(--left);
+    box-shadow:0 0 20px var(--left);
 
     animation:rotate 6s linear infinite;
 }
@@ -722,8 +677,8 @@ button::before{
 }
 
 .verdict-text{
-    max-width:600px;
-    margin:15px auto;
+    max-width:610px;
+    margin:15px auto 20px;
 
     font-family:'Cormorant Garamond',serif;
     font-size:21px;
@@ -732,31 +687,70 @@ button::before{
     color:#ded0e7;
 }
 
-.result-detail{
-    margin-top:20px;
+.result-section{
+    margin-top:16px;
 
-    padding:16px;
+    padding:18px;
 
-    border-radius:14px;
+    border-radius:15px;
+
+    text-align:left;
 
     border:
         1px solid
         color-mix(in srgb,var(--energy) 20%,transparent);
 
     background:
-        color-mix(
-            in srgb,
-            var(--energy) 5%,
-            rgba(3,2,15,.60)
+        linear-gradient(
+            135deg,
+            rgba(255,255,255,.025),
+            color-mix(in srgb,var(--energy) 5%,transparent)
         );
+
+    box-shadow:
+        inset 0 0 25px rgba(255,255,255,.015);
+}
+
+.result-section h3{
+    margin:0 0 10px;
+
+    font-family:'Cormorant Garamond',serif;
+
+    font-size:22px;
+
+    color:#fff;
+}
+
+.result-section p{
+    margin:0;
 
     font-family:'Cormorant Garamond',serif;
 
     font-size:18px;
 
-    line-height:1.5;
+    line-height:1.55;
 
-    color:#cdbbd8;
+    color:#d2c2dd;
+}
+
+.left-profile{
+    border-color:
+        color-mix(in srgb,var(--left) 35%,transparent);
+}
+
+.right-profile{
+    border-color:
+        color-mix(in srgb,var(--right) 35%,transparent);
+}
+
+.forecast-box{
+    background:
+        linear-gradient(
+            135deg,
+            color-mix(in srgb,var(--left) 8%,transparent),
+            color-mix(in srgb,var(--energy) 8%,transparent),
+            color-mix(in srgb,var(--right) 8%,transparent)
+        );
 }
 
 /* =========================
@@ -806,17 +800,8 @@ button::before{
 <body>
 
 <div class="zodiac-background">
-
-    <div
-        id="leftBackground"
-        class="zodiac-side left-side"
-    ></div>
-
-    <div
-        id="rightBackground"
-        class="zodiac-side right-side"
-    ></div>
-
+    <div id="leftBackground" class="zodiac-side left-side"></div>
+    <div id="rightBackground" class="zodiac-side right-side"></div>
 </div>
 
 <div class="left-glow"></div>
@@ -840,278 +825,222 @@ button::before{
 <form id="loveForm">
 
 <div class="header">
+    <div class="main-orb">🔮</div>
 
-    <div class="main-orb">
-        🔮
-    </div>
-
-    <h1>
-        Тайна Совместимости
-    </h1>
+    <h1>Тайна Совместимости</h1>
 
     <p class="subtitle">
         Узнай, как звёзды и энергия сердца влияют на вашу связь ✨
     </p>
-
 </div>
 
 <div class="form-group">
+    <label>
+        <span class="icon">👤</span>
+        Как тебя зовут?
+    </label>
 
-<label>
-<span class="icon">👤</span>
-Как тебя зовут?
-</label>
-
-<input
-type="text"
-id="name"
-required
-placeholder="Напиши своё имя..."
->
-
+    <input
+        type="text"
+        id="name"
+        required
+        placeholder="Напиши своё имя..."
+    >
 </div>
 
 <div class="form-row">
 
 <div class="form-group">
+    <label>
+        <span class="icon">✦</span>
+        Твой знак зодиака
+    </label>
 
-<label>
-<span class="icon">✦</span>
-Твой знак зодиака
-</label>
-
-<select id="zodiac1" required>
-
-<option value="">
-Выбери свой знак...
-</option>
-
-<option value="овен">♈ Овен</option>
-<option value="телец">♉ Телец</option>
-<option value="близнецы">♊ Близнецы</option>
-<option value="рак">♋ Рак</option>
-<option value="лев">♌ Лев</option>
-<option value="дева">♍ Дева</option>
-<option value="весы">♎ Весы</option>
-<option value="скорпион">♏ Скорпион</option>
-<option value="стрелец">♐ Стрелец</option>
-<option value="козерог">♑ Козерог</option>
-<option value="водолей">♒ Водолей</option>
-<option value="рыбы">♓ Рыбы</option>
-
-</select>
-
+    <select id="zodiac1" required>
+        <option value="">Выбери свой знак...</option>
+        <option value="овен">♈ Овен</option>
+        <option value="телец">♉ Телец</option>
+        <option value="близнецы">♊ Близнецы</option>
+        <option value="рак">♋ Рак</option>
+        <option value="лев">♌ Лев</option>
+        <option value="дева">♍ Дева</option>
+        <option value="весы">♎ Весы</option>
+        <option value="скорпион">♏ Скорпион</option>
+        <option value="стрелец">♐ Стрелец</option>
+        <option value="козерог">♑ Козерог</option>
+        <option value="водолей">♒ Водолей</option>
+        <option value="рыбы">♓ Рыбы</option>
+    </select>
 </div>
 
 <div class="form-group">
+    <label>
+        <span class="icon">💞</span>
+        С каким знаком проверить совместимость?
+    </label>
 
-<label>
-<span class="icon">💞</span>
-С каким знаком проверить совместимость?
-</label>
-
-<select id="zodiac2" required>
-
-<option value="">
-Выбери второй знак...
-</option>
-
-<option value="овен">♈ Овен</option>
-<option value="телец">♉ Телец</option>
-<option value="близнецы">♊ Близнецы</option>
-<option value="рак">♋ Рак</option>
-<option value="лев">♌ Лев</option>
-<option value="дева">♍ Дева</option>
-<option value="весы">♎ Весы</option>
-<option value="скорпион">♏ Скорпион</option>
-<option value="стрелец">♐ Стрелец</option>
-<option value="козерог">♑ Козерог</option>
-<option value="водолей">♒ Водолей</option>
-<option value="рыбы">♓ Рыбы</option>
-
-</select>
-
+    <select id="zodiac2" required>
+        <option value="">Выбери второй знак...</option>
+        <option value="овен">♈ Овен</option>
+        <option value="телец">♉ Телец</option>
+        <option value="близнецы">♊ Близнецы</option>
+        <option value="рак">♋ Рак</option>
+        <option value="лев">♌ Лев</option>
+        <option value="дева">♍ Дева</option>
+        <option value="весы">♎ Весы</option>
+        <option value="скорпион">♏ Скорпион</option>
+        <option value="стрелец">♐ Стрелец</option>
+        <option value="козерог">♑ Козерог</option>
+        <option value="водолей">♒ Водолей</option>
+        <option value="рыбы">♓ Рыбы</option>
+    </select>
 </div>
 
 </div>
 
-<div
-class="compatibility-preview"
-id="compatibilityPreview"
->
-✦ Выбери два знака ✦
+<div class="compatibility-preview" id="compatibilityPreview">
+    ✦ Выбери два знака ✦
 </div>
 
 <div class="form-group">
+    <label>
+        <span class="icon">💗</span>
+        Какая энергия сегодня живёт в твоём сердце?
+    </label>
 
-<label>
-<span class="icon">💗</span>
-Какая энергия сегодня живёт в твоём сердце?
-</label>
+    <select id="feelings">
+        <option value="Влюблённая энергия 💗">💗 Влюблённая энергия</option>
+        <option value="Загадочная энергия 🔮">🔮 Загадочная энергия</option>
+        <option value="Авантюрная энергия ⚡">⚡ Авантюрная энергия</option>
+        <option value="Спокойная энергия 🌙">🌙 Спокойная энергия</option>
+        <option value="Дерзкая энергия 😎">😎 Дерзкая энергия</option>
+    </select>
 
-<select id="feelings">
-
-<option value="Влюблённая энергия 💗">
-💗 Влюблённая энергия
-</option>
-
-<option value="Загадочная энергия 🔮">
-🔮 Загадочная энергия
-</option>
-
-<option value="Авантюрная энергия ⚡">
-⚡ Авантюрная энергия
-</option>
-
-<option value="Спокойная энергия 🌙">
-🌙 Спокойная энергия
-</option>
-
-<option value="Дерзкая энергия 😎">
-😎 Дерзкая энергия
-</option>
-
-</select>
-
-<div
-class="energy-info"
-id="energyInfo"
->
-💗 Сердце открыто любви, теплу, нежности и сильному притяжению.
-</div>
-
+    <div class="energy-info" id="energyInfo">
+        💗 Сердце открыто любви, теплу, нежности и сильному притяжению.
+    </div>
 </div>
 
 <div class="form-group">
+    <label>
+        <span class="icon">✧</span>
+        Как выглядит твоё идеальное свидание?
+    </label>
 
-<label>
-<span class="icon">✧</span>
-Как выглядит твоё идеальное свидание?
-</label>
-
-<input
-type="text"
-id="date"
-required
-placeholder="Прогулка под звёздами у моря..."
->
-
+    <input
+        type="text"
+        id="date"
+        required
+        placeholder="Прогулка под звёздами у моря..."
+    >
 </div>
 
 <div class="form-group">
+    <label>
+        <span class="icon">♡</span>
+        Где должна произойти встреча?
+    </label>
 
-<label>
-<span class="icon">♡</span>
-Где должна произойти встреча?
-</label>
-
-<input
-type="text"
-id="place"
-required
-placeholder="Например: на крыше с красивым видом..."
->
-
+    <input
+        type="text"
+        id="place"
+        required
+        placeholder="Например: на крыше с красивым видом..."
+    >
 </div>
 
 <div class="form-group">
+    <label>
+        <span class="icon">◷</span>
+        Когда звёзды должны пересечься?
+    </label>
 
-<label>
-<span class="icon">◷</span>
-Когда звёзды должны пересечься?
-</label>
-
-<input
-type="text"
-id="time"
-required
-placeholder="Например: вечером под полной луной..."
->
-
+    <input
+        type="text"
+        id="time"
+        required
+        placeholder="Например: вечером под полной луной..."
+    >
 </div>
 
 <div class="form-group">
+    <label>
+        <span class="icon">🔐</span>
+        Тайное послание
+    </label>
 
-<label>
-<span class="icon">🔐</span>
-Тайное послание
-</label>
-
-<textarea
-id="message"
-placeholder="Ты — моё самое красивое приключение..."
-></textarea>
-
+    <textarea
+        id="message"
+        placeholder="Ты — моё самое красивое приключение..."
+    ></textarea>
 </div>
 
 <button type="submit">
-✨ Узнать совместимость ✨
+    ✨ Узнать совместимость ✨
 </button>
 
 </form>
 
-<div
-id="magicBlock"
-class="hidden"
->
+<div id="magicBlock" class="hidden">
 
-<div class="magic-title">
-Магический ритуал начался...
-</div>
+    <div class="magic-title">
+        Магический ритуал начался...
+    </div>
 
-<div class="magic-circle">
+    <div class="magic-circle">
+        <div class="circle"></div>
+        <div class="circle"></div>
+        <div class="circle"></div>
 
-<div class="circle"></div>
-<div class="circle"></div>
-<div class="circle"></div>
+        <div class="magic-rune" id="magicRune">
+            💗
+        </div>
+    </div>
 
-<div
-class="magic-rune"
-id="magicRune"
->
-💗
-</div>
+    <div class="magic-status" id="magicStatus">
+        Соединяем созвездия...
+    </div>
 
 </div>
 
-<div
-class="magic-status"
-id="magicStatus"
->
-Соединяем созвездия...
-</div>
+<div id="successBlock" class="hidden">
 
-</div>
+    <div class="success-title">
+        ✨ Результат Магического Анализа ✨
+    </div>
 
-<div
-id="successBlock"
-class="hidden"
->
+    <div class="result-pair" id="resultPair"></div>
 
-<div class="success-title">
-✨ Результат Магического Анализа ✨
-</div>
+    <span id="percentResult">
+        0%
+    </span>
 
-<div
-class="result-pair"
-id="resultPair"
-></div>
+    <p class="verdict-text" id="verdictResult"></p>
 
-<span id="percentResult">
-0%
-</span>
+    <div class="result-section left-profile">
+        <h3 id="zodiac1ProfileTitle"></h3>
+        <p id="zodiac1Profile"></p>
+    </div>
 
-<p
-class="verdict-text"
-id="verdictResult"
->
-Звёзды ещё молчат...
-</p>
+    <div class="result-section right-profile">
+        <h3 id="zodiac2ProfileTitle"></h3>
+        <p id="zodiac2Profile"></p>
+    </div>
 
-<div
-class="result-detail"
-id="energyResult"
-></div>
+    <div class="result-section">
+        <h3>💞 Характеристика вашей пары</h3>
+        <p id="pairProfile"></p>
+    </div>
+
+    <div class="result-section">
+        <h3>💗 Энергия отношений</h3>
+        <p id="energyResult"></p>
+    </div>
+
+    <div class="result-section forecast-box">
+        <h3>🔮 Прогноз звёзд</h3>
+        <p id="forecastResult"></p>
+    </div>
 
 </div>
 
@@ -1123,18 +1052,18 @@ id="energyResult"
 const DEFAULT_BG = "./Image026.png";
 
 const zodiacBackgrounds = {
-    овен: "aries-bg.png",
-    телец: "taurus-bg.png",
-    близнецы: "gemini-bg.png",
-    рак: "cancer-bg.png",
-    лев: "leo-bg.png",
-    дева: "virgo-bg.png",
-    весы: "libra-bg.png",
-    скорпион: "scorpio-bg.png",
-    стрелец: "sagittarius-bg.png",
-    козерог: "capricorn-bg.png",
-    водолей: "aquarius-bg.png",
-    рыбы: "pisces-bg.png"
+    овен:"aries-bg.png",
+    телец:"taurus-bg.png",
+    близнецы:"gemini-bg.png",
+    рак:"cancer-bg.png",
+    лев:"leo-bg.png",
+    дева:"virgo-bg.png",
+    весы:"libra-bg.png",
+    скорпион:"scorpio-bg.png",
+    стрелец:"sagittarius-bg.png",
+    козерог:"capricorn-bg.png",
+    водолей:"aquarius-bg.png",
+    рыбы:"pisces-bg.png"
 };
 
 const zodiacData = {
@@ -1160,6 +1089,7 @@ const zodiacThemes = {
 };
 
 const energyThemes = {
+
     "Влюблённая энергия 💗":{
         accent:"#ff4f9c",
         symbol:"💗",
@@ -1189,14 +1119,17 @@ const energyThemes = {
         symbol:"😎",
         text:"😎 Сегодня хочется играть по своим правилам и бросить судьбе вызов."
     }
+
 };
 
 const form = document.getElementById("loveForm");
 const zodiac1 = document.getElementById("zodiac1");
 const zodiac2 = document.getElementById("zodiac2");
 const feelings = document.getElementById("feelings");
+
 const preview = document.getElementById("compatibilityPreview");
 const energyInfo = document.getElementById("energyInfo");
+
 const magicRune = document.getElementById("magicRune");
 const magicBlock = document.getElementById("magicBlock");
 const successBlock = document.getElementById("successBlock");
@@ -1205,11 +1138,7 @@ const magicStatus = document.getElementById("magicStatus");
 const leftBackground = document.getElementById("leftBackground");
 const rightBackground = document.getElementById("rightBackground");
 
-/* =========================
-   ПРОВЕРКА И УСТАНОВКА ФОНА
-========================= */
-
-function setBackground(element, imagePath){
+function setBackground(element,imagePath){
 
     const image = new Image();
 
@@ -1223,17 +1152,10 @@ function setBackground(element, imagePath){
             "Не найдена картинка:",
             imagePath
         );
-
-        element.style.backgroundImage = "none";
-        element.style.backgroundColor = "#080617";
     };
 
     image.src = imagePath;
 }
-
-/* =========================
-   СМЕНА ФОНОВ
-========================= */
 
 function updateBackgrounds(){
 
@@ -1258,26 +1180,29 @@ function updateBackgrounds(){
     );
 }
 
-/* =========================
-   ТЕМА
-========================= */
-
 function applyTheme(){
 
     let leftElement = "water";
     let rightElement = "fire";
 
     if(zodiac1.value && zodiacData[zodiac1.value]){
-        leftElement = zodiacData[zodiac1.value].element;
+        leftElement =
+            zodiacData[zodiac1.value].element;
     }
 
     if(zodiac2.value && zodiacData[zodiac2.value]){
-        rightElement = zodiacData[zodiac2.value].element;
+        rightElement =
+            zodiacData[zodiac2.value].element;
     }
 
-    const leftTheme = zodiacThemes[leftElement];
-    const rightTheme = zodiacThemes[rightElement];
-    const energyTheme = energyThemes[feelings.value];
+    const leftTheme =
+        zodiacThemes[leftElement];
+
+    const rightTheme =
+        zodiacThemes[rightElement];
+
+    const energyTheme =
+        energyThemes[feelings.value];
 
     document.documentElement.style.setProperty(
         "--left",
@@ -1294,20 +1219,22 @@ function applyTheme(){
         energyTheme.accent
     );
 
-    energyInfo.innerText = energyTheme.text;
-    magicRune.innerText = energyTheme.symbol;
-}
+    energyInfo.innerText =
+        energyTheme.text;
 
-/* =========================
-   ПРЕВЬЮ
-========================= */
+    magicRune.innerText =
+        energyTheme.symbol;
+}
 
 function updatePreview(){
 
     if(zodiac1.value && zodiac2.value){
 
-        const z1 = zodiacData[zodiac1.value];
-        const z2 = zodiacData[zodiac2.value];
+        const z1 =
+            zodiacData[zodiac1.value];
+
+        const z2 =
+            zodiacData[zodiac2.value];
 
         preview.innerHTML =
             `
@@ -1344,10 +1271,6 @@ function updatePreview(){
     }
 }
 
-/* =========================
-   EVENTS
-========================= */
-
 zodiac1.addEventListener(
     "change",
     ()=>{
@@ -1368,22 +1291,12 @@ zodiac2.addEventListener(
 
 feelings.addEventListener(
     "change",
-    ()=>{
-        applyTheme();
-    }
+    applyTheme
 );
-
-/* =========================
-   СТАРТ
-========================= */
 
 updateBackgrounds();
 applyTheme();
 updatePreview();
-
-/* =========================
-   SUBMIT
-========================= */
 
 form.addEventListener(
     "submit",
@@ -1391,17 +1304,33 @@ form.addEventListener(
 
         e.preventDefault();
 
-        const button = form.querySelector("button");
+        const button =
+            form.querySelector("button");
 
         const payload = {
-            name:document.getElementById("name").value,
-            zodiac1:zodiac1.value,
-            zodiac2:zodiac2.value,
-            feelings:feelings.value,
-            date:document.getElementById("date").value,
-            place:document.getElementById("place").value,
-            time:document.getElementById("time").value,
-            message:document.getElementById("message").value
+            name:
+                document.getElementById("name").value,
+
+            zodiac1:
+                zodiac1.value,
+
+            zodiac2:
+                zodiac2.value,
+
+            feelings:
+                feelings.value,
+
+            date:
+                document.getElementById("date").value,
+
+            place:
+                document.getElementById("place").value,
+
+            time:
+                document.getElementById("time").value,
+
+            message:
+                document.getElementById("message").value
         };
 
         button.disabled = true;
@@ -1409,34 +1338,38 @@ form.addEventListener(
         form.classList.add("hidden");
         magicBlock.classList.remove("hidden");
 
-        const z1 = zodiacData[zodiac1.value];
-        const z2 = zodiacData[zodiac2.value];
+        const z1 =
+            zodiacData[zodiac1.value];
+
+        const z2 =
+            zodiacData[zodiac2.value];
 
         const messages = [
             `Открываем портал между ${z1.name} и ${z2.name}`,
             "Пробуждаем силы стихий",
             "Читаем энергию сердца",
             "Соединяем ваши созвездия",
-            "Ищем скрытое притяжение",
-            "Заглядываем в книгу судьбы",
+            "Изучаем характеры",
+            "Смотрим ближайший прогноз",
             "Магический анализ почти завершён..."
         ];
 
         let index = 0;
 
-        magicStatus.innerText = messages[0];
+        magicStatus.innerText =
+            messages[0];
 
         const interval =
-            setInterval(
-                ()=>{
-                    index++;
+            setInterval(()=>{
 
-                    if(index < messages.length){
-                        magicStatus.innerText = messages[index];
-                    }
-                },
-                900
-            );
+                index++;
+
+                if(index < messages.length){
+                    magicStatus.innerText =
+                        messages[index];
+                }
+
+            },900);
 
         try{
 
@@ -1447,14 +1380,17 @@ form.addEventListener(
                         method:"POST",
 
                         headers:{
-                            "Content-Type":"application/json"
+                            "Content-Type":
+                                "application/json"
                         },
 
-                        body:JSON.stringify(payload)
+                        body:
+                            JSON.stringify(payload)
                     }
                 );
 
-            const result = await response.json();
+            const result =
+                await response.json();
 
             clearInterval(interval);
 
@@ -1464,7 +1400,9 @@ form.addEventListener(
 
                 successBlock.classList.remove("hidden");
 
-                document.getElementById("resultPair").innerHTML =
+                document.getElementById(
+                    "resultPair"
+                ).innerHTML =
                     `
                     <span style="color:var(--left)">
                         ${z1.symbol} ${z1.name}
@@ -1477,18 +1415,55 @@ form.addEventListener(
                     </span>
                     `;
 
-                document.getElementById("percentResult").innerText =
+                document.getElementById(
+                    "percentResult"
+                ).innerText =
                     result.percentage + "%";
 
-                document.getElementById("verdictResult").innerText =
-                    result.verdict;
+                document.getElementById(
+                    "verdictResult"
+                ).innerText =
+                    result.verdict || "";
 
-                document.getElementById("energyResult").innerText =
+                document.getElementById(
+                    "zodiac1ProfileTitle"
+                ).innerText =
+                    `${z1.symbol} Характеристика: ${z1.name}`;
+
+                document.getElementById(
+                    "zodiac2ProfileTitle"
+                ).innerText =
+                    `${z2.symbol} Характеристика: ${z2.name}`;
+
+                document.getElementById(
+                    "zodiac1Profile"
+                ).innerText =
+                    result.zodiac1Profile || "";
+
+                document.getElementById(
+                    "zodiac2Profile"
+                ).innerText =
+                    result.zodiac2Profile || "";
+
+                document.getElementById(
+                    "pairProfile"
+                ).innerText =
+                    result.pairProfile || "";
+
+                document.getElementById(
+                    "energyResult"
+                ).innerText =
                     result.energyVerdict || "";
+
+                document.getElementById(
+                    "forecastResult"
+                ).innerText =
+                    result.forecast || "";
 
             }else{
 
                 form.classList.remove("hidden");
+
                 button.disabled = false;
 
                 alert(
@@ -1505,6 +1480,7 @@ form.addEventListener(
             clearInterval(interval);
 
             magicBlock.classList.add("hidden");
+
             form.classList.remove("hidden");
 
             button.disabled = false;
