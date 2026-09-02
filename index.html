@@ -49,7 +49,6 @@ body{
     position:absolute;
     top:0;
     bottom:0;
-
     width:55%;
 
     background-repeat:no-repeat;
@@ -65,15 +64,13 @@ body{
 
 .left-side{
     left:0;
-    background-image:url("Image026.png");
 }
 
 .right-side{
     right:0;
-    background-image:url("Image026.png");
 }
 
-/* затемнение каждой стороны */
+/* затемнение каждой картинки */
 .zodiac-side::after{
     content:"";
     position:absolute;
@@ -91,38 +88,37 @@ body{
     pointer-events:none;
 }
 
-/* плавное соединение двух картинок */
+/* плавное соединение */
 .zodiac-background::after{
     content:"";
     position:absolute;
     inset:0;
-
     pointer-events:none;
 
     background:
         linear-gradient(
             90deg,
 
-            rgba(2,1,10,.04) 0%,
-            rgba(2,1,10,.10) 18%,
+            rgba(2,1,10,.03) 0%,
+            rgba(2,1,10,.08) 18%,
 
-            rgba(2,1,10,.28) 33%,
-            rgba(2,1,10,.55) 42%,
+            rgba(2,1,10,.22) 32%,
+            rgba(2,1,10,.48) 41%,
 
-            rgba(2,1,10,.78) 48%,
+            rgba(2,1,10,.72) 47%,
             rgba(2,1,10,.84) 50%,
-            rgba(2,1,10,.78) 52%,
+            rgba(2,1,10,.72) 53%,
 
-            rgba(2,1,10,.55) 58%,
-            rgba(2,1,10,.28) 67%,
+            rgba(2,1,10,.48) 59%,
+            rgba(2,1,10,.22) 68%,
 
-            rgba(2,1,10,.10) 82%,
-            rgba(2,1,10,.04) 100%
+            rgba(2,1,10,.08) 82%,
+            rgba(2,1,10,.03) 100%
         );
 }
 
 /* =========================
-   ЦВЕТНОЕ СВЕЧЕНИЕ
+   СВЕЧЕНИЕ
 ========================= */
 
 .left-glow{
@@ -133,7 +129,7 @@ body{
 
     background:
         radial-gradient(
-            circle at 20% 30%,
+            circle at 18% 28%,
             color-mix(in srgb,var(--left) 20%,transparent),
             transparent 42%
         );
@@ -150,7 +146,7 @@ body{
 
     background:
         radial-gradient(
-            circle at 80% 30%,
+            circle at 82% 28%,
             color-mix(in srgb,var(--right) 20%,transparent),
             transparent 42%
         );
@@ -797,14 +793,13 @@ button::before{
 
     .zodiac-side{
         width:100%;
-        opacity:.42;
+        opacity:.45;
     }
 
     .right-side{
         display:none;
     }
 }
-
 </style>
 </head>
 
@@ -1125,7 +1120,7 @@ id="energyResult"
 
 <script>
 
-const DEFAULT_BG = "Image026.png";
+const DEFAULT_BG = "./Image026.png";
 
 const zodiacBackgrounds = {
     овен: "aries-bg.png",
@@ -1211,6 +1206,32 @@ const leftBackground = document.getElementById("leftBackground");
 const rightBackground = document.getElementById("rightBackground");
 
 /* =========================
+   ПРОВЕРКА И УСТАНОВКА ФОНА
+========================= */
+
+function setBackground(element, imagePath){
+
+    const image = new Image();
+
+    image.onload = ()=>{
+        element.style.backgroundImage =
+            `url('${imagePath}')`;
+    };
+
+    image.onerror = ()=>{
+        console.error(
+            "Не найдена картинка:",
+            imagePath
+        );
+
+        element.style.backgroundImage = "none";
+        element.style.backgroundColor = "#080617";
+    };
+
+    image.src = imagePath;
+}
+
+/* =========================
    СМЕНА ФОНОВ
 ========================= */
 
@@ -1218,19 +1239,23 @@ function updateBackgrounds(){
 
     const leftImage =
         zodiac1.value
-        ? zodiacBackgrounds[zodiac1.value]
+        ? "./" + zodiacBackgrounds[zodiac1.value]
         : DEFAULT_BG;
 
     const rightImage =
         zodiac2.value
-        ? zodiacBackgrounds[zodiac2.value]
+        ? "./" + zodiacBackgrounds[zodiac2.value]
         : DEFAULT_BG;
 
-    leftBackground.style.backgroundImage =
-        `url("${leftImage}")`;
+    setBackground(
+        leftBackground,
+        leftImage
+    );
 
-    rightBackground.style.backgroundImage =
-        `url("${rightImage}")`;
+    setBackground(
+        rightBackground,
+        rightImage
+    );
 }
 
 /* =========================
@@ -1316,7 +1341,6 @@ function updatePreview(){
             &nbsp; Выбери два знака &nbsp;
             <span style="color:var(--right)">✦</span>
             `;
-
     }
 }
 
@@ -1349,8 +1373,13 @@ feelings.addEventListener(
     }
 );
 
+/* =========================
+   СТАРТ
+========================= */
+
 updateBackgrounds();
 applyTheme();
+updatePreview();
 
 /* =========================
    SUBMIT
@@ -1416,9 +1445,11 @@ form.addEventListener(
                     "https://ser-4983.onrender.com/api/send",
                     {
                         method:"POST",
+
                         headers:{
                             "Content-Type":"application/json"
                         },
+
                         body:JSON.stringify(payload)
                     }
                 );
