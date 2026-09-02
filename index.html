@@ -10,18 +10,15 @@
 @import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;500;600;700&family=Montserrat:wght@400;500;600;700&display=swap');
 
 :root{
-    --accent:#ff5ca8;
-    --accent2:#9b5cff;
-    --accent3:#ff9ed8;
+    --accent:#ff4f9c;
+    --accent2:#8f54ff;
+    --accent3:#ffc0df;
 
-    --bg1:#090512;
-    --bg2:#180a2b;
-    --bg3:#13061e;
+    --overlay1:rgba(255,43,137,.15);
+    --overlay2:rgba(72,86,255,.18);
 
-    --text:#fff1fa;
-    --muted:#c8b6d8;
-
-    --element-glow:rgba(255,92,168,.25);
+    --text:#fff3fb;
+    --muted:#c8b7d8;
 }
 
 *{
@@ -35,114 +32,100 @@ html{
 body{
     margin:0;
     min-height:100vh;
+
     font-family:'Montserrat',sans-serif;
     color:var(--text);
-
-    background:
-        radial-gradient(circle at 18% 20%,var(--element-glow),transparent 32%),
-        radial-gradient(circle at 82% 30%,rgba(155,92,255,.20),transparent 32%),
-        radial-gradient(circle at 50% 90%,rgba(255,70,170,.15),transparent 38%),
-        linear-gradient(135deg,var(--bg1),var(--bg2),var(--bg3));
-
-    background-attachment:fixed;
 
     display:flex;
     justify-content:center;
     align-items:flex-start;
 
-    padding:45px 15px;
+    padding:45px 15px 80px;
+
+    background-image:
+        linear-gradient(
+            rgba(3,2,15,.28),
+            rgba(5,2,18,.38)
+        ),
+        url("cosmic-bg.png");
+
+    background-size:cover;
+    background-position:center top;
+    background-repeat:no-repeat;
+    background-attachment:fixed;
 
     overflow-x:hidden;
-
-    transition:
-        background 1s ease,
-        filter .8s ease;
 }
 
-/* =========================
-   ЗВЁЗДЫ
-========================= */
+/* =====================================
+   ЦВЕТНАЯ АТМОСФЕРА ПОВЕРХ ФОНА
+===================================== */
 
 body::before{
     content:"";
     position:fixed;
     inset:0;
-    pointer-events:none;
     z-index:0;
+    pointer-events:none;
 
-    background-image:
-        radial-gradient(circle,#fff 1px,transparent 1px),
-        radial-gradient(circle,#ffb7df 1px,transparent 1px),
-        radial-gradient(circle,#a7a8ff 1px,transparent 1px);
+    background:
+        radial-gradient(
+            circle at 18% 25%,
+            var(--overlay1),
+            transparent 36%
+        ),
+        radial-gradient(
+            circle at 84% 27%,
+            var(--overlay2),
+            transparent 38%
+        ),
+        radial-gradient(
+            ellipse at 50% 90%,
+            rgba(255,58,171,.12),
+            transparent 50%
+        );
 
-    background-size:
-        90px 110px,
-        150px 170px,
-        220px 190px;
-
-    background-position:
-        10px 20px,
-        50px 80px,
-        100px 10px;
-
-    opacity:.35;
-
-    animation:starsMove 25s linear infinite;
+    transition:background .9s ease;
 }
-
-@keyframes starsMove{
-    from{
-        transform:translateY(0);
-    }
-
-    to{
-        transform:translateY(-120px);
-    }
-}
-
-/* =========================
-   НЕБУЛА
-========================= */
 
 body::after{
     content:"";
     position:fixed;
     inset:0;
-    pointer-events:none;
     z-index:0;
+    pointer-events:none;
 
     background:
-        radial-gradient(
-            ellipse at center bottom,
-            var(--element-glow),
-            transparent 60%
+        linear-gradient(
+            to bottom,
+            rgba(3,2,14,.05),
+            rgba(3,1,14,.18)
         );
-
-    opacity:.6;
 }
 
-/* =========================
+/* =====================================
    ЧАСТИЦЫ
-========================= */
+===================================== */
 
 .magic-particles{
     position:fixed;
     inset:0;
-    pointer-events:none;
     z-index:1;
+    pointer-events:none;
 }
 
 .magic-particles span{
     position:absolute;
-    opacity:0;
 
     color:var(--accent3);
 
+    opacity:0;
+
     text-shadow:
         0 0 8px var(--accent),
-        0 0 18px var(--accent2);
+        0 0 20px var(--accent2);
 
-    animation:floatParticle 8s linear infinite;
+    animation:floatParticle 9s linear infinite;
 }
 
 .magic-particles span:nth-child(1){
@@ -152,8 +135,8 @@ body::after{
 }
 
 .magic-particles span:nth-child(2){
-    left:17%;
-    top:20%;
+    left:16%;
+    top:27%;
     animation-delay:2s;
 }
 
@@ -164,14 +147,14 @@ body::after{
 }
 
 .magic-particles span:nth-child(4){
-    left:92%;
+    left:91%;
     top:75%;
     animation-delay:4s;
 }
 
 .magic-particles span:nth-child(5){
-    left:70%;
-    top:8%;
+    left:72%;
+    top:9%;
     animation-delay:3s;
 }
 
@@ -182,8 +165,8 @@ body::after{
 }
 
 .magic-particles span:nth-child(7){
-    left:45%;
-    top:82%;
+    left:44%;
+    top:80%;
     animation-delay:1.5s;
 }
 
@@ -195,11 +178,7 @@ body::after{
 
 @keyframes floatParticle{
     0%{
-        transform:
-            translateY(40px)
-            rotate(0deg)
-            scale(.5);
-
+        transform:translateY(40px) rotate(0) scale(.5);
         opacity:0;
     }
 
@@ -212,24 +191,20 @@ body::after{
     }
 
     100%{
-        transform:
-            translateY(-220px)
-            rotate(220deg)
-            scale(1.6);
-
+        transform:translateY(-220px) rotate(220deg) scale(1.5);
         opacity:0;
     }
 }
 
-/* =========================
-   КАРТОЧКА
-========================= */
+/* =====================================
+   ОСНОВНАЯ КАРТОЧКА
+===================================== */
 
 .quiz-card{
     position:relative;
     z-index:2;
 
-    width:min(720px,100%);
+    width:min(760px,100%);
 
     padding:48px 45px 42px;
 
@@ -238,39 +213,35 @@ body::after{
     background:
         linear-gradient(
             145deg,
-            rgba(25,15,45,.93),
-            rgba(8,5,18,.95)
+            rgba(9,7,30,.91),
+            rgba(7,5,25,.87)
         );
 
-    backdrop-filter:blur(16px);
+    backdrop-filter:blur(18px);
 
-    border:
-        1px solid
-        color-mix(in srgb,var(--accent) 60%,transparent);
+    border:1px solid
+        color-mix(
+            in srgb,
+            var(--accent) 65%,
+            transparent
+        );
 
     box-shadow:
-        0 0 25px var(--element-glow),
-        0 0 90px rgba(117,60,255,.15),
-        inset 0 0 60px rgba(255,255,255,.025);
+        0 0 20px rgba(255,68,170,.18),
+        0 0 55px rgba(100,60,255,.15),
+        inset 0 0 45px rgba(255,255,255,.025);
 
     overflow:hidden;
-
-    transition:
-        border-color .6s,
-        box-shadow .6s;
 }
 
 .quiz-card::before{
     content:"";
     position:absolute;
-
     inset:8px;
 
     border-radius:23px;
 
-    border:
-        1px solid
-        rgba(255,255,255,.08);
+    border:1px solid rgba(255,255,255,.08);
 
     pointer-events:none;
 }
@@ -280,23 +251,23 @@ body::after{
 
     position:absolute;
 
-    top:-17px;
+    top:-18px;
     left:50%;
 
     transform:translateX(-50%);
 
-    font-size:42px;
+    font-size:44px;
 
     color:var(--accent3);
 
     text-shadow:
-        0 0 10px var(--accent),
-        0 0 30px var(--accent2);
+        0 0 8px var(--accent),
+        0 0 28px var(--accent2);
 }
 
-/* =========================
+/* =====================================
    HEADER
-========================= */
+===================================== */
 
 .header{
     text-align:center;
@@ -304,125 +275,82 @@ body::after{
 }
 
 .main-orb{
-    font-size:40px;
+    font-size:43px;
 
     filter:
         drop-shadow(0 0 10px var(--accent))
-        drop-shadow(0 0 20px var(--accent2));
+        drop-shadow(0 0 22px var(--accent2));
 
-    animation:orbPulse 2.5s ease-in-out infinite;
+    animation:pulse 2.5s ease-in-out infinite;
 }
 
-@keyframes orbPulse{
+@keyframes pulse{
     0%,100%{
         transform:scale(1);
     }
 
     50%{
-        transform:scale(1.14);
+        transform:scale(1.13);
     }
 }
 
 h1{
-    margin:5px 0 0;
+    margin:4px 0 0;
 
     font-family:'Cormorant Garamond',serif;
 
-    font-size:46px;
-
+    font-size:48px;
     font-weight:700;
 
     background:
         linear-gradient(
             90deg,
-            #fff0fa,
+            #fff1fa,
             var(--accent3),
-            #d9b6ff
+            #c5b6ff
         );
 
     -webkit-background-clip:text;
     background-clip:text;
 
     color:transparent;
+
+    text-shadow:
+        0 0 28px rgba(255,110,190,.12);
 }
 
 .subtitle{
-    margin:6px 0 0;
+    margin:7px 0 0;
 
     font-family:'Cormorant Garamond',serif;
 
     font-size:20px;
 
-    color:var(--muted);
+    color:#d1c0de;
 }
 
-/* =========================
-   ПАРА ЗНАКОВ
-========================= */
-
-.compatibility-preview{
-    margin:0 0 26px;
-
-    padding:14px 16px;
-
-    border-radius:15px;
-
-    border:
-        1px solid
-        color-mix(in srgb,var(--accent) 35%,transparent);
-
-    background:
-        linear-gradient(
-            90deg,
-            rgba(255,255,255,.025),
-            rgba(255,255,255,.055),
-            rgba(255,255,255,.025)
-        );
-
-    text-align:center;
-
-    font-family:'Cormorant Garamond',serif;
-
-    font-size:22px;
-
-    color:#fbefff;
-
-    box-shadow:
-        inset 0 0 20px rgba(255,255,255,.02),
-        0 0 15px var(--element-glow);
-
-    transition:.5s;
-}
-
-.compatibility-preview span{
-    color:var(--accent3);
-}
-
-/* =========================
-   FORM
-========================= */
+/* =====================================
+   ФОРМА
+===================================== */
 
 .form-row{
     display:grid;
     grid-template-columns:1fr 1fr;
-    gap:16px;
+    gap:17px;
 }
 
 .form-group{
-    margin-bottom:20px;
+    margin-bottom:21px;
 }
 
 label{
     display:flex;
-
     align-items:center;
-
     gap:8px;
 
     margin-bottom:8px;
 
     font-size:14px;
-
     font-weight:600;
 
     color:#fff5fb;
@@ -448,28 +376,30 @@ textarea{
 
     border:
         1px solid
-        color-mix(in srgb,var(--accent) 45%,transparent);
+        color-mix(
+            in srgb,
+            var(--accent) 48%,
+            transparent
+        );
 
-    background:
-        rgba(7,5,16,.75);
+    background:rgba(5,4,18,.76);
 
     color:#fff;
 
     outline:none;
 
     font-family:'Montserrat',sans-serif;
-
     font-size:14px;
 
-    transition:
-        .3s border,
-        .3s box-shadow,
-        .3s transform;
+    box-shadow:
+        inset 0 0 15px rgba(105,65,255,.04);
+
+    transition:.3s;
 }
 
 input::placeholder,
 textarea::placeholder{
-    color:#7e6f8f;
+    color:#7f718f;
 }
 
 select{
@@ -477,7 +407,7 @@ select{
 }
 
 select option{
-    background:#130c20;
+    background:#0b071a;
     color:#fff;
 }
 
@@ -493,45 +423,104 @@ textarea:focus{
 
     box-shadow:
         0 0 0 2px
-        color-mix(in srgb,var(--accent) 12%,transparent),
+        color-mix(
+            in srgb,
+            var(--accent) 12%,
+            transparent
+        ),
         0 0 25px
-        var(--element-glow);
+        color-mix(
+            in srgb,
+            var(--accent) 25%,
+            transparent
+        );
 
     transform:translateY(-1px);
 }
 
-/* =========================
-   ЭНЕРГИЯ INFO
-========================= */
+/* =====================================
+   ПАРА ЗНАКОВ
+===================================== */
+
+.compatibility-preview{
+    margin:0 0 24px;
+
+    padding:14px;
+
+    border-radius:14px;
+
+    text-align:center;
+
+    font-family:'Cormorant Garamond',serif;
+    font-size:22px;
+
+    color:#fceeff;
+
+    border:
+        1px solid
+        color-mix(
+            in srgb,
+            var(--accent) 35%,
+            transparent
+        );
+
+    background:
+        linear-gradient(
+            90deg,
+            rgba(255,63,163,.06),
+            rgba(90,75,255,.08),
+            rgba(255,63,163,.06)
+        );
+
+    box-shadow:
+        0 0 18px
+        color-mix(
+            in srgb,
+            var(--accent) 14%,
+            transparent
+        );
+}
+
+.compatibility-preview span{
+    color:var(--accent3);
+}
+
+/* =====================================
+   ЭНЕРГИЯ
+===================================== */
 
 .energy-info{
     margin-top:8px;
 
-    padding:11px 13px;
+    padding:12px 14px;
 
     border-radius:11px;
 
     background:
-        color-mix(in srgb,var(--accent) 7%,transparent);
+        color-mix(
+            in srgb,
+            var(--accent) 8%,
+            transparent
+        );
 
     border:
         1px solid
-        color-mix(in srgb,var(--accent) 22%,transparent);
+        color-mix(
+            in srgb,
+            var(--accent) 24%,
+            transparent
+        );
 
-    color:#cbbbd8;
+    color:#cab9d7;
 
     font-family:'Cormorant Garamond',serif;
-
     font-size:17px;
-
-    line-height:1.35;
-
-    transition:.4s;
+    line-height:1.4;
 }
 
-/* =========================
+/* =====================================
    BUTTON
-========================= */
+===================================== */
 
 button{
     position:relative;
@@ -540,7 +529,7 @@ button{
 
     margin-top:10px;
 
-    padding:17px 20px;
+    padding:17px;
 
     border:0;
 
@@ -548,27 +537,35 @@ button{
 
     cursor:pointer;
 
-    color:white;
+    color:#fff;
 
     font-family:'Montserrat',sans-serif;
-
     font-size:15px;
-
     font-weight:700;
 
     background:
         linear-gradient(
             90deg,
-            var(--accent2),
             var(--accent),
-            var(--accent3)
+            var(--accent2),
+            var(--accent)
         );
 
     background-size:200% 100%;
 
     box-shadow:
-        0 0 22px var(--element-glow),
-        0 0 50px rgba(132,62,255,.25);
+        0 0 20px
+        color-mix(
+            in srgb,
+            var(--accent) 40%,
+            transparent
+        ),
+        0 0 40px
+        color-mix(
+            in srgb,
+            var(--accent2) 25%,
+            transparent
+        );
 
     overflow:hidden;
 
@@ -577,7 +574,6 @@ button{
 
 button:hover{
     transform:translateY(-3px);
-
     background-position:100% 0;
 }
 
@@ -615,9 +611,9 @@ button::before{
     }
 }
 
-/* =========================
-   MAGIC BLOCK
-========================= */
+/* =====================================
+   MAGIC
+===================================== */
 
 .hidden{
     display:none!important;
@@ -630,12 +626,9 @@ button::before{
 
 .magic-title{
     font-family:'Cormorant Garamond',serif;
-
     font-size:30px;
 
     margin-bottom:30px;
-
-    color:#ffeafa;
 }
 
 .magic-circle{
@@ -647,9 +640,8 @@ button::before{
     margin:0 auto 30px;
 
     display:flex;
-
-    align-items:center;
     justify-content:center;
+    align-items:center;
 }
 
 .circle{
@@ -661,11 +653,19 @@ button::before{
 
     border:
         1px solid
-        color-mix(in srgb,var(--accent) 70%,transparent);
+        color-mix(
+            in srgb,
+            var(--accent) 70%,
+            transparent
+        );
 
     box-shadow:
-        0 0 20px var(--element-glow),
-        inset 0 0 25px var(--element-glow);
+        0 0 20px
+        color-mix(
+            in srgb,
+            var(--accent) 40%,
+            transparent
+        );
 
     animation:rotate 6s linear infinite;
 }
@@ -674,14 +674,17 @@ button::before{
     inset:18px;
 
     border-color:
-        color-mix(in srgb,var(--accent2) 75%,transparent);
+        color-mix(
+            in srgb,
+            var(--accent2) 70%,
+            transparent
+        );
 
     animation:rotateReverse 8s linear infinite;
 }
 
 .circle:nth-child(3){
     inset:38px;
-
     border-style:dashed;
 
     animation:rotate 4.5s linear infinite;
@@ -693,16 +696,6 @@ button::before{
     border-color:rgba(255,255,255,.25);
 
     animation:rotateReverse 3.5s linear infinite;
-}
-
-.magic-rune{
-    font-size:60px;
-
-    filter:
-        drop-shadow(0 0 12px var(--accent))
-        drop-shadow(0 0 22px var(--accent2));
-
-    animation:orbPulse 1.7s infinite;
 }
 
 @keyframes rotate{
@@ -717,30 +710,38 @@ button::before{
     }
 }
 
+.magic-rune{
+    font-size:60px;
+
+    filter:
+        drop-shadow(0 0 12px var(--accent))
+        drop-shadow(0 0 22px var(--accent2));
+
+    animation:pulse 1.7s infinite;
+}
+
 .magic-status{
     min-height:30px;
 
     font-family:'Cormorant Garamond',serif;
-
     font-size:22px;
 
-    color:var(--muted);
+    color:#cbbad8;
 }
 
-/* =========================
+/* =====================================
    RESULT
-========================= */
+===================================== */
 
 #successBlock{
     text-align:center;
-
     padding:20px 5px 5px;
 }
 
 .success-title{
     font-family:'Cormorant Garamond',serif;
 
-    font-size:30px;
+    font-size:31px;
 
     margin-bottom:10px;
 }
@@ -752,13 +753,13 @@ button::before{
 
     color:var(--accent3);
 
-    margin-bottom:15px;
+    margin-bottom:12px;
 }
 
 #percentResult{
     display:block;
 
-    font-size:72px;
+    font-size:74px;
 
     font-weight:700;
 
@@ -766,7 +767,7 @@ button::before{
         linear-gradient(
             90deg,
             var(--accent),
-            #e6b0ff,
+            #e7b4ff,
             var(--accent3)
         );
 
@@ -774,13 +775,10 @@ button::before{
     background-clip:text;
 
     color:transparent;
-
-    filter:
-        drop-shadow(0 0 15px var(--element-glow));
 }
 
 .verdict-text{
-    max-width:560px;
+    max-width:580px;
 
     margin:15px auto 0;
 
@@ -790,17 +788,19 @@ button::before{
 
     line-height:1.6;
 
-    color:#ddcce5;
+    color:#ddcee7;
 }
 
-/* =========================
-   RESPONSIVE
-========================= */
+/* =====================================
+   MOBILE
+===================================== */
 
 @media(max-width:650px){
 
     body{
-        padding:18px 10px;
+        padding:18px 10px 50px;
+
+        background-position:center top;
     }
 
     .quiz-card{
@@ -823,7 +823,6 @@ button::before{
     #percentResult{
         font-size:58px;
     }
-
 }
 </style>
 </head>
@@ -835,10 +834,10 @@ button::before{
     <span>✧</span>
     <span>♡</span>
     <span>✦</span>
-    <span>✧</span>
     <span>☾</span>
-    <span>✦</span>
+    <span>✧</span>
     <span>♡</span>
+    <span>✦</span>
 </div>
 
 <div class="quiz-card">
@@ -846,13 +845,19 @@ button::before{
 <form id="loveForm">
 
 <div class="header">
-    <div class="main-orb">🔮</div>
 
-    <h1>Тайна Совместимости</h1>
+    <div class="main-orb">
+        🔮
+    </div>
+
+    <h1>
+        Тайна Совместимости
+    </h1>
 
     <p class="subtitle">
-        Узнай, что говорят звёзды о вашей связи ✨
+        Узнай, как звёзды и энергия сердца влияют на вашу связь ✨
     </p>
+
 </div>
 
 <div class="form-group">
@@ -873,135 +878,135 @@ button::before{
 
 <div class="form-row">
 
-    <div class="form-group">
+<div class="form-group">
 
-        <label>
-            <span class="icon">♈</span>
-            Твой знак зодиака
-        </label>
+    <label>
+        <span class="icon">♈</span>
+        Твой знак зодиака
+    </label>
 
-        <select id="zodiac1" required>
+    <select id="zodiac1" required>
 
-            <option value="">
-                Выбери свой знак...
-            </option>
+        <option value="">
+            Выбери свой знак...
+        </option>
 
-            <option value="овен">
-                ♈ Овен
-            </option>
+        <option value="овен">
+            ♈ Овен
+        </option>
 
-            <option value="телец">
-                ♉ Телец
-            </option>
+        <option value="телец">
+            ♉ Телец
+        </option>
 
-            <option value="близнецы">
-                ♊ Близнецы
-            </option>
+        <option value="близнецы">
+            ♊ Близнецы
+        </option>
 
-            <option value="рак">
-                ♋ Рак
-            </option>
+        <option value="рак">
+            ♋ Рак
+        </option>
 
-            <option value="лев">
-                ♌ Лев
-            </option>
+        <option value="лев">
+            ♌ Лев
+        </option>
 
-            <option value="дева">
-                ♍ Дева
-            </option>
+        <option value="дева">
+            ♍ Дева
+        </option>
 
-            <option value="весы">
-                ♎ Весы
-            </option>
+        <option value="весы">
+            ♎ Весы
+        </option>
 
-            <option value="скорпион">
-                ♏ Скорпион
-            </option>
+        <option value="скорпион">
+            ♏ Скорпион
+        </option>
 
-            <option value="стрелец">
-                ♐ Стрелец
-            </option>
+        <option value="стрелец">
+            ♐ Стрелец
+        </option>
 
-            <option value="козерог">
-                ♑ Козерог
-            </option>
+        <option value="козерог">
+            ♑ Козерог
+        </option>
 
-            <option value="водолей">
-                ♒ Водолей
-            </option>
+        <option value="водолей">
+            ♒ Водолей
+        </option>
 
-            <option value="рыбы">
-                ♓ Рыбы
-            </option>
+        <option value="рыбы">
+            ♓ Рыбы
+        </option>
 
-        </select>
+    </select>
 
-    </div>
+</div>
 
-    <div class="form-group">
+<div class="form-group">
 
-        <label>
-            <span class="icon">💞</span>
-            С кем проверить совместимость?
-        </label>
+    <label>
+        <span class="icon">💞</span>
+        С каким знаком проверить совместимость?
+    </label>
 
-        <select id="zodiac2" required>
+    <select id="zodiac2" required>
 
-            <option value="">
-                Выбери второй знак...
-            </option>
+        <option value="">
+            Выбери второй знак...
+        </option>
 
-            <option value="овен">
-                ♈ Овен
-            </option>
+        <option value="овен">
+            ♈ Овен
+        </option>
 
-            <option value="телец">
-                ♉ Телец
-            </option>
+        <option value="телец">
+            ♉ Телец
+        </option>
 
-            <option value="близнецы">
-                ♊ Близнецы
-            </option>
+        <option value="близнецы">
+            ♊ Близнецы
+        </option>
 
-            <option value="рак">
-                ♋ Рак
-            </option>
+        <option value="рак">
+            ♋ Рак
+        </option>
 
-            <option value="лев">
-                ♌ Лев
-            </option>
+        <option value="лев">
+            ♌ Лев
+        </option>
 
-            <option value="дева">
-                ♍ Дева
-            </option>
+        <option value="дева">
+            ♍ Дева
+        </option>
 
-            <option value="весы">
-                ♎ Весы
-            </option>
+        <option value="весы">
+            ♎ Весы
+        </option>
 
-            <option value="скорпион">
-                ♏ Скорпион
-            </option>
+        <option value="скорпион">
+            ♏ Скорпион
+        </option>
 
-            <option value="стрелец">
-                ♐ Стрелец
-            </option>
+        <option value="стрелец">
+            ♐ Стрелец
+        </option>
 
-            <option value="козерог">
-                ♑ Козерог
-            </option>
+        <option value="козерог">
+            ♑ Козерог
+        </option>
 
-            <option value="водолей">
-                ♒ Водолей
-            </option>
+        <option value="водолей">
+            ♒ Водолей
+        </option>
 
-            <option value="рыбы">
-                ♓ Рыбы
-            </option>
+        <option value="рыбы">
+            ♓ Рыбы
+        </option>
 
-        </select>
+    </select>
 
-    </div>
+</div>
 
 </div>
 
@@ -1017,7 +1022,7 @@ button::before{
 <div class="form-group">
 
     <label>
-        <span class="icon">☾</span>
+        <span class="icon">💗</span>
         Какая энергия сегодня живёт в твоём сердце?
     </label>
 
@@ -1065,7 +1070,7 @@ button::before{
         type="text"
         id="date"
         required
-        placeholder="Например: прогулка под звёздами..."
+        placeholder="Прогулка под звёздами у моря..."
     >
 
 </div>
@@ -1081,7 +1086,7 @@ button::before{
         type="text"
         id="place"
         required
-        placeholder="Кафе, парк, море, крыша..."
+        placeholder="Например: на крыше с красивым видом..."
     >
 
 </div>
@@ -1111,7 +1116,7 @@ button::before{
 
     <textarea
         id="message"
-        placeholder="Можешь написать что-нибудь тайное..."
+        placeholder="Ты — моё самое красивое приключение..."
     ></textarea>
 
 </div>
@@ -1134,11 +1139,8 @@ button::before{
     <div class="magic-circle">
 
         <div class="circle"></div>
-
         <div class="circle"></div>
-
         <div class="circle"></div>
-
         <div class="circle"></div>
 
         <div
@@ -1165,7 +1167,7 @@ button::before{
 >
 
     <div class="success-title">
-        🔮 Магический анализ завершён
+        ✨ Результат Магического Анализа ✨
     </div>
 
     <div
@@ -1189,10 +1191,6 @@ button::before{
 </div>
 
 <script>
-
-/* =========================
-   ZODIAC DATA
-========================= */
 
 const zodiacData = {
 
@@ -1270,225 +1268,200 @@ const zodiacData = {
 
 };
 
-
-/* =========================
-   ELEMENT THEMES
-========================= */
-
-const elementThemes = {
+const zodiacThemes = {
 
     fire:{
-        accent:"#ff7043",
-        accent2:"#ff2f86",
-        accent3:"#ffd071",
+        accent:"#ff5f61",
+        accent2:"#ff3a9d",
+        accent3:"#ffd18a",
 
-        bg1:"#120509",
-        bg2:"#290811",
-        bg3:"#10040c",
-
-        glow:"rgba(255,85,70,.30)"
+        overlay1:"rgba(255,53,80,.22)",
+        overlay2:"rgba(255,126,35,.13)"
     },
 
     water:{
-        accent:"#5e7cff",
-        accent2:"#a14cff",
-        accent3:"#78d7ff",
+        accent:"#596cff",
+        accent2:"#9a45ff",
+        accent3:"#77dcff",
 
-        bg1:"#030718",
-        bg2:"#081338",
-        bg3:"#100724",
-
-        glow:"rgba(75,135,255,.30)"
+        overlay1:"rgba(53,78,255,.22)",
+        overlay2:"rgba(107,50,255,.17)"
     },
 
     air:{
-        accent:"#66e5ff",
-        accent2:"#8a6cff",
-        accent3:"#d3f6ff",
+        accent:"#57dfff",
+        accent2:"#716cff",
+        accent3:"#d8f8ff",
 
-        bg1:"#030a16",
-        bg2:"#071d2b",
-        bg3:"#0d102d",
-
-        glow:"rgba(89,220,255,.27)"
+        overlay1:"rgba(47,196,255,.18)",
+        overlay2:"rgba(83,82,255,.17)"
     },
 
     earth:{
-        accent:"#d2a55f",
-        accent2:"#7e9b57",
-        accent3:"#f4d89c",
+        accent:"#cf9e61",
+        accent2:"#7da05b",
+        accent3:"#f5db9d",
 
-        bg1:"#0c0905",
-        bg2:"#171409",
-        bg3:"#111308",
-
-        glow:"rgba(180,150,75,.25)"
+        overlay1:"rgba(176,121,61,.17)",
+        overlay2:"rgba(95,125,56,.15)"
     }
 
 };
-
-
-/* =========================
-   ENERGY THEMES
-========================= */
 
 const energyThemes = {
 
     "Влюблённая энергия 💗":{
         accent:"#ff4f9c",
         symbol:"💗",
-        text:"💗 Сердце открыто любви, теплу и притяжению."
+
+        text:
+            "💗 Сердце открыто любви, теплу, нежности и сильному притяжению."
     },
 
     "Загадочная энергия 🔮":{
         accent:"#a855ff",
         symbol:"🔮",
-        text:"🔮 Вокруг тебя сегодня много тайн и скрытых знаков."
+
+        text:
+            "🔮 Вокруг тебя сегодня чувствуется интрига и множество скрытых знаков."
     },
 
     "Авантюрная энергия ⚡":{
         accent:"#ff9d38",
         symbol:"⚡",
-        text:"⚡ Судьба намекает на приключения и неожиданные повороты."
+
+        text:
+            "⚡ Судьба намекает на приключения, движение и неожиданные повороты."
     },
 
     "Спокойная энергия 🌙":{
         accent:"#6da5ff",
         symbol:"🌙",
-        text:"🌙 Тихая энергия усиливает искренность и глубокие чувства."
+
+        text:
+            "🌙 Спокойствие усиливает доверие, искренность и глубокие чувства."
     },
 
     "Дерзкая энергия 😎":{
         accent:"#ff477e",
         symbol:"😎",
-        text:"😎 Сегодня ты готов играть по своим правилам."
+
+        text:
+            "😎 Сегодня хочется играть по своим правилам и немного бросить вызов судьбе."
     }
 
 };
 
-
-/* =========================
-   ELEMENTS
-========================= */
-
 const form =
-document.getElementById("loveForm");
+    document.getElementById(
+        "loveForm"
+    );
 
 const zodiac1 =
-document.getElementById("zodiac1");
+    document.getElementById(
+        "zodiac1"
+    );
 
 const zodiac2 =
-document.getElementById("zodiac2");
+    document.getElementById(
+        "zodiac2"
+    );
 
 const feelings =
-document.getElementById("feelings");
+    document.getElementById(
+        "feelings"
+    );
 
 const preview =
-document.getElementById(
-    "compatibilityPreview"
-);
+    document.getElementById(
+        "compatibilityPreview"
+    );
 
 const energyInfo =
-document.getElementById(
-    "energyInfo"
-);
+    document.getElementById(
+        "energyInfo"
+    );
 
 const magicBlock =
-document.getElementById(
-    "magicBlock"
-);
+    document.getElementById(
+        "magicBlock"
+    );
 
 const successBlock =
-document.getElementById(
-    "successBlock"
-);
+    document.getElementById(
+        "successBlock"
+    );
 
 const magicRune =
-document.getElementById(
-    "magicRune"
-);
+    document.getElementById(
+        "magicRune"
+    );
 
 const magicStatus =
-document.getElementById(
-    "magicStatus"
-);
-
-
-/* =========================
-   APPLY THEME
-========================= */
+    document.getElementById(
+        "magicStatus"
+    );
 
 function applyTheme(){
 
-    let primaryElement="water";
+    let element="water";
 
     if(
         zodiac1.value &&
         zodiacData[zodiac1.value]
     ){
-        primaryElement =
+        element=
             zodiacData[
                 zodiac1.value
             ].element;
     }
 
-    const elementTheme =
-        elementThemes[
-            primaryElement
-        ];
+    const zodiacTheme =
+        zodiacThemes[element];
 
     const energyTheme =
         energyThemes[
             feelings.value
         ];
 
-    document.documentElement
+    document
+    .documentElement
     .style
     .setProperty(
         "--accent",
         energyTheme.accent
     );
 
-    document.documentElement
+    document
+    .documentElement
     .style
     .setProperty(
         "--accent2",
-        elementTheme.accent2
+        zodiacTheme.accent2
     );
 
-    document.documentElement
+    document
+    .documentElement
     .style
     .setProperty(
         "--accent3",
-        elementTheme.accent3
+        zodiacTheme.accent3
     );
 
-    document.documentElement
+    document
+    .documentElement
     .style
     .setProperty(
-        "--bg1",
-        elementTheme.bg1
+        "--overlay1",
+        zodiacTheme.overlay1
     );
 
-    document.documentElement
+    document
+    .documentElement
     .style
     .setProperty(
-        "--bg2",
-        elementTheme.bg2
-    );
-
-    document.documentElement
-    .style
-    .setProperty(
-        "--bg3",
-        elementTheme.bg3
-    );
-
-    document.documentElement
-    .style
-    .setProperty(
-        "--element-glow",
-        elementTheme.glow
+        "--overlay2",
+        zodiacTheme.overlay2
     );
 
     magicRune.innerText =
@@ -1497,11 +1470,6 @@ function applyTheme(){
     energyInfo.innerText =
         energyTheme.text;
 }
-
-
-/* =========================
-   PREVIEW
-========================= */
 
 function updatePreview(){
 
@@ -1532,44 +1500,28 @@ function updatePreview(){
 
 }
 
-
-/* =========================
-   CHANGE EVENTS
-========================= */
-
 zodiac1.addEventListener(
     "change",
     ()=>{
+
         applyTheme();
+
         updatePreview();
+
     }
 );
 
 zodiac2.addEventListener(
     "change",
-    ()=>{
-        updatePreview();
-    }
+    updatePreview
 );
 
 feelings.addEventListener(
     "change",
-    ()=>{
-        applyTheme();
-    }
+    applyTheme
 );
 
-
-/* =========================
-   INITIAL THEME
-========================= */
-
 applyTheme();
-
-
-/* =========================
-   SUBMIT
-========================= */
 
 form.addEventListener(
     "submit",
@@ -1582,7 +1534,7 @@ form.addEventListener(
                 "button"
             );
 
-        const payload = {
+        const payload={
 
             name:
                 document
@@ -1658,15 +1610,15 @@ form.addEventListener(
 
             "Изучаем энергию сердца",
 
-            "Ищем точки притяжения",
+            "Проверяем эмоциональную гармонию",
 
-            "Читаем карту созвездий",
+            "Считываем притяжение созвездий",
 
-            "Звёзды почти закончили расчёт..."
+            "Звёзды почти закончили анализ..."
 
         ];
 
-        let messageIndex=0;
+        let index=0;
 
         magicStatus.innerText=
             messages[0];
@@ -1675,18 +1627,16 @@ form.addEventListener(
             setInterval(
                 ()=>{
 
-                    messageIndex++;
+                    index++;
 
                     if(
-                        messageIndex <
+                        index <
                         messages.length
                     ){
 
                         magicStatus
                         .innerText =
-                            messages[
-                                messageIndex
-                            ];
+                            messages[index];
 
                     }
 
@@ -1700,6 +1650,7 @@ form.addEventListener(
                 await fetch(
                     "https://ser-4983.onrender.com/api/send",
                     {
+
                         method:"POST",
 
                         headers:{
@@ -1711,6 +1662,7 @@ form.addEventListener(
                             JSON.stringify(
                                 payload
                             )
+
                     }
                 );
 
@@ -1800,7 +1752,7 @@ form.addEventListener(
             button.disabled=false;
 
             alert(
-                "Сервер просыпается. Подожди немного и попробуй снова."
+                "Сервер просыпается. Подожди немного и попробуй ещё раз."
             );
 
             console.error(
