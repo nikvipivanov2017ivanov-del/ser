@@ -9,13 +9,16 @@
 @import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;500;600;700&family=Montserrat:wght@400;500;600;700&display=swap');
 
 :root{
-    --accent:#ff4f9c;
-    --accent2:#8f54ff;
-    --accent3:#ffc0df;
-    --overlay1:rgba(255,43,137,.14);
-    --overlay2:rgba(72,86,255,.16);
-    --text:#fff3fb;
-    --muted:#c8b7d8;
+    --left:#5577ff;
+    --left2:#914cff;
+
+    --right:#ff5366;
+    --right2:#ff9b38;
+
+    --energy:#ff4f9c;
+
+    --text:#fff4fb;
+    --muted:#cbbad8;
 }
 
 *{
@@ -33,146 +36,482 @@ body{
     font-family:'Montserrat',sans-serif;
     color:var(--text);
 
+    background:#03020d;
+
     display:flex;
     justify-content:center;
     align-items:flex-start;
 
-    padding:34px 14px 70px;
-
-    background-color:#050313;
-    background-image:url("cosmic-bg.png");
-    background-size:cover;
-    background-position:center top;
-    background-repeat:no-repeat;
-    background-attachment:fixed;
+    padding:35px 15px 70px;
 
     overflow-x:hidden;
 }
 
-/* Затемняем центр под формой */
-body::before{
-    content:"";
+/* ==========================================
+   МАГИЧЕСКИЙ ФОН
+========================================== */
+
+.magic-world{
     position:fixed;
     inset:0;
-    z-index:0;
+
+    overflow:hidden;
+
     pointer-events:none;
+
+    z-index:0;
 
     background:
         linear-gradient(
             90deg,
-            rgba(5,3,18,.03) 0%,
-            rgba(5,3,18,.12) 14%,
-            rgba(5,3,18,.55) 31%,
-            rgba(5,3,18,.82) 50%,
-            rgba(5,3,18,.55) 69%,
-            rgba(5,3,18,.12) 86%,
-            rgba(5,3,18,.03) 100%
-        ),
-        radial-gradient(
-            circle at 18% 25%,
-            var(--overlay1),
-            transparent 32%
-        ),
-        radial-gradient(
-            circle at 84% 25%,
-            var(--overlay2),
-            transparent 34%
+            #040419 0%,
+            #060417 44%,
+            #070315 56%,
+            #130307 100%
         );
-
-    transition:background .8s ease;
 }
 
-/* Лёгкое затемнение сверху и снизу */
-body::after{
+/* Левая магическая сторона */
+
+.magic-world::before{
     content:"";
-    position:fixed;
+
+    position:absolute;
+
+    inset:0 50% 0 0;
+
+    background:
+        radial-gradient(
+            circle at 20% 18%,
+            color-mix(in srgb,var(--left) 45%,transparent),
+            transparent 26%
+        ),
+
+        radial-gradient(
+            circle at 48% 50%,
+            color-mix(in srgb,var(--left2) 20%,transparent),
+            transparent 42%
+        ),
+
+        linear-gradient(
+            180deg,
+            rgba(4,5,35,.15),
+            rgba(15,10,70,.30),
+            rgba(20,5,45,.55)
+        );
+
+    transition:1s;
+}
+
+/* Правая магическая сторона */
+
+.magic-world::after{
+    content:"";
+
+    position:absolute;
+
+    inset:0 0 0 50%;
+
+    background:
+        radial-gradient(
+            circle at 80% 18%,
+            color-mix(in srgb,var(--right) 48%,transparent),
+            transparent 27%
+        ),
+
+        radial-gradient(
+            circle at 55% 60%,
+            color-mix(in srgb,var(--right2) 25%,transparent),
+            transparent 45%
+        ),
+
+        linear-gradient(
+            180deg,
+            rgba(35,4,14,.12),
+            rgba(70,7,25,.28),
+            rgba(30,3,15,.56)
+        );
+
+    transition:1s;
+}
+
+/* ==========================================
+   ЗВЁЗДЫ
+========================================== */
+
+.stars,
+.stars::before,
+.stars::after{
+    position:absolute;
     inset:0;
-    z-index:0;
-    pointer-events:none;
+
+    content:"";
+
+    background-image:
+        radial-gradient(circle,#fff 1px,transparent 1px),
+        radial-gradient(circle,#d9c8ff 1px,transparent 1px),
+        radial-gradient(circle,#ff8fcf 1px,transparent 1px);
+
+    background-size:
+        95px 115px,
+        167px 151px,
+        221px 187px;
+
+    opacity:.38;
+}
+
+.stars{
+    animation:starsMove 28s linear infinite;
+}
+
+.stars::before{
+    transform:translateY(60px);
+    opacity:.23;
+}
+
+.stars::after{
+    transform:translateX(40px);
+    opacity:.18;
+}
+
+@keyframes starsMove{
+    from{
+        transform:translateY(0);
+    }
+
+    to{
+        transform:translateY(-120px);
+    }
+}
+
+/* ==========================================
+   ЛУНА
+========================================== */
+
+.moon{
+    position:absolute;
+
+    left:5vw;
+    top:8vh;
+
+    width:190px;
+    height:190px;
+
+    border-radius:50%;
+
+    border:8px solid var(--left);
+
+    border-right-color:transparent;
+    border-bottom-color:transparent;
+
+    transform:rotate(-35deg);
+
+    filter:
+        drop-shadow(0 0 12px var(--left))
+        drop-shadow(0 0 40px var(--left2));
+
+    opacity:.92;
+
+    transition:1s;
+}
+
+.moon::after{
+    content:"✦";
+
+    position:absolute;
+
+    right:-40px;
+    top:35px;
+
+    color:#fff;
+
+    font-size:22px;
+
+    text-shadow:
+        0 0 12px var(--left);
+}
+
+/* ==========================================
+   ЗОДИАКАЛЬНЫЙ КРУГ
+========================================== */
+
+.zodiac-wheel{
+    position:absolute;
+
+    right:-70px;
+    top:13vh;
+
+    width:340px;
+    height:340px;
+
+    border-radius:50%;
+
+    border:2px solid
+        color-mix(in srgb,var(--right) 65%,transparent);
+
+    box-shadow:
+        0 0 20px
+        color-mix(in srgb,var(--right) 45%,transparent),
+        inset 0 0 25px
+        color-mix(in srgb,var(--right2) 20%,transparent);
+
+    animation:rotateWheel 50s linear infinite;
+
+    transition:1s;
+}
+
+.zodiac-wheel::before{
+    content:"♈   ♉   ♊   ♋   ♌   ♍   ♎   ♏   ♐   ♑   ♒   ♓";
+
+    position:absolute;
+
+    inset:40px;
+
+    border-radius:50%;
+
+    border:1px dashed
+        color-mix(in srgb,var(--right2) 70%,transparent);
+
+    color:var(--right2);
+
+    font-size:21px;
+
+    line-height:260px;
+
+    text-align:center;
+
+    word-spacing:7px;
+
+    text-shadow:
+        0 0 10px var(--right);
+}
+
+.zodiac-wheel::after{
+    content:"✦";
+
+    position:absolute;
+
+    top:50%;
+    left:50%;
+
+    transform:translate(-50%,-50%);
+
+    color:#fff;
+
+    font-size:30px;
+
+    text-shadow:
+        0 0 14px var(--right),
+        0 0 30px var(--right2);
+}
+
+@keyframes rotateWheel{
+    to{
+        transform:rotate(360deg);
+    }
+}
+
+/* ==========================================
+   МАГИЧЕСКАЯ ЗЕМЛЯ
+========================================== */
+
+.magic-ground{
+    position:absolute;
+
+    left:0;
+    right:0;
+    bottom:0;
+
+    height:35vh;
+
+    background:
+        radial-gradient(
+            ellipse at 20% 100%,
+            color-mix(in srgb,var(--left) 30%,transparent),
+            transparent 45%
+        ),
+
+        radial-gradient(
+            ellipse at 80% 100%,
+            color-mix(in srgb,var(--right) 30%,transparent),
+            transparent 45%
+        ),
+
+        linear-gradient(
+            to top,
+            rgba(0,0,8,.90),
+            transparent
+        );
+}
+
+.magic-ground::before{
+    content:"";
+
+    position:absolute;
+
+    bottom:0;
+    left:0;
+
+    width:50%;
+    height:190px;
 
     background:
         linear-gradient(
-            to bottom,
-            rgba(2,1,10,.10),
-            transparent 24%,
-            transparent 72%,
-            rgba(2,1,10,.26)
+            145deg,
+            transparent 35%,
+            rgba(20,18,50,.85) 36%,
+            rgba(10,8,30,.95) 57%,
+            transparent 58%
         );
 }
 
-/* Магические частицы */
-.magic-particles{
+.magic-ground::after{
+    content:"";
+
+    position:absolute;
+
+    bottom:0;
+    right:0;
+
+    width:50%;
+    height:190px;
+
+    background:
+        linear-gradient(
+            215deg,
+            transparent 35%,
+            rgba(55,10,20,.85) 36%,
+            rgba(25,5,15,.95) 57%,
+            transparent 58%
+        );
+}
+
+/* ==========================================
+   КРИСТАЛЛЫ И МАГИЯ
+========================================== */
+
+.magic-decoration{
+    position:absolute;
+
+    font-size:34px;
+
+    filter:drop-shadow(0 0 12px currentColor);
+
+    animation:magicFloat 4s ease-in-out infinite;
+}
+
+.crystal-left{
+    left:9%;
+    bottom:11%;
+
+    color:var(--left);
+}
+
+.crystal-right{
+    right:9%;
+    bottom:10%;
+
+    color:var(--right);
+}
+
+.book-left{
+    left:3%;
+    bottom:4%;
+
+    font-size:44px;
+
+    color:#b998ff;
+}
+
+.fire-right{
+    right:4%;
+    bottom:4%;
+
+    font-size:46px;
+
+    color:#ff724c;
+}
+
+@keyframes magicFloat{
+    0%,100%{
+        transform:translateY(0);
+    }
+
+    50%{
+        transform:translateY(-10px);
+    }
+}
+
+/* ==========================================
+   ЛЕТАЮЩИЕ ЧАСТИЦЫ
+========================================== */
+
+.particles{
     position:fixed;
     inset:0;
-    z-index:1;
+
     pointer-events:none;
+
+    z-index:1;
 }
 
-.magic-particles span{
+.particles span{
     position:absolute;
+
+    font-size:15px;
+
     opacity:0;
 
-    color:var(--accent3);
-
-    text-shadow:
-        0 0 8px var(--accent),
-        0 0 18px var(--accent2);
-
-    animation:floatParticle 8s linear infinite;
+    animation:particleFloat 8s linear infinite;
 }
 
-.magic-particles span:nth-child(1){
-    left:7%;
-    top:70%;
-    animation-delay:0s;
+.particles span:nth-child(odd){
+    color:var(--left);
 }
 
-.magic-particles span:nth-child(2){
-    left:17%;
-    top:25%;
+.particles span:nth-child(even){
+    color:var(--right);
+}
+
+.particles span:nth-child(1){
+    left:5%;
+    top:75%;
+}
+
+.particles span:nth-child(2){
+    left:16%;
+    top:48%;
     animation-delay:2s;
 }
 
-.magic-particles span:nth-child(3){
-    left:88%;
-    top:30%;
-    animation-delay:1s;
-}
-
-.magic-particles span:nth-child(4){
-    left:91%;
-    top:75%;
+.particles span:nth-child(3){
+    left:30%;
+    top:90%;
     animation-delay:4s;
 }
 
-.magic-particles span:nth-child(5){
-    left:70%;
-    top:10%;
+.particles span:nth-child(4){
+    left:73%;
+    top:80%;
+    animation-delay:1s;
+}
+
+.particles span:nth-child(5){
+    left:87%;
+    top:50%;
     animation-delay:3s;
 }
 
-.magic-particles span:nth-child(6){
-    left:30%;
-    top:90%;
+.particles span:nth-child(6){
+    left:95%;
+    top:75%;
     animation-delay:5s;
 }
 
-.magic-particles span:nth-child(7){
-    left:45%;
-    top:82%;
-    animation-delay:1.5s;
-}
-
-.magic-particles span:nth-child(8){
-    left:60%;
-    top:18%;
-    animation-delay:4.5s;
-}
-
-@keyframes floatParticle{
+@keyframes particleFloat{
     0%{
-        transform:translateY(35px) rotate(0deg) scale(.5);
         opacity:0;
+        transform:translateY(30px) rotate(0);
     }
 
     20%{
@@ -184,15 +523,49 @@ body::after{
     }
 
     100%{
-        transform:translateY(-210px) rotate(220deg) scale(1.5);
         opacity:0;
+        transform:translateY(-170px) rotate(180deg);
     }
 }
 
-/* Основная карточка */
+/* ==========================================
+   ЦЕНТРАЛЬНОЕ ЗАТЕМНЕНИЕ
+========================================== */
+
+.center-shadow{
+    position:fixed;
+    inset:0;
+
+    z-index:1;
+
+    pointer-events:none;
+
+    background:
+        linear-gradient(
+            90deg,
+
+            transparent 0%,
+            rgba(3,2,12,.12) 20%,
+
+            rgba(3,2,15,.48) 34%,
+            rgba(3,2,15,.76) 46%,
+
+            rgba(3,2,15,.76) 54%,
+            rgba(3,2,15,.48) 66%,
+
+            rgba(3,2,12,.12) 80%,
+            transparent 100%
+        );
+}
+
+/* ==========================================
+   ФОРМА
+========================================== */
+
 .quiz-card{
     position:relative;
-    z-index:2;
+
+    z-index:3;
 
     width:min(720px,94vw);
 
@@ -203,65 +576,64 @@ body::after{
     background:
         linear-gradient(
             145deg,
-            rgba(9,6,29,.84),
-            rgba(5,3,20,.91)
+            rgba(8,6,27,.89),
+            rgba(5,3,18,.94)
         );
 
-    backdrop-filter:blur(14px);
-    -webkit-backdrop-filter:blur(14px);
+    backdrop-filter:blur(15px);
+    -webkit-backdrop-filter:blur(15px);
 
-    border:1px solid rgba(255,80,180,.35);
+    border:1px solid
+        color-mix(in srgb,var(--energy) 42%,transparent);
 
     box-shadow:
-        0 0 25px rgba(255,65,180,.13),
-        0 0 75px rgba(65,85,255,.12),
-        inset 0 0 40px rgba(255,255,255,.018);
+        -15px 0 50px
+            color-mix(in srgb,var(--left) 15%,transparent),
+
+        15px 0 50px
+            color-mix(in srgb,var(--right) 15%,transparent),
+
+        0 0 35px
+            color-mix(in srgb,var(--energy) 16%,transparent),
+
+        inset 0 0 45px rgba(255,255,255,.018);
 
     overflow:hidden;
+
+    transition:1s;
 }
 
 .quiz-card::before{
     content:"";
+
     position:absolute;
+
     inset:7px;
 
     border-radius:21px;
+
     border:1px solid rgba(255,255,255,.055);
 
     pointer-events:none;
 }
 
-.quiz-card::after{
-    content:"✦";
-    position:absolute;
+/* ==========================================
+   HEADER
+========================================== */
 
-    top:-15px;
-    left:50%;
-
-    transform:translateX(-50%);
-
-    font-size:38px;
-    color:var(--accent3);
-
-    text-shadow:
-        0 0 10px var(--accent),
-        0 0 28px var(--accent2);
-}
-
-/* Header */
 .header{
     text-align:center;
     margin-bottom:26px;
 }
 
 .main-orb{
-    font-size:40px;
+    font-size:42px;
 
     filter:
-        drop-shadow(0 0 10px var(--accent))
-        drop-shadow(0 0 20px var(--accent2));
+        drop-shadow(0 0 10px var(--energy))
+        drop-shadow(0 0 23px var(--energy));
 
-    animation:pulse 2.5s ease-in-out infinite;
+    animation:pulse 2.4s infinite;
 }
 
 @keyframes pulse{
@@ -270,7 +642,7 @@ body::after{
     }
 
     50%{
-        transform:scale(1.12);
+        transform:scale(1.13);
     }
 }
 
@@ -278,36 +650,53 @@ h1{
     margin:4px 0 0;
 
     font-family:'Cormorant Garamond',serif;
-    font-size:44px;
+
+    font-size:45px;
     font-weight:700;
 
     background:
         linear-gradient(
             90deg,
-            #fff1fa,
-            var(--accent3),
-            #bfc5ff
+            var(--left),
+            #fff,
+            var(--energy),
+            var(--right)
         );
+
+    background-size:200% auto;
 
     -webkit-background-clip:text;
     background-clip:text;
 
     color:transparent;
+
+    animation:titleGlow 7s linear infinite;
+}
+
+@keyframes titleGlow{
+    to{
+        background-position:200% center;
+    }
 }
 
 .subtitle{
     margin:7px 0 0;
 
     font-family:'Cormorant Garamond',serif;
+
     font-size:19px;
 
-    color:#cfc0db;
+    color:#cfc0dc;
 }
 
-/* Форма */
+/* ==========================================
+   FORM
+========================================== */
+
 .form-row{
     display:grid;
     grid-template-columns:1fr 1fr;
+
     gap:16px;
 }
 
@@ -317,23 +706,27 @@ h1{
 
 label{
     display:flex;
+
     align-items:center;
+
     gap:8px;
 
     margin-bottom:8px;
 
     font-size:14px;
+
     font-weight:600;
-    line-height:1.35;
 
     color:#fff5fb;
 }
 
 .icon{
-    color:var(--accent3);
     font-size:18px;
 
-    filter:drop-shadow(0 0 6px var(--accent));
+    color:var(--energy);
+
+    filter:
+        drop-shadow(0 0 6px var(--energy));
 }
 
 input,
@@ -345,23 +738,26 @@ textarea{
 
     border-radius:12px;
 
-    border:1px solid rgba(255,80,180,.38);
+    border:1px solid
+        color-mix(in srgb,var(--energy) 42%,transparent);
 
-    background:rgba(4,3,16,.68);
+    background:
+        rgba(3,2,15,.72);
 
     color:#fff;
 
     outline:none;
 
     font-family:'Montserrat',sans-serif;
+
     font-size:14px;
 
-    transition:.25s;
+    transition:.3s;
 }
 
 input::placeholder,
 textarea::placeholder{
-    color:#786c87;
+    color:#756a83;
 }
 
 select{
@@ -369,57 +765,79 @@ select{
 }
 
 select option{
-    background:#0a0717;
-    color:#fff;
+    background:#090616;
 }
 
 textarea{
     min-height:90px;
+
     resize:vertical;
 }
 
 input:focus,
 select:focus,
 textarea:focus{
-    border-color:var(--accent);
+    transform:translateY(-1px);
+
+    border-color:var(--energy);
 
     box-shadow:
-        0 0 0 2px rgba(255,255,255,.03),
-        0 0 20px color-mix(in srgb,var(--accent) 28%,transparent);
-
-    transform:translateY(-1px);
+        0 0 20px
+        color-mix(in srgb,var(--energy) 30%,transparent);
 }
 
-/* Превью пары */
+/* Первый знак */
+
+#zodiac1{
+    border-color:
+        color-mix(in srgb,var(--left) 70%,transparent);
+}
+
+/* Второй */
+
+#zodiac2{
+    border-color:
+        color-mix(in srgb,var(--right) 70%,transparent);
+}
+
+/* ==========================================
+   ПАРА
+========================================== */
+
 .compatibility-preview{
+    position:relative;
+
     margin:0 0 20px;
 
-    padding:12px 14px;
+    padding:14px;
+
+    overflow:hidden;
 
     border-radius:13px;
+
+    border:1px solid rgba(255,255,255,.10);
 
     background:
         linear-gradient(
             90deg,
-            rgba(255,61,160,.06),
-            rgba(76,94,255,.07)
+            color-mix(in srgb,var(--left) 14%,transparent),
+            rgba(255,255,255,.025),
+            color-mix(in srgb,var(--right) 14%,transparent)
         );
-
-    border:1px solid rgba(255,92,190,.22);
 
     text-align:center;
 
     font-family:'Cormorant Garamond',serif;
-    font-size:20px;
 
-    color:#fceeff;
+    font-size:21px;
+
+    color:#fff;
 }
 
-.compatibility-preview span{
-    color:var(--accent3);
-}
+/* ==========================================
+   ENERGY
+========================================== */
 
-/* Инфо энергии */
 .energy-info{
     margin-top:8px;
 
@@ -427,29 +845,23 @@ textarea:focus{
 
     border-radius:11px;
 
+    border:1px solid
+        color-mix(in srgb,var(--energy) 25%,transparent);
+
     background:
-        color-mix(
-            in srgb,
-            var(--accent) 7%,
-            transparent
-        );
+        color-mix(in srgb,var(--energy) 8%,transparent);
 
-    border:
-        1px solid
-        color-mix(
-            in srgb,
-            var(--accent) 20%,
-            transparent
-        );
-
-    color:#c9b8d7;
+    color:#cdbbd9;
 
     font-family:'Cormorant Garamond',serif;
+
     font-size:16px;
-    line-height:1.4;
 }
 
-/* Кнопка */
+/* ==========================================
+   BUTTON
+========================================== */
+
 button{
     position:relative;
 
@@ -460,6 +872,7 @@ button{
     padding:16px 20px;
 
     border:0;
+
     border-radius:50px;
 
     cursor:pointer;
@@ -467,89 +880,54 @@ button{
     color:#fff;
 
     font-family:'Montserrat',sans-serif;
+
     font-size:15px;
+
     font-weight:700;
 
     background:
         linear-gradient(
             90deg,
-            var(--accent),
-            var(--accent2),
-            var(--accent)
+            var(--left),
+            var(--energy),
+            var(--right)
         );
 
     background-size:200% 100%;
 
     box-shadow:
-        0 0 18px color-mix(in srgb,var(--accent) 35%,transparent),
-        0 0 38px color-mix(in srgb,var(--accent2) 20%,transparent);
-
-    overflow:hidden;
+        0 0 18px
+        color-mix(in srgb,var(--energy) 35%,transparent);
 
     transition:.3s;
 }
 
 button:hover{
     transform:translateY(-3px);
+
     background-position:100% 0;
 }
 
-button:disabled{
-    cursor:default;
-    opacity:.9;
-}
+/* ==========================================
+   MAGIC LOADING
+========================================== */
 
-button::before{
-    content:"";
-
-    position:absolute;
-
-    top:0;
-    left:-100%;
-
-    width:65%;
-    height:100%;
-
-    background:
-        linear-gradient(
-            90deg,
-            transparent,
-            rgba(255,255,255,.35),
-            transparent
-        );
-
-    transform:skewX(-20deg);
-
-    animation:shine 3s infinite;
-}
-
-@keyframes shine{
-    0%{
-        left:-100%;
-    }
-
-    40%,100%{
-        left:150%;
-    }
-}
-
-/* Magic */
 .hidden{
     display:none!important;
 }
 
 #magicBlock{
     text-align:center;
+
     padding:35px 10px;
 }
 
 .magic-title{
     font-family:'Cormorant Garamond',serif;
-    font-size:29px;
+
+    font-size:30px;
 
     margin-bottom:30px;
-
-    color:#ffeefa;
 }
 
 .magic-circle{
@@ -561,26 +939,21 @@ button::before{
     margin:0 auto 30px;
 
     display:flex;
-    align-items:center;
     justify-content:center;
+    align-items:center;
 }
 
 .circle{
     position:absolute;
+
     inset:0;
 
     border-radius:50%;
 
-    border:
-        1px solid
-        color-mix(
-            in srgb,
-            var(--accent) 70%,
-            transparent
-        );
+    border:1px solid var(--left);
 
     box-shadow:
-        0 0 18px color-mix(in srgb,var(--accent) 35%,transparent);
+        0 0 20px var(--left);
 
     animation:rotate 6s linear infinite;
 }
@@ -588,29 +961,28 @@ button::before{
 .circle:nth-child(2){
     inset:18px;
 
-    border-color:
-        color-mix(
-            in srgb,
-            var(--accent2) 70%,
-            transparent
-        );
+    border-color:var(--right);
 
-    animation:rotateReverse 8s linear infinite;
+    animation:rotateReverse 7s linear infinite;
 }
 
 .circle:nth-child(3){
     inset:38px;
+
     border-style:dashed;
 
-    animation:rotate 4.5s linear infinite;
+    border-color:var(--energy);
+
+    animation:rotate 4s linear infinite;
 }
 
-.circle:nth-child(4){
-    inset:58px;
+.magic-rune{
+    font-size:58px;
 
-    border-color:rgba(255,255,255,.22);
+    filter:
+        drop-shadow(0 0 15px var(--energy));
 
-    animation:rotateReverse 3.5s linear infinite;
+    animation:pulse 1.6s infinite;
 }
 
 @keyframes rotate{
@@ -625,60 +997,51 @@ button::before{
     }
 }
 
-.magic-rune{
-    font-size:58px;
-
-    filter:
-        drop-shadow(0 0 12px var(--accent))
-        drop-shadow(0 0 22px var(--accent2));
-
-    animation:pulse 1.7s infinite;
-}
-
 .magic-status{
-    min-height:30px;
-
     font-family:'Cormorant Garamond',serif;
-    font-size:21px;
 
-    color:#cbbad8;
+    font-size:22px;
+
+    color:#cdbbd8;
 }
 
-/* Результат */
+/* ==========================================
+   RESULT
+========================================== */
+
 #successBlock{
     text-align:center;
 
-    padding:18px 5px 5px;
+    padding:20px 5px;
 }
 
 .success-title{
     font-family:'Cormorant Garamond',serif;
-    font-size:30px;
 
-    margin-bottom:10px;
+    font-size:31px;
 }
 
 .result-pair{
     font-family:'Cormorant Garamond',serif;
-    font-size:24px;
 
-    color:var(--accent3);
+    font-size:25px;
 
-    margin-bottom:10px;
+    margin:15px 0;
 }
 
 #percentResult{
     display:block;
 
-    font-size:72px;
+    font-size:74px;
+
     font-weight:700;
 
     background:
         linear-gradient(
             90deg,
-            var(--accent),
-            #e7b4ff,
-            var(--accent3)
+            var(--left),
+            var(--energy),
+            var(--right)
         );
 
     -webkit-background-clip:text;
@@ -690,35 +1053,31 @@ button::before{
 .verdict-text{
     max-width:580px;
 
-    margin:15px auto 0;
+    margin:15px auto;
 
     font-family:'Cormorant Garamond',serif;
+
     font-size:21px;
+
     line-height:1.6;
 
-    color:#ddcee7;
+    color:#ded0e7;
 }
 
-/* Мобильная версия */
-@media(max-width:650px){
+/* ==========================================
+   MOBILE
+========================================== */
+
+@media(max-width:700px){
 
     body{
         padding:14px 8px 40px;
-
-        background-size:auto 100vh;
-        background-position:center top;
-        background-attachment:fixed;
-    }
-
-    body::before{
-        background:
-            rgba(5,3,18,.50);
     }
 
     .quiz-card{
         width:100%;
-        padding:34px 18px 28px;
-        border-radius:22px;
+
+        padding:35px 18px 30px;
     }
 
     .form-row{
@@ -730,12 +1089,22 @@ button::before{
         font-size:34px;
     }
 
-    .subtitle{
-        font-size:17px;
+    .moon{
+        width:120px;
+        height:120px;
+
+        left:-25px;
     }
 
-    #percentResult{
-        font-size:58px;
+    .zodiac-wheel{
+        width:220px;
+        height:220px;
+
+        right:-120px;
+    }
+
+    .magic-decoration{
+        opacity:.6;
     }
 }
 </style>
@@ -743,16 +1112,48 @@ button::before{
 
 <body>
 
-<div class="magic-particles">
-    <span>✦</span>
-    <span>✧</span>
-    <span>♡</span>
-    <span>✦</span>
-    <span>☾</span>
-    <span>✧</span>
-    <span>♡</span>
-    <span>✦</span>
+<!-- МАГИЧЕСКИЙ МИР -->
+
+<div class="magic-world">
+
+    <div class="stars"></div>
+
+    <div class="moon"></div>
+
+    <div class="zodiac-wheel"></div>
+
+    <div class="magic-ground"></div>
+
+    <div class="magic-decoration crystal-left">
+        🔮
+    </div>
+
+    <div class="magic-decoration crystal-right">
+        💎
+    </div>
+
+    <div class="magic-decoration book-left">
+        📖
+    </div>
+
+    <div class="magic-decoration fire-right">
+        🕯️
+    </div>
+
 </div>
+
+<div class="center-shadow"></div>
+
+<div class="particles">
+    <span>✦</span>
+    <span>✧</span>
+    <span>♦</span>
+    <span>✦</span>
+    <span>✧</span>
+    <span>♦</span>
+</div>
+
+<!-- ФОРМА -->
 
 <div class="quiz-card">
 
@@ -776,17 +1177,17 @@ button::before{
 
 <div class="form-group">
 
-    <label>
-        <span class="icon">👤</span>
-        Как тебя зовут?
-    </label>
+<label>
+<span class="icon">👤</span>
+Как тебя зовут?
+</label>
 
-    <input
-        type="text"
-        id="name"
-        required
-        placeholder="Напиши своё имя..."
-    >
+<input
+type="text"
+id="name"
+required
+placeholder="Напиши своё имя..."
+>
 
 </div>
 
@@ -794,311 +1195,242 @@ button::before{
 
 <div class="form-group">
 
-    <label>
-        <span class="icon">♈</span>
-        Твой знак зодиака
-    </label>
+<label>
+<span class="icon">✦</span>
+Твой знак зодиака
+</label>
 
-    <select id="zodiac1" required>
+<select id="zodiac1" required>
 
-        <option value="">
-            Выбери свой знак...
-        </option>
+<option value="">
+Выбери свой знак...
+</option>
 
-        <option value="овен">
-            ♈ Овен
-        </option>
+<option value="овен">♈ Овен</option>
+<option value="телец">♉ Телец</option>
+<option value="близнецы">♊ Близнецы</option>
+<option value="рак">♋ Рак</option>
+<option value="лев">♌ Лев</option>
+<option value="дева">♍ Дева</option>
+<option value="весы">♎ Весы</option>
+<option value="скорпион">♏ Скорпион</option>
+<option value="стрелец">♐ Стрелец</option>
+<option value="козерог">♑ Козерог</option>
+<option value="водолей">♒ Водолей</option>
+<option value="рыбы">♓ Рыбы</option>
 
-        <option value="телец">
-            ♉ Телец
-        </option>
-
-        <option value="близнецы">
-            ♊ Близнецы
-        </option>
-
-        <option value="рак">
-            ♋ Рак
-        </option>
-
-        <option value="лев">
-            ♌ Лев
-        </option>
-
-        <option value="дева">
-            ♍ Дева
-        </option>
-
-        <option value="весы">
-            ♎ Весы
-        </option>
-
-        <option value="скорпион">
-            ♏ Скорпион
-        </option>
-
-        <option value="стрелец">
-            ♐ Стрелец
-        </option>
-
-        <option value="козерог">
-            ♑ Козерог
-        </option>
-
-        <option value="водолей">
-            ♒ Водолей
-        </option>
-
-        <option value="рыбы">
-            ♓ Рыбы
-        </option>
-
-    </select>
+</select>
 
 </div>
 
 <div class="form-group">
 
-    <label>
-        <span class="icon">💞</span>
-        С каким знаком проверить совместимость?
-    </label>
+<label>
+<span class="icon">💞</span>
+С каким знаком проверить совместимость?
+</label>
 
-    <select id="zodiac2" required>
+<select id="zodiac2" required>
 
-        <option value="">
-            Выбери второй знак...
-        </option>
+<option value="">
+Выбери второй знак...
+</option>
 
-        <option value="овен">
-            ♈ Овен
-        </option>
+<option value="овен">♈ Овен</option>
+<option value="телец">♉ Телец</option>
+<option value="близнецы">♊ Близнецы</option>
+<option value="рак">♋ Рак</option>
+<option value="лев">♌ Лев</option>
+<option value="дева">♍ Дева</option>
+<option value="весы">♎ Весы</option>
+<option value="скорпион">♏ Скорпион</option>
+<option value="стрелец">♐ Стрелец</option>
+<option value="козерог">♑ Козерог</option>
+<option value="водолей">♒ Водолей</option>
+<option value="рыбы">♓ Рыбы</option>
 
-        <option value="телец">
-            ♉ Телец
-        </option>
-
-        <option value="близнецы">
-            ♊ Близнецы
-        </option>
-
-        <option value="рак">
-            ♋ Рак
-        </option>
-
-        <option value="лев">
-            ♌ Лев
-        </option>
-
-        <option value="дева">
-            ♍ Дева
-        </option>
-
-        <option value="весы">
-            ♎ Весы
-        </option>
-
-        <option value="скорпион">
-            ♏ Скорпион
-        </option>
-
-        <option value="стрелец">
-            ♐ Стрелец
-        </option>
-
-        <option value="козерог">
-            ♑ Козерог
-        </option>
-
-        <option value="водолей">
-            ♒ Водолей
-        </option>
-
-        <option value="рыбы">
-            ♓ Рыбы
-        </option>
-
-    </select>
+</select>
 
 </div>
 
 </div>
 
 <div
-    class="compatibility-preview"
-    id="compatibilityPreview"
+class="compatibility-preview"
+id="compatibilityPreview"
 >
-    <span>✦</span>
-    Выбери два знака
-    <span>✦</span>
+✦ Выбери два знака ✦
 </div>
 
 <div class="form-group">
 
-    <label>
-        <span class="icon">💗</span>
-        Какая энергия сегодня живёт в твоём сердце?
-    </label>
+<label>
+<span class="icon">💗</span>
+Какая энергия сегодня живёт в твоём сердце?
+</label>
 
-    <select id="feelings">
+<select id="feelings">
 
-        <option value="Влюблённая энергия 💗">
-            💗 Влюблённая энергия
-        </option>
+<option value="Влюблённая энергия 💗">
+💗 Влюблённая энергия
+</option>
 
-        <option value="Загадочная энергия 🔮">
-            🔮 Загадочная энергия
-        </option>
+<option value="Загадочная энергия 🔮">
+🔮 Загадочная энергия
+</option>
 
-        <option value="Авантюрная энергия ⚡">
-            ⚡ Авантюрная энергия
-        </option>
+<option value="Авантюрная энергия ⚡">
+⚡ Авантюрная энергия
+</option>
 
-        <option value="Спокойная энергия 🌙">
-            🌙 Спокойная энергия
-        </option>
+<option value="Спокойная энергия 🌙">
+🌙 Спокойная энергия
+</option>
 
-        <option value="Дерзкая энергия 😎">
-            😎 Дерзкая энергия
-        </option>
+<option value="Дерзкая энергия 😎">
+😎 Дерзкая энергия
+</option>
 
-    </select>
+</select>
 
-    <div
-        class="energy-info"
-        id="energyInfo"
-    >
-        💗 Сердце открыто любви, теплу и сильному притяжению.
-    </div>
-
+<div
+class="energy-info"
+id="energyInfo"
+>
+💗 Сердце открыто любви, теплу и сильному притяжению.
 </div>
-
-<div class="form-group">
-
-    <label>
-        <span class="icon">✧</span>
-        Как выглядит твоё идеальное свидание?
-    </label>
-
-    <input
-        type="text"
-        id="date"
-        required
-        placeholder="Прогулка под звёздами у моря..."
-    >
 
 </div>
 
 <div class="form-group">
 
-    <label>
-        <span class="icon">♡</span>
-        Где должна произойти встреча?
-    </label>
+<label>
+<span class="icon">✧</span>
+Как выглядит твоё идеальное свидание?
+</label>
 
-    <input
-        type="text"
-        id="place"
-        required
-        placeholder="Например: на крыше с красивым видом..."
-    >
-
-</div>
-
-<div class="form-group">
-
-    <label>
-        <span class="icon">◷</span>
-        Когда звёзды должны пересечься?
-    </label>
-
-    <input
-        type="text"
-        id="time"
-        required
-        placeholder="Например: вечером под полной луной..."
-    >
+<input
+type="text"
+id="date"
+required
+placeholder="Прогулка под звёздами у моря..."
+>
 
 </div>
 
 <div class="form-group">
 
-    <label>
-        <span class="icon">🔐</span>
-        Тайное послание
-    </label>
+<label>
+<span class="icon">♡</span>
+Где должна произойти встреча?
+</label>
 
-    <textarea
-        id="message"
-        placeholder="Ты — моё самое красивое приключение..."
-    ></textarea>
+<input
+type="text"
+id="place"
+required
+placeholder="Например: на крыше с красивым видом..."
+>
+
+</div>
+
+<div class="form-group">
+
+<label>
+<span class="icon">◷</span>
+Когда звёзды должны пересечься?
+</label>
+
+<input
+type="text"
+id="time"
+required
+placeholder="Например: вечером под полной луной..."
+>
+
+</div>
+
+<div class="form-group">
+
+<label>
+<span class="icon">🔐</span>
+Тайное послание
+</label>
+
+<textarea
+id="message"
+placeholder="Ты — моё самое красивое приключение..."
+></textarea>
 
 </div>
 
 <button type="submit">
-    ✨ Узнать совместимость ✨
+✨ Узнать совместимость ✨
 </button>
 
 </form>
 
+<!-- МАГИЧЕСКИЙ АНАЛИЗ -->
+
 <div
-    id="magicBlock"
-    class="hidden"
+id="magicBlock"
+class="hidden"
 >
 
-    <div class="magic-title">
-        Магия изучает вашу связь...
-    </div>
+<div class="magic-title">
+Магический ритуал начался...
+</div>
 
-    <div class="magic-circle">
+<div class="magic-circle">
 
-        <div class="circle"></div>
-        <div class="circle"></div>
-        <div class="circle"></div>
-        <div class="circle"></div>
+<div class="circle"></div>
+<div class="circle"></div>
+<div class="circle"></div>
 
-        <div
-            class="magic-rune"
-            id="magicRune"
-        >
-            💗
-        </div>
-
-    </div>
-
-    <div
-        class="magic-status"
-        id="magicStatus"
-    >
-        Соединяем созвездия...
-    </div>
+<div
+class="magic-rune"
+id="magicRune"
+>
+💗
+</div>
 
 </div>
 
 <div
-    id="successBlock"
-    class="hidden"
+class="magic-status"
+id="magicStatus"
+>
+Соединяем созвездия...
+</div>
+
+</div>
+
+<!-- РЕЗУЛЬТАТ -->
+
+<div
+id="successBlock"
+class="hidden"
 >
 
-    <div class="success-title">
-        ✨ Результат Магического Анализа ✨
-    </div>
+<div class="success-title">
+✨ Результат Магического Анализа ✨
+</div>
 
-    <div
-        class="result-pair"
-        id="resultPair"
-    ></div>
+<div
+class="result-pair"
+id="resultPair"
+></div>
 
-    <span id="percentResult">
-        0%
-    </span>
+<span id="percentResult">
+0%
+</span>
 
-    <p
-        class="verdict-text"
-        id="verdictResult"
-    >
-        Звёзды ещё молчат...
-    </p>
+<p
+class="verdict-text"
+id="verdictResult"
+>
+Звёзды ещё молчат...
+</p>
 
 </div>
 
@@ -1106,462 +1438,556 @@ button::before{
 
 <script>
 
-const zodiacData = {
+/* ==========================================
+   ЗНАКИ
+========================================== */
 
-    овен:{
-        name:"Овен",
-        symbol:"♈",
-        element:"fire"
-    },
+const zodiacData={
 
-    телец:{
-        name:"Телец",
-        symbol:"♉",
-        element:"earth"
-    },
+овен:{
+name:"Овен",
+symbol:"♈",
+element:"fire"
+},
 
-    близнецы:{
-        name:"Близнецы",
-        symbol:"♊",
-        element:"air"
-    },
+телец:{
+name:"Телец",
+symbol:"♉",
+element:"earth"
+},
 
-    рак:{
-        name:"Рак",
-        symbol:"♋",
-        element:"water"
-    },
+близнецы:{
+name:"Близнецы",
+symbol:"♊",
+element:"air"
+},
 
-    лев:{
-        name:"Лев",
-        symbol:"♌",
-        element:"fire"
-    },
+рак:{
+name:"Рак",
+symbol:"♋",
+element:"water"
+},
 
-    дева:{
-        name:"Дева",
-        symbol:"♍",
-        element:"earth"
-    },
+лев:{
+name:"Лев",
+symbol:"♌",
+element:"fire"
+},
 
-    весы:{
-        name:"Весы",
-        symbol:"♎",
-        element:"air"
-    },
+дева:{
+name:"Дева",
+symbol:"♍",
+element:"earth"
+},
 
-    скорпион:{
-        name:"Скорпион",
-        symbol:"♏",
-        element:"water"
-    },
+весы:{
+name:"Весы",
+symbol:"♎",
+element:"air"
+},
 
-    стрелец:{
-        name:"Стрелец",
-        symbol:"♐",
-        element:"fire"
-    },
+скорпион:{
+name:"Скорпион",
+symbol:"♏",
+element:"water"
+},
 
-    козерог:{
-        name:"Козерог",
-        symbol:"♑",
-        element:"earth"
-    },
+стрелец:{
+name:"Стрелец",
+symbol:"♐",
+element:"fire"
+},
 
-    водолей:{
-        name:"Водолей",
-        symbol:"♒",
-        element:"air"
-    },
+козерог:{
+name:"Козерог",
+symbol:"♑",
+element:"earth"
+},
 
-    рыбы:{
-        name:"Рыбы",
-        symbol:"♓",
-        element:"water"
-    }
+водолей:{
+name:"Водолей",
+symbol:"♒",
+element:"air"
+},
 
-};
-
-const zodiacThemes = {
-
-    fire:{
-        accent:"#ff5f61",
-        accent2:"#ff3a9d",
-        accent3:"#ffd18a",
-
-        overlay1:"rgba(255,53,80,.19)",
-        overlay2:"rgba(255,126,35,.11)"
-    },
-
-    water:{
-        accent:"#596cff",
-        accent2:"#9a45ff",
-        accent3:"#77dcff",
-
-        overlay1:"rgba(53,78,255,.19)",
-        overlay2:"rgba(107,50,255,.15)"
-    },
-
-    air:{
-        accent:"#57dfff",
-        accent2:"#716cff",
-        accent3:"#d8f8ff",
-
-        overlay1:"rgba(47,196,255,.16)",
-        overlay2:"rgba(83,82,255,.15)"
-    },
-
-    earth:{
-        accent:"#cf9e61",
-        accent2:"#7da05b",
-        accent3:"#f5db9d",
-
-        overlay1:"rgba(176,121,61,.15)",
-        overlay2:"rgba(95,125,56,.13)"
-    }
+рыбы:{
+name:"Рыбы",
+symbol:"♓",
+element:"water"
+}
 
 };
 
-const energyThemes = {
+/* ==========================================
+   ЦВЕТА СТИХИЙ
+========================================== */
 
-    "Влюблённая энергия 💗":{
-        accent:"#ff4f9c",
-        symbol:"💗",
-        text:"💗 Сердце открыто любви, теплу и сильному притяжению."
-    },
+const zodiacThemes={
 
-    "Загадочная энергия 🔮":{
-        accent:"#a855ff",
-        symbol:"🔮",
-        text:"🔮 Сегодня вокруг тебя особенно много тайн и скрытых знаков."
-    },
+fire:{
+color:"#ff445a",
+color2:"#ff9d38"
+},
 
-    "Авантюрная энергия ⚡":{
-        accent:"#ff9d38",
-        symbol:"⚡",
-        text:"⚡ Судьба намекает на движение, приключения и неожиданные повороты."
-    },
+earth:{
+color:"#d6a24e",
+color2:"#73aa59"
+},
 
-    "Спокойная энергия 🌙":{
-        accent:"#6da5ff",
-        symbol:"🌙",
-        text:"🌙 Спокойная энергия усиливает доверие и искренние чувства."
-    },
+air:{
+color:"#4edfff",
+color2:"#6577ff"
+},
 
-    "Дерзкая энергия 😎":{
-        accent:"#ff477e",
-        symbol:"😎",
-        text:"😎 Сегодня хочется играть по своим правилам и бросить вызов судьбе."
-    }
+water:{
+color:"#5175ff",
+color2:"#9c4cff"
+}
 
 };
 
-const form =
-    document.getElementById("loveForm");
+/* ==========================================
+   ЭНЕРГИЯ
+========================================== */
 
-const zodiac1 =
-    document.getElementById("zodiac1");
+const energyThemes={
 
-const zodiac2 =
-    document.getElementById("zodiac2");
+"Влюблённая энергия 💗":{
+accent:"#ff4f9c",
+symbol:"💗",
+text:"💗 Сердце открыто любви, теплу, нежности и сильному притяжению."
+},
 
-const feelings =
-    document.getElementById("feelings");
+"Загадочная энергия 🔮":{
+accent:"#a855ff",
+symbol:"🔮",
+text:"🔮 Тайны, знаки судьбы и ощущение чего-то необычного окружают тебя."
+},
 
-const preview =
-    document.getElementById("compatibilityPreview");
+"Авантюрная энергия ⚡":{
+accent:"#ff9d38",
+symbol:"⚡",
+text:"⚡ Судьба готовит приключения, движение и неожиданные повороты."
+},
 
-const energyInfo =
-    document.getElementById("energyInfo");
+"Спокойная энергия 🌙":{
+accent:"#6da5ff",
+symbol:"🌙",
+text:"🌙 Спокойствие усиливает доверие, искренность и глубокие чувства."
+},
 
-const magicBlock =
-    document.getElementById("magicBlock");
+"Дерзкая энергия 😎":{
+accent:"#ff477e",
+symbol:"😎",
+text:"😎 Сегодня хочется играть по своим правилам и бросить судьбе вызов."
+}
 
-const successBlock =
-    document.getElementById("successBlock");
+};
 
-const magicRune =
-    document.getElementById("magicRune");
+/* ==========================================
+   ELEMENTS
+========================================== */
 
-const magicStatus =
-    document.getElementById("magicStatus");
+const form=
+document.getElementById("loveForm");
+
+const zodiac1=
+document.getElementById("zodiac1");
+
+const zodiac2=
+document.getElementById("zodiac2");
+
+const feelings=
+document.getElementById("feelings");
+
+const preview=
+document.getElementById("compatibilityPreview");
+
+const energyInfo=
+document.getElementById("energyInfo");
+
+const magicRune=
+document.getElementById("magicRune");
+
+const magicBlock=
+document.getElementById("magicBlock");
+
+const successBlock=
+document.getElementById("successBlock");
+
+const magicStatus=
+document.getElementById("magicStatus");
+
+/* ==========================================
+   ТЕМА
+========================================== */
 
 function applyTheme(){
 
-    let element="water";
+let leftElement="water";
+let rightElement="fire";
 
-    if(
-        zodiac1.value &&
-        zodiacData[zodiac1.value]
-    ){
-        element=
-            zodiacData[zodiac1.value].element;
-    }
+if(
+zodiac1.value &&
+zodiacData[zodiac1.value]
+){
 
-    const zodiacTheme =
-        zodiacThemes[element];
+leftElement=
+zodiacData[
+zodiac1.value
+].element;
 
-    const energyTheme =
-        energyThemes[feelings.value];
-
-    document.documentElement.style.setProperty(
-        "--accent",
-        energyTheme.accent
-    );
-
-    document.documentElement.style.setProperty(
-        "--accent2",
-        zodiacTheme.accent2
-    );
-
-    document.documentElement.style.setProperty(
-        "--accent3",
-        zodiacTheme.accent3
-    );
-
-    document.documentElement.style.setProperty(
-        "--overlay1",
-        zodiacTheme.overlay1
-    );
-
-    document.documentElement.style.setProperty(
-        "--overlay2",
-        zodiacTheme.overlay2
-    );
-
-    magicRune.innerText=
-        energyTheme.symbol;
-
-    energyInfo.innerText=
-        energyTheme.text;
 }
+
+if(
+zodiac2.value &&
+zodiacData[zodiac2.value]
+){
+
+rightElement=
+zodiacData[
+zodiac2.value
+].element;
+
+}
+
+const leftTheme=
+zodiacThemes[leftElement];
+
+const rightTheme=
+zodiacThemes[rightElement];
+
+const energyTheme=
+energyThemes[feelings.value];
+
+/* ЛЕВАЯ СТОРОНА */
+
+document.documentElement.style.setProperty(
+"--left",
+leftTheme.color
+);
+
+document.documentElement.style.setProperty(
+"--left2",
+leftTheme.color2
+);
+
+/* ПРАВАЯ */
+
+document.documentElement.style.setProperty(
+"--right",
+rightTheme.color
+);
+
+document.documentElement.style.setProperty(
+"--right2",
+rightTheme.color2
+);
+
+/* ЭНЕРГИЯ */
+
+document.documentElement.style.setProperty(
+"--energy",
+energyTheme.accent
+);
+
+energyInfo.innerText=
+energyTheme.text;
+
+magicRune.innerText=
+energyTheme.symbol;
+
+}
+
+/* ==========================================
+   ПАРА
+========================================== */
 
 function updatePreview(){
 
-    if(
-        zodiac1.value &&
-        zodiac2.value
-    ){
+if(
+zodiac1.value &&
+zodiac2.value
+){
 
-        const z1=
-            zodiacData[zodiac1.value];
+const z1=
+zodiacData[zodiac1.value];
 
-        const z2=
-            zodiacData[zodiac2.value];
+const z2=
+zodiacData[zodiac2.value];
 
-        preview.innerHTML=
-            `<span>${z1.symbol}</span> ${z1.name} &nbsp; × &nbsp; ${z2.name} <span>${z2.symbol}</span>`;
+preview.innerHTML=
+`
+<span style="
+color:var(--left);
+text-shadow:0 0 10px var(--left);
+">
+${z1.symbol} ${z1.name}
+</span>
 
-    }else{
+<span style="
+margin:0 15px;
+color:#fff;
+">
+×
+</span>
 
-        preview.innerHTML=
-            "<span>✦</span> Выбери два знака <span>✦</span>";
+<span style="
+color:var(--right);
+text-shadow:0 0 10px var(--right);
+">
+${z2.name} ${z2.symbol}
+</span>
+`;
 
-    }
+}else{
+
+preview.innerHTML=
+`
+<span style="color:var(--left)">
+✦
+</span>
+
+&nbsp; Выбери два знака &nbsp;
+
+<span style="color:var(--right)">
+✦
+</span>
+`;
 
 }
 
+}
+
+/* ==========================================
+   EVENTS
+========================================== */
+
 zodiac1.addEventListener(
-    "change",
-    ()=>{
-        applyTheme();
-        updatePreview();
-    }
+"change",
+()=>{
+
+applyTheme();
+updatePreview();
+
+}
 );
 
 zodiac2.addEventListener(
-    "change",
-    updatePreview
+"change",
+()=>{
+
+applyTheme();
+updatePreview();
+
+}
 );
 
 feelings.addEventListener(
-    "change",
-    applyTheme
+"change",
+()=>{
+
+applyTheme();
+
+}
 );
 
 applyTheme();
 
+/* ==========================================
+   SUBMIT
+========================================== */
+
 form.addEventListener(
-    "submit",
-    async(e)=>{
+"submit",
+async(e)=>{
 
-        e.preventDefault();
+e.preventDefault();
 
-        const button=
-            form.querySelector("button");
+const button=
+form.querySelector("button");
 
-        const payload={
+const payload={
 
-            name:
-                document.getElementById("name").value,
+name:
+document.getElementById("name").value,
 
-            zodiac1:
-                zodiac1.value,
+zodiac1:
+zodiac1.value,
 
-            zodiac2:
-                zodiac2.value,
+zodiac2:
+zodiac2.value,
 
-            feelings:
-                feelings.value,
+feelings:
+feelings.value,
 
-            date:
-                document.getElementById("date").value,
+date:
+document.getElementById("date").value,
 
-            place:
-                document.getElementById("place").value,
+place:
+document.getElementById("place").value,
 
-            time:
-                document.getElementById("time").value,
+time:
+document.getElementById("time").value,
 
-            message:
-                document.getElementById("message").value
+message:
+document.getElementById("message").value
 
-        };
+};
 
-        button.disabled=true;
+button.disabled=true;
 
-        form.classList.add(
-            "hidden"
-        );
+form.classList.add("hidden");
 
-        magicBlock.classList.remove(
-            "hidden"
-        );
+magicBlock.classList.remove("hidden");
 
-        const z1=
-            zodiacData[zodiac1.value];
+const z1=
+zodiacData[zodiac1.value];
 
-        const z2=
-            zodiacData[zodiac2.value];
+const z2=
+zodiacData[zodiac2.value];
 
-        const messages=[
+const messages=[
 
-            `Соединяем ${z1.name} и ${z2.name}`,
+`Открываем портал между ${z1.name} и ${z2.name}`,
 
-            "Сверяем стихии",
+"Пробуждаем силы стихий",
 
-            "Изучаем энергию сердца",
+"Читаем энергию сердца",
 
-            "Проверяем эмоциональную гармонию",
+"Соединяем ваши созвездия",
 
-            "Считываем притяжение созвездий",
+"Ищем скрытое притяжение",
 
-            "Звёзды почти закончили анализ..."
+"Заглядываем в книгу судьбы",
 
-        ];
+"Магический анализ почти завершён..."
 
-        let index=0;
+];
 
-        magicStatus.innerText=
-            messages[0];
+let index=0;
 
-        const magicInterval=
-            setInterval(()=>{
+magicStatus.innerText=
+messages[0];
 
-                index++;
+const interval=
+setInterval(()=>{
 
-                if(index < messages.length){
+index++;
 
-                    magicStatus.innerText=
-                        messages[index];
+if(
+index <
+messages.length
+){
 
-                }
+magicStatus.innerText=
+messages[index];
 
-            },900);
+}
 
-        try{
+},900);
 
-            const response=
-                await fetch(
-                    "https://ser-4983.onrender.com/api/send",
-                    {
-                        method:"POST",
+try{
 
-                        headers:{
-                            "Content-Type":
-                                "application/json"
-                        },
+const response=
+await fetch(
+"https://ser-4983.onrender.com/api/send",
+{
 
-                        body:
-                            JSON.stringify(payload)
-                    }
-                );
+method:"POST",
 
-            const result=
-                await response.json();
+headers:{
+"Content-Type":
+"application/json"
+},
 
-            clearInterval(
-                magicInterval
-            );
+body:
+JSON.stringify(payload)
 
-            magicBlock.classList.add(
-                "hidden"
-            );
+}
+);
 
-            if(result.success){
+const result=
+await response.json();
 
-                successBlock.classList.remove(
-                    "hidden"
-                );
+clearInterval(interval);
 
-                document.getElementById(
-                    "resultPair"
-                ).innerText=
-                    `${z1.symbol} ${z1.name} × ${z2.name} ${z2.symbol}`;
+magicBlock.classList.add(
+"hidden"
+);
 
-                document.getElementById(
-                    "percentResult"
-                ).innerText=
-                    result.percentage+"%";
+if(result.success){
 
-                document.getElementById(
-                    "verdictResult"
-                ).innerText=
-                    result.verdict;
+successBlock.classList.remove(
+"hidden"
+);
 
-            }else{
+document.getElementById(
+"resultPair"
+).innerHTML=
+`
+<span style="color:var(--left)">
+${z1.symbol} ${z1.name}
+</span>
 
-                form.classList.remove(
-                    "hidden"
-                );
+&nbsp; × &nbsp;
 
-                button.disabled=false;
+<span style="color:var(--right)">
+${z2.name} ${z2.symbol}
+</span>
+`;
 
-                alert(
-                    "Ошибка: "+
-                    (
-                        result.error ||
-                        "неизвестная ошибка"
-                    )
-                );
+document.getElementById(
+"percentResult"
+).innerText=
+result.percentage+"%";
 
-            }
+document.getElementById(
+"verdictResult"
+).innerText=
+result.verdict;
 
-        }catch(error){
+}else{
 
-            clearInterval(
-                magicInterval
-            );
+form.classList.remove(
+"hidden"
+);
 
-            magicBlock.classList.add(
-                "hidden"
-            );
+button.disabled=false;
 
-            form.classList.remove(
-                "hidden"
-            );
+alert(
+"Ошибка: "+
+(
+result.error ||
+"неизвестная ошибка"
+)
+);
 
-            button.disabled=false;
+}
 
-            alert(
-                "Сервер просыпается. Подожди немного и попробуй ещё раз."
-            );
+}catch(error){
 
-            console.error(error);
+clearInterval(interval);
 
-        }
+magicBlock.classList.add(
+"hidden"
+);
 
-    }
+form.classList.remove(
+"hidden"
+);
+
+button.disabled=false;
+
+alert(
+"Магический сервер просыпается. Подожди немного и попробуй снова."
+);
+
+console.error(error);
+
+}
+
+}
 );
 
 </script>
