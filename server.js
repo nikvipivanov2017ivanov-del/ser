@@ -9,8 +9,6 @@ app.use(express.json());
 const BOT_TOKEN = process.env.BOT_TOKEN;
 const CHAT_ID = process.env.CHAT_ID;
 
-const MY_ZODIAC = "стрілець";
-
 app.post("/api/send", async (req, res) => {
     try {
         const data = req.body || {};
@@ -25,7 +23,7 @@ app.post("/api/send", async (req, res) => {
 
         if (!BOT_TOKEN || !CHAT_ID) {
             return res.status(500).json({
-                error: "BOT_TOKEN или CHAT_ID не настроены в Render"
+                error: "BOT_TOKEN или CHAT_ID не настроены"
             });
         }
 
@@ -35,100 +33,103 @@ app.post("/api/send", async (req, res) => {
             });
         }
 
+        if (!zodiac) {
+            return res.status(400).json({
+                error: "Не выбран знак зодиака"
+            });
+        }
+
         let score = 0;
+
         const maxScore = 17;
 
         let zodiacBonus = 0;
         let zodiacVerdict = "";
 
-        // =========================
-        // ЗОДИАК
-        // =========================
-
-        if (zodiac === MY_ZODIAC) {
+        if (
+            zodiac === "стрелец" ||
+            zodiac === "стрілець"
+        ) {
             zodiacBonus = 5;
 
             zodiacVerdict =
-                "Два Стрільця! Це вибух адреналіну, спільні пригоди та абсолютна свобода. Ви бачите один одного наскрізь! 🏹🔥";
+                "♐ Два Стрельца! Это союз двух свободных огненных душ. Приключения, юмор, страсть и желание покорять мир вместе. Главное — иногда всё-таки останавливаться и слушать друг друга. 🏹🔥";
+        }
 
-        } else if (["лев", "львів", "овен"].includes(zodiac)) {
+        else if (
+            zodiac === "овен" ||
+            zodiac === "лев"
+        ) {
             zodiacBonus = 5;
 
             zodiacVerdict =
-                "Стихія Вогню! Максимальна пристрасть, спільні безумства та ідеальне розуміння без зайвих слів. 💥🦁";
+                "🔥 Огонь встречает Огонь! Между вами легко вспыхивает сильная искра. Стрелец любит свободу и движение, а твой знак способен поддерживать этот безумный ритм. Очень мощное притяжение.";
+        }
 
-        } else if (
-            [
-                "близнецы",
-                "близнюки",
-                "весы",
-                "терези",
-                "водолей",
-                "водолій"
-            ].includes(zodiac)
+        else if (
+            zodiac === "близнецы" ||
+            zodiac === "весы" ||
+            zodiac === "водолей"
         ) {
             zodiacBonus = 4;
 
             zodiacVerdict =
-                "Вогонь і Повітря! Повітря роздмухує ваше полум'я. Разом вам ніколи не буде нудно — ідеальний інтелектуальний зв'язок. 🌬️✨";
+                "🌬️ Воздух раздувает огонь Стрельца. Между вами может быть много разговоров, шуток, спонтанных идей и приключений. Скука этому союзу почти не угрожает.";
+        }
 
-        } else if (
-            [
-                "телец",
-                "тілець",
-                "дева",
-                "діва",
-                "козерог",
-                "козеріг"
-            ].includes(zodiac)
+        else if (
+            zodiac === "телец" ||
+            zodiac === "дева" ||
+            zodiac === "козерог"
         ) {
             zodiacBonus = 2;
 
             zodiacVerdict =
-                "Земні знаки прагнуть стабільності, а Стрілець — свободи. Потрібен час для притирки, але союз може бути дуже міцним. 🏔️";
+                "🌿 Земля встречает огонь. Стрелец тянется к свободе и приключениям, а земные знаки чаще любят стабильность. Вы разные, но именно эта разница может хорошо дополнять друг друга.";
+        }
 
-        } else if (
-            [
-                "рак",
-                "скорпион",
-                "скорпіон",
-                "рыбы",
-                "риби"
-            ].includes(zodiac)
+        else if (
+            zodiac === "рак" ||
+            zodiac === "скорпион" ||
+            zodiac === "рыбы"
         ) {
-            zodiacBonus = 1;
-
-            zodiacVerdict =
-                "Вогонь і Вода. Глибокі почуття та штормові емоції. Вода може загасити ваш запал, але магнетизм між вами неймовірний. 🌊";
-
-        } else {
             zodiacBonus = 2;
 
             zodiacVerdict =
-                "Зірки дивляться на ваш союз із цікавістю. Магія кохання сильніша за будь-які гороскопи! 🌌";
+                "🌊 Вода и Огонь создают сильные эмоции. Стрелец может казаться слишком свободным, а водный знак — слишком глубоким. Но именно между такими противоположностями часто возникает мощный магнетизм.";
+        }
+
+        else {
+            zodiacBonus = 2;
+
+            zodiacVerdict =
+                "🌌 Созвездия пока держат часть тайны при себе. Но совместимость определяется не только знаком зодиака.";
         }
 
         score += zodiacBonus;
 
-        // =========================
-        // ЭНЕРГИЯ
-        // =========================
-
         if (feelings === "Влюблённая энергия 💗") {
             score += 3;
-        } else if (feelings === "Загадочная энергия 🔮") {
-            score += 3;
-        } else if (feelings === "Авантюрная энергия ⚡") {
-            score += 2;
-        } else if (feelings === "Спокойная энергия 🌙") {
-            score += 2;
-        } else if (feelings === "Мне нравится статус-код 200 😏") {
-            score += 1;
         }
 
-        // =========================
-        // МЕСТО
-        // =========================
+        else if (feelings === "Загадочная энергия 🔮") {
+            score += 3;
+        }
+
+        else if (feelings === "Авантюрная энергия ⚡") {
+            score += 2;
+        }
+
+        else if (feelings === "Спокойная энергия 🌙") {
+            score += 2;
+        }
+
+        else if (
+            feelings ===
+            "Мне нравится статус-код 200 😏"
+        ) {
+            score += 1;
+        }
 
         const placeLower = place.toLowerCase();
 
@@ -138,51 +139,50 @@ app.post("/api/send", async (req, res) => {
             placeLower.includes("кино")
         ) {
             score += 3;
-        } else if (
-            placeLower.includes("космос") ||
-            placeLower.includes("звезд") ||
-            placeLower.includes("неб")
-        ) {
-            score += 3;
-        } else {
-            score += 2;
         }
 
-        // =========================
-        // ВРЕМЯ
-        // =========================
+        else if (
+            placeLower.includes("море") ||
+            placeLower.includes("пляж") ||
+            placeLower.includes("горы") ||
+            placeLower.includes("парк") ||
+            placeLower.includes("звезд") ||
+            placeLower.includes("небо")
+        ) {
+            score += 3;
+        }
+
+        else {
+            score += 2;
+        }
 
         const timeLower = time.toLowerCase();
 
         if (
             timeLower.includes("сегодня") ||
             timeLower.includes("сейчас") ||
-            timeLower.includes("всегда")
+            timeLower.includes("вечером") ||
+            timeLower.includes("ночью")
         ) {
             score += 3;
-        } else {
+        }
+
+        else {
             score += 1;
         }
 
-        // =========================
-        // ТАЙНОЕ СООБЩЕНИЕ
-        // =========================
-
         if (message.length > 15) {
             score += 3;
-        } else if (message.length > 0) {
+        }
+
+        else if (message.length > 0) {
             score += 2;
         }
 
-        // =========================
-        // ПРОЦЕНТ
-        // =========================
+        let lovePercentage =
+            Math.round((score / maxScore) * 100);
 
-        let lovePercentage = Math.round(
-            (score / maxScore) * 100
-        );
-
-        if (lovePercentage < 35) {
+        if (lovePercentage < 45) {
             lovePercentage = 45;
         }
 
@@ -190,98 +190,138 @@ app.post("/api/send", async (req, res) => {
             lovePercentage = 100;
         }
 
-        // =========================
-        // ВЕРДИКТ
-        // =========================
-
         let finalVerdict = "";
 
-        if (lovePercentage >= 85) {
+        if (lovePercentage >= 90) {
             finalVerdict =
-                "✨ Всесвіт ликує! Ваша астрологічна та душевна гармонія бездоганна. Ви створені один для одного! 🌌";
-
-        } else if (lovePercentage >= 65) {
-            finalVerdict =
-                "🔮 Магія діє! Знаки зодіаку прихильні до вас, а енергії притягуються. Вам обов'язково треба зустрітися! 🧭";
-
-        } else {
-            finalVerdict =
-                "🌙 Таємничий союз! Ви народилися під різними сузір'ями, але саме протилежності створюють найсильніше тяжіння. ✨";
+                "✨ Звёзды почти кричат о совпадении. Между вами очень сильная энергия, и этот союз определённо заслуживает настоящей встречи. 💖";
         }
 
-        // =========================
-        // TELEGRAM
-        // =========================
+        else if (lovePercentage >= 75) {
+            finalVerdict =
+                "🔮 Очень сильная совместимость. У этого знакомства есть отличные шансы превратиться во что-то намного интереснее обычной переписки.";
+        }
+
+        else if (lovePercentage >= 60) {
+            finalVerdict =
+                "💫 Хорошее притяжение. Некоторые ваши качества отличаются, но именно это может сделать историю намного интереснее.";
+        }
+
+        else {
+            finalVerdict =
+                "🌙 Звёзды оставляют интригу. Вы не самый очевидный союз, но иногда именно самые неожиданные сочетания становятся самыми запоминающимися.";
+        }
+
+        const zodiacNames = {
+            овен: "♈ Овен",
+            телец: "♉ Телец",
+            близнецы: "♊ Близнецы",
+            рак: "♋ Рак",
+            лев: "♌ Лев",
+            дева: "♍ Дева",
+            весы: "♎ Весы",
+            скорпион: "♏ Скорпион",
+            стрелец: "♐ Стрелец",
+            козерог: "♑ Козерог",
+            водолей: "♒ Водолей",
+            рыбы: "♓ Рыбы"
+        };
+
+        const zodiacName =
+            zodiacNames[zodiac] || zodiac;
 
         const text =
-`🔮 *АСТРОЛОГИЧЕСКИЙ АНАЛИЗ СОВМЕСТИМОСТИ*
+`🔮 АСТРОЛОГИЧЕСКИЙ АНАЛИЗ
 
-👤 *Странник:* ${name}
-🏹 *Знак зодиака:* ${data.zodiac || "не указан"}
-🌟 *Энергия сердца:* ${feelings || "не указана"}
-✨ *Идеальное свидание:* ${date || "не указано"}
-🗺️ *Место встречи:* ${place || "не указано"}
-◷ *Когда сойдутся звезды:* ${time || "не указано"}
-🔐 *Тайное послание:* ${message || "скрыто"}
+👤 Имя: ${name}
+♐ Совместимость с: Стрельцом
+🌌 Знак пользователя: ${zodiacName}
 
-📊 *МАГИЧЕСКИЙ РЕЗУЛЬТАТ:* ${lovePercentage}%
+💗 Энергия:
+${feelings || "не указана"}
 
-🪐 *Анализ знаков:*
-_${zodiacVerdict}_
+✨ Идеальное свидание:
+${date || "не указано"}
 
-🔮 *Вердикт звезд:*
-_${finalVerdict}_`;
+🗺️ Место:
+${place || "не указано"}
 
-        const url =
+◷ Время:
+${time || "не указано"}
+
+🔐 Тайное послание:
+${message || "не оставлено"}
+
+━━━━━━━━━━━━━━
+
+📊 СОВМЕСТИМОСТЬ: ${lovePercentage}%
+
+🪐 Анализ знаков:
+${zodiacVerdict}
+
+🔮 Вердикт:
+${finalVerdict}`;
+
+        const telegramUrl =
             `https://api.telegram.org/bot${BOT_TOKEN}/sendMessage`;
 
-        const response = await fetch(url, {
-            method: "POST",
-            headers: {
-                "Content-Type": "application/json"
-            },
-            body: JSON.stringify({
-                chat_id: CHAT_ID,
-                text: text,
-                parse_mode: "Markdown"
-            })
-        });
+        const telegramResponse = await fetch(
+            telegramUrl,
+            {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json"
+                },
+                body: JSON.stringify({
+                    chat_id: CHAT_ID,
+                    text: text
+                })
+            }
+        );
 
-        const result = await response.json();
+        const telegramResult =
+            await telegramResponse.json();
 
-        if (!result.ok) {
-            console.error("Telegram error:", result);
+        if (!telegramResult.ok) {
+            console.error(
+                "Telegram error:",
+                telegramResult
+            );
 
             return res.status(500).json({
                 error: "Telegram не принял сообщение"
             });
         }
 
-        // =========================
-        // ОТВЕТ САЙТУ
-        // =========================
-
-        res.json({
+        return res.json({
             success: true,
             percentage: lovePercentage,
-            verdict: `${zodiacVerdict} ${finalVerdict}`
+            zodiacVerdict: zodiacVerdict,
+            verdict:
+                zodiacVerdict + " " + finalVerdict
         });
 
     } catch (error) {
-        console.error("Server error:", error);
+        console.error(
+            "Server error:",
+            error
+        );
 
-        res.status(500).json({
+        return res.status(500).json({
             error: error.message
         });
     }
 });
 
-// =========================
-// PORT
-// =========================
+app.get("/", (req, res) => {
+    res.send("Magic compatibility server is running 🔮");
+});
 
-const PORT = process.env.PORT || 3000;
+const PORT =
+    process.env.PORT || 3000;
 
 app.listen(PORT, () => {
-    console.log(`Сервер запущен на порту ${PORT}`);
+    console.log(
+        `Сервер запущен на порту ${PORT}`
+    );
 });
