@@ -10,7 +10,7 @@ const BOT_TOKEN = process.env.BOT_TOKEN;
 const CHAT_ID = process.env.CHAT_ID;
 
 // =========================
-// НАЗВАНИЯ ЗНАКОВ
+// ЗНАКИ
 // =========================
 
 const zodiacNames = {
@@ -71,32 +71,33 @@ const oppositePairs = [
 ];
 
 function isOpposite(z1, z2) {
-    return oppositePairs.some(
-        ([a, b]) =>
+    return oppositePairs.some(([a, b]) => {
+        return (
             (z1 === a && z2 === b) ||
             (z1 === b && z2 === a)
-    );
+        );
+    });
 }
 
 // =========================
-// РАСЧЁТ ЗОДИАКА
-// максимум 8 баллов
+// АСТРОЛОГИЧЕСКИЙ РАСЧЁТ
+// максимум 8
 // =========================
 
-function calculateZodiacCompatibility(zodiac1, zodiac2) {
-    const element1 = elements[zodiac1];
-    const element2 = elements[zodiac2];
+function calculateZodiacCompatibility(z1, z2) {
+    const element1 = elements[z1];
+    const element2 = elements[z2];
 
     let score = 0;
     let verdict = "";
 
-    if (zodiac1 === zodiac2) {
+    if (z1 === z2) {
         score = 8;
 
         verdict =
-            `✨ Два одинаковых знака — ${zodiacNames[zodiac1]} и ${zodiacNames[zodiac2]}. ` +
-            "Вы легко узнаёте в другом человеке собственные желания, эмоции и привычки. " +
-            "Между вами может возникнуть очень сильное взаимопонимание, но важно не соревноваться друг с другом.";
+            `✨ ${zodiacNames[z1]} встречает своё отражение. ` +
+            "Вы хорошо понимаете реакции, желания и настроение друг друга. " +
+            "Союз может быть очень сильным, если не начать соревноваться.";
     }
 
     else if (
@@ -106,9 +107,8 @@ function calculateZodiacCompatibility(zodiac1, zodiac2) {
         score = 8;
 
         verdict =
-            "🔥🌬️ Огонь и Воздух — очень яркое сочетание. " +
-            "Воздух разжигает пламя, а Огонь добавляет отношениям страсть, движение и смелость. " +
-            "Вместе вам трудно скучать.";
+            "🔥🌬️ Огонь и Воздух создают яркий союз. " +
+            "Между вами легко появляются интерес, движение, страсть и желание пробовать новое.";
     }
 
     else if (
@@ -118,26 +118,24 @@ function calculateZodiacCompatibility(zodiac1, zodiac2) {
         score = 8;
 
         verdict =
-            "🌿🌊 Земля и Вода прекрасно дополняют друг друга. " +
-            "Один знак создаёт чувство надёжности, а другой приносит эмоциональную глубину и тепло. " +
-            "Очень гармоничная комбинация.";
+            "🌿🌊 Земля и Вода отлично дополняют друг друга. " +
+            "Один приносит стабильность, другой — эмоциональную глубину и тепло.";
     }
 
-    else if (isOpposite(zodiac1, zodiac2)) {
+    else if (isOpposite(z1, z2)) {
         score = 7;
 
         verdict =
             "🧲 Ваши знаки находятся напротив друг друга в зодиакальном круге. " +
-            "Такие союзы часто дают сильнейшее притяжение: вы очень разные, но именно поэтому способны дополнять друг друга.";
+            "Это часто создаёт очень сильное притяжение: вы разные, но можете идеально дополнять друг друга.";
     }
 
     else if (element1 === element2) {
         score = 7;
 
         verdict =
-            `💫 Вы принадлежите к одной стихии — ${elementNames[element1]}. ` +
-            "Ваш ритм, темперамент и способ смотреть на жизнь во многом похожи. " +
-            "Это создаёт хорошую основу для взаимопонимания.";
+            `💫 Вы принадлежите одной стихии — ${elementNames[element1]}. ` +
+            "У вас похожий ритм и способ смотреть на жизнь, что даёт хорошее взаимопонимание.";
     }
 
     else if (
@@ -147,9 +145,8 @@ function calculateZodiacCompatibility(zodiac1, zodiac2) {
         score = 4;
 
         verdict =
-            "🔥🌊 Вода и Огонь — союз сильных эмоций. " +
-            "Между вами может быть огромное притяжение, но реакции на одни и те же ситуации часто отличаются. " +
-            "Если научиться слышать друг друга, отношения становятся особенно яркими.";
+            "🔥🌊 Вода и Огонь создают эмоциональный и очень яркий союз. " +
+            "Между вами может быть сильное притяжение, но важно не пытаться изменить друг друга.";
     }
 
     else if (
@@ -159,17 +156,17 @@ function calculateZodiacCompatibility(zodiac1, zodiac2) {
         score = 4;
 
         verdict =
-            "🌿🌬️ Земля и Воздух живут в немного разных ритмах. " +
-            "Один ищет устойчивость, другой — свободу и новые идеи. " +
-            "Но ваши различия способны очень хорошо дополнять друг друга.";
+            "🌿🌬️ Земля и Воздух смотрят на многие вещи по-разному. " +
+            "Один любит устойчивость, второй свободу и новые идеи. " +
+            "Но именно различия способны хорошо вас дополнять.";
     }
 
     else {
         score = 6;
 
         verdict =
-            "🔮 Ваши стихии создают необычную комбинацию. " +
-            "Здесь многое зависит не от гороскопа, а от того, насколько легко вы принимаете особенности друг друга.";
+            "🔮 Между вашими знаками есть необычная химия. " +
+            "Здесь многое зависит от характера и желания слышать друг друга.";
     }
 
     return {
@@ -188,24 +185,36 @@ app.post("/api/send", async (req, res) => {
     try {
         const data = req.body || {};
 
-        const name = String(data.name || "").trim();
+        const name =
+            String(data.name || "").trim();
 
-        const zodiac1 = String(data.zodiac1 || "")
-            .toLowerCase()
-            .trim();
+        const zodiac1 =
+            String(data.zodiac1 || "")
+                .toLowerCase()
+                .trim();
 
-        const zodiac2 = String(data.zodiac2 || "")
-            .toLowerCase()
-            .trim();
+        const zodiac2 =
+            String(data.zodiac2 || "")
+                .toLowerCase()
+                .trim();
 
-        const feelings = String(data.feelings || "").trim();
-        const date = String(data.date || "").trim();
-        const place = String(data.place || "").trim();
-        const time = String(data.time || "").trim();
-        const message = String(data.message || "").trim();
+        const feelings =
+            String(data.feelings || "").trim();
+
+        const date =
+            String(data.date || "").trim();
+
+        const place =
+            String(data.place || "").trim();
+
+        const time =
+            String(data.time || "").trim();
+
+        const message =
+            String(data.message || "").trim();
 
         // =========================
-        // ПРОВЕРКА
+        // ПРОВЕРКИ
         // =========================
 
         if (!name) {
@@ -216,7 +225,7 @@ app.post("/api/send", async (req, res) => {
 
         if (!zodiac1) {
             return res.status(400).json({
-                error: "Не выбран твой знак зодиака"
+                error: "Не выбран первый знак зодиака"
             });
         }
 
@@ -258,7 +267,7 @@ app.post("/api/send", async (req, res) => {
 
         let score = 0;
 
-        // Максимум:
+        // максимум:
         // зодиак 8
         // энергия 3
         // свидание 2
@@ -266,7 +275,7 @@ app.post("/api/send", async (req, res) => {
         // время 3
         // сообщение 3
         //
-        // ИТОГО = 22
+        // TOTAL = 22
 
         const maxScore = 22;
 
@@ -288,39 +297,54 @@ app.post("/api/send", async (req, res) => {
 
         let energyVerdict = "";
 
-        if (feelings === "Влюблённая энергия 💗") {
+        if (
+            feelings ===
+            "Влюблённая энергия 💗"
+        ) {
             score += 3;
 
             energyVerdict =
-                "💗 Влюблённая энергия усиливает тепло, нежность и желание быть ближе.";
+                "💗 Влюблённая энергия усиливает тепло, нежность и желание быть рядом.";
         }
 
-        else if (feelings === "Загадочная энергия 🔮") {
+        else if (
+            feelings ===
+            "Загадочная энергия 🔮"
+        ) {
             score += 3;
 
             energyVerdict =
-                "🔮 Загадочная энергия добавляет отношениям интригу и сильное любопытство друг к другу.";
+                "🔮 Загадочная энергия усиливает интригу и интерес друг к другу.";
         }
 
-        else if (feelings === "Авантюрная энергия ⚡") {
+        else if (
+            feelings ===
+            "Авантюрная энергия ⚡"
+        ) {
             score += 3;
 
             energyVerdict =
-                "⚡ Авантюрная энергия обещает движение, спонтанность и массу совместных приключений.";
+                "⚡ Авантюрная энергия обещает движение, спонтанность и совместные приключения.";
         }
 
-        else if (feelings === "Спокойная энергия 🌙") {
+        else if (
+            feelings ===
+            "Спокойная энергия 🌙"
+        ) {
             score += 2;
 
             energyVerdict =
-                "🌙 Спокойная энергия располагает к искренним разговорам, доверию и мягкому развитию отношений.";
+                "🌙 Спокойная энергия помогает доверию и искренним разговорам.";
         }
 
-        else if (feelings === "Дерзкая энергия 😎") {
+        else if (
+            feelings ===
+            "Дерзкая энергия 😎"
+        ) {
             score += 2;
 
             energyVerdict =
-                "😎 Дерзкая энергия создаёт игру, флирт и желание бросить судьбе небольшой вызов.";
+                "😎 Дерзкая энергия добавляет флирт, игру и желание удивлять друг друга.";
         }
 
         else {
@@ -343,8 +367,8 @@ app.post("/api/send", async (req, res) => {
             dateLower.includes("луна") ||
             dateLower.includes("луной") ||
             dateLower.includes("море") ||
-            dateLower.includes("путеше") ||
-            dateLower.includes("прогул")
+            dateLower.includes("прогул") ||
+            dateLower.includes("путеше")
         ) {
             score += 2;
         } else {
@@ -404,7 +428,7 @@ app.post("/api/send", async (req, res) => {
         }
 
         // =========================
-        // ТАЙНОЕ ПОСЛАНИЕ
+        // ПОСЛАНИЕ
         // =========================
 
         if (message.length >= 20) {
@@ -419,18 +443,17 @@ app.post("/api/send", async (req, res) => {
         // ПРОЦЕНТ
         // =========================
 
-        let lovePercentage =
+        let percentage =
             Math.round(
                 (score / maxScore) * 100
             );
 
-        // Чтобы результат не был унылым :)
-        if (lovePercentage < 40) {
-            lovePercentage = 40;
+        if (percentage < 40) {
+            percentage = 40;
         }
 
-        if (lovePercentage > 100) {
-            lovePercentage = 100;
+        if (percentage > 100) {
+            percentage = 100;
         }
 
         // =========================
@@ -439,37 +462,33 @@ app.post("/api/send", async (req, res) => {
 
         let finalVerdict = "";
 
-        if (lovePercentage >= 90) {
+        if (percentage >= 90) {
             finalVerdict =
-                "💖 Звёзды показывают почти идеальное совпадение. Между вами очень сильное притяжение, а ваши различия только добавляют отношениям энергии.";
+                "💖 Почти идеальное совпадение. Между вами очень сильное притяжение, и ваши энергии действительно усиливают друг друга.";
         }
 
-        else if (lovePercentage >= 80) {
+        else if (percentage >= 80) {
             finalVerdict =
                 "✨ Очень высокая совместимость. В этой истории есть и химия, и интерес, и отличный потенциал для чего-то большего.";
         }
 
-        else if (lovePercentage >= 70) {
+        else if (percentage >= 70) {
             finalVerdict =
-                "🔮 Знаки хорошо сочетаются. Между вами определённо есть искра, которую стоит проверить в реальной встрече.";
+                "🔮 Между вами определённо есть искра. Звёзды советуют проверить эту совместимость настоящей встречей.";
         }
 
-        else if (lovePercentage >= 60) {
+        else if (percentage >= 60) {
             finalVerdict =
-                "💫 Хорошая совместимость. Вы не во всём одинаковы, но именно различия могут сделать отношения особенно интересными.";
+                "💫 Хорошая совместимость. Вы отличаетесь, но именно эти различия могут сделать отношения особенно интересными.";
         }
 
         else {
             finalVerdict =
-                "🌙 Не самый очевидный союз, зато очень интригующий. Иногда именно такие сочетания превращаются в самые неожиданные истории.";
+                "🌙 Союз не самый очевидный, зато интригующий. Иногда именно такие сочетания превращаются в самые необычные истории.";
         }
 
-        // =========================
-        // ПОЛНЫЙ ВЕРДИКТ
-        // =========================
-
         const fullVerdict =
-            `${zodiacResult.verdict} ${energyVerdict} ${finalVerdict}`;
+            `${zodiacResult.verdict} ${finalVerdict}`;
 
         // =========================
         // TELEGRAM
@@ -478,7 +497,7 @@ app.post("/api/send", async (req, res) => {
         if (BOT_TOKEN && CHAT_ID) {
 
             const text =
-`🔮 НОВЫЙ АНАЛИЗ СОВМЕСТИМОСТИ
+`🔮 НОВЫЙ МАГИЧЕСКИЙ АНАЛИЗ
 
 👤 Имя:
 ${name}
@@ -489,8 +508,10 @@ ${zodiacNames[zodiac1]}
 💞 Второй знак:
 ${zodiacNames[zodiac2]}
 
-🔥 Стихии:
-${elementNames[zodiacResult.element1]} × ${elementNames[zodiacResult.element2]}
+🌠 Стихии:
+${elementNames[zodiacResult.element1]}
+×
+${elementNames[zodiacResult.element2]}
 
 💗 Энергия:
 ${feelings || "не указана"}
@@ -498,7 +519,7 @@ ${feelings || "не указана"}
 ✨ Идеальное свидание:
 ${date}
 
-🗺️ Место встречи:
+🗺️ Место:
 ${place}
 
 ◷ Когда:
@@ -507,54 +528,64 @@ ${time}
 🔐 Тайное послание:
 ${message || "не оставлено"}
 
-━━━━━━━━━━━━━━━━
+━━━━━━━━━━━━━━
 
 📊 СОВМЕСТИМОСТЬ:
-${lovePercentage}%
+${percentage}%
 
-🪐 АСТРОЛОГИЧЕСКИЙ АНАЛИЗ:
+🪐 Астрологический анализ:
 ${zodiacResult.verdict}
 
-💗 ВЛИЯНИЕ ЭНЕРГИИ:
+💗 Энергия сердца:
 ${energyVerdict}
 
-🔮 ВЕРДИКТ:
+🔮 Финальный вердикт:
 ${finalVerdict}`;
 
-            const telegramUrl =
-                `https://api.telegram.org/bot${BOT_TOKEN}/sendMessage`;
+            try {
 
-            const telegramResponse =
-                await fetch(
-                    telegramUrl,
-                    {
-                        method: "POST",
+                const telegramUrl =
+                    `https://api.telegram.org/bot${BOT_TOKEN}/sendMessage`;
 
-                        headers: {
-                            "Content-Type":
-                                "application/json"
-                        },
+                const telegramResponse =
+                    await fetch(
+                        telegramUrl,
+                        {
+                            method: "POST",
 
-                        body: JSON.stringify({
-                            chat_id: CHAT_ID,
-                            text: text
-                        })
-                    }
-                );
+                            headers: {
+                                "Content-Type":
+                                    "application/json"
+                            },
 
-            const telegramResult =
-                await telegramResponse.json();
+                            body: JSON.stringify({
+                                chat_id:
+                                    CHAT_ID,
 
-            if (!telegramResult.ok) {
+                                text:
+                                    text
+                            })
+                        }
+                    );
+
+                const telegramResult =
+                    await telegramResponse.json();
+
+                if (!telegramResult.ok) {
+                    console.error(
+                        "Telegram error:",
+                        telegramResult
+                    );
+                }
+
+            } catch (telegramError) {
+
                 console.error(
-                    "Telegram error:",
-                    telegramResult
+                    "Telegram request error:",
+                    telegramError
                 );
+
             }
-        } else {
-            console.warn(
-                "BOT_TOKEN или CHAT_ID не настроены. Telegram пропущен."
-            );
         }
 
         // =========================
@@ -562,28 +593,11 @@ ${finalVerdict}`;
         // =========================
 
         return res.json({
+
             success: true,
 
             percentage:
-                lovePercentage,
-
-            zodiac1:
-                zodiac1,
-
-            zodiac2:
-                zodiac2,
-
-            zodiac1Name:
-                zodiacNames[zodiac1],
-
-            zodiac2Name:
-                zodiacNames[zodiac2],
-
-            element1:
-                zodiacResult.element1,
-
-            element2:
-                zodiacResult.element2,
+                percentage,
 
             zodiacVerdict:
                 zodiacResult.verdict,
@@ -596,6 +610,7 @@ ${finalVerdict}`;
 
             verdict:
                 fullVerdict
+
         });
 
     } catch (error) {
