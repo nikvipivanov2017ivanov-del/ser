@@ -9,16 +9,16 @@
 @import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;500;600;700&family=Montserrat:wght@400;500;600;700&display=swap');
 
 :root{
-    --left:#5577ff;
-    --left2:#914cff;
+    --left:#5175ff;
+    --left2:#9c4cff;
 
-    --right:#ff5366;
-    --right2:#ff9b38;
+    --right:#ff445a;
+    --right2:#ff9d38;
 
     --energy:#ff4f9c;
 
     --text:#fff4fb;
-    --muted:#cbbad8;
+    --muted:#cdbbd8;
 }
 
 *{
@@ -32,35 +32,26 @@ html{
 body{
     margin:0;
     min-height:100vh;
-
     font-family:'Montserrat',sans-serif;
     color:var(--text);
-
     background:#03020d;
-
     display:flex;
     justify-content:center;
     align-items:flex-start;
-
     padding:35px 15px 70px;
-
     overflow-x:hidden;
 }
 
-/* ==========================================
-   МАГИЧЕСКИЙ ФОН
-========================================== */
+/* =========================
+   МАГИЧЕСКИЙ МИР
+========================= */
 
 .magic-world{
     position:fixed;
     inset:0;
-
     overflow:hidden;
-
     pointer-events:none;
-
     z-index:0;
-
     background:
         linear-gradient(
             90deg,
@@ -71,45 +62,35 @@ body{
         );
 }
 
-/* Левая магическая сторона */
-
 .magic-world::before{
     content:"";
-
     position:absolute;
-
     inset:0 50% 0 0;
 
     background:
         radial-gradient(
             circle at 20% 18%,
-            color-mix(in srgb,var(--left) 45%,transparent),
+            color-mix(in srgb,var(--left) 46%,transparent),
             transparent 26%
         ),
-
         radial-gradient(
-            circle at 48% 50%,
-            color-mix(in srgb,var(--left2) 20%,transparent),
-            transparent 42%
+            circle at 45% 55%,
+            color-mix(in srgb,var(--left2) 24%,transparent),
+            transparent 45%
         ),
-
         linear-gradient(
             180deg,
-            rgba(4,5,35,.15),
+            rgba(4,5,35,.10),
             rgba(15,10,70,.30),
-            rgba(20,5,45,.55)
+            rgba(20,5,45,.58)
         );
 
     transition:1s;
 }
 
-/* Правая магическая сторона */
-
 .magic-world::after{
     content:"";
-
     position:absolute;
-
     inset:0 0 0 50%;
 
     background:
@@ -118,34 +99,31 @@ body{
             color-mix(in srgb,var(--right) 48%,transparent),
             transparent 27%
         ),
-
         radial-gradient(
             circle at 55% 60%,
-            color-mix(in srgb,var(--right2) 25%,transparent),
+            color-mix(in srgb,var(--right2) 26%,transparent),
             transparent 45%
         ),
-
         linear-gradient(
             180deg,
-            rgba(35,4,14,.12),
+            rgba(35,4,14,.10),
             rgba(70,7,25,.28),
-            rgba(30,3,15,.56)
+            rgba(30,3,15,.58)
         );
 
     transition:1s;
 }
 
-/* ==========================================
+/* =========================
    ЗВЁЗДЫ
-========================================== */
+========================= */
 
 .stars,
 .stars::before,
 .stars::after{
+    content:"";
     position:absolute;
     inset:0;
-
-    content:"";
 
     background-image:
         radial-gradient(circle,#fff 1px,transparent 1px),
@@ -157,40 +135,34 @@ body{
         167px 151px,
         221px 187px;
 
-    opacity:.38;
+    opacity:.4;
 }
 
 .stars{
-    animation:starsMove 28s linear infinite;
+    animation:starsMove 26s linear infinite;
 }
 
 .stars::before{
     transform:translateY(60px);
-    opacity:.23;
+    opacity:.22;
 }
 
 .stars::after{
     transform:translateX(40px);
-    opacity:.18;
+    opacity:.17;
 }
 
 @keyframes starsMove{
-    from{
-        transform:translateY(0);
-    }
-
-    to{
-        transform:translateY(-120px);
-    }
+    from{transform:translateY(0)}
+    to{transform:translateY(-120px)}
 }
 
-/* ==========================================
-   ЛУНА
-========================================== */
+/* =========================
+   ЛУНА СЛЕВА
+========================= */
 
 .moon{
     position:absolute;
-
     left:5vw;
     top:8vh;
 
@@ -200,7 +172,6 @@ body{
     border-radius:50%;
 
     border:8px solid var(--left);
-
     border-right-color:transparent;
     border-bottom-color:transparent;
 
@@ -210,76 +181,63 @@ body{
         drop-shadow(0 0 12px var(--left))
         drop-shadow(0 0 40px var(--left2));
 
-    opacity:.92;
+    opacity:.95;
 
     transition:1s;
 }
 
 .moon::after{
     content:"✦";
-
     position:absolute;
-
     right:-40px;
     top:35px;
-
     color:#fff;
-
     font-size:22px;
-
-    text-shadow:
-        0 0 12px var(--left);
+    text-shadow:0 0 12px var(--left);
 }
 
-/* ==========================================
-   ЗОДИАКАЛЬНЫЙ КРУГ
-========================================== */
+/* =========================
+   ЗОДИАК СПРАВА
+========================= */
 
 .zodiac-wheel{
     position:absolute;
+    right:-75px;
+    top:12vh;
 
-    right:-70px;
-    top:13vh;
-
-    width:340px;
-    height:340px;
+    width:350px;
+    height:350px;
 
     border-radius:50%;
 
-    border:2px solid
+    border:
+        2px solid
         color-mix(in srgb,var(--right) 65%,transparent);
 
     box-shadow:
-        0 0 20px
+        0 0 22px
         color-mix(in srgb,var(--right) 45%,transparent),
-        inset 0 0 25px
+        inset 0 0 28px
         color-mix(in srgb,var(--right2) 20%,transparent);
 
-    animation:rotateWheel 50s linear infinite;
-
+    animation:rotateWheel 55s linear infinite;
     transition:1s;
 }
 
 .zodiac-wheel::before{
-    content:"♈   ♉   ♊   ♋   ♌   ♍   ♎   ♏   ♐   ♑   ♒   ♓";
-
+    content:"♈  ♉  ♊  ♋  ♌  ♍  ♎  ♏  ♐  ♑  ♒  ♓";
     position:absolute;
-
-    inset:40px;
-
+    inset:42px;
     border-radius:50%;
 
-    border:1px dashed
+    border:
+        1px dashed
         color-mix(in srgb,var(--right2) 70%,transparent);
 
     color:var(--right2);
-
     font-size:21px;
-
     line-height:260px;
-
     text-align:center;
-
     word-spacing:7px;
 
     text-shadow:
@@ -288,16 +246,13 @@ body{
 
 .zodiac-wheel::after{
     content:"✦";
-
     position:absolute;
-
     top:50%;
     left:50%;
 
     transform:translate(-50%,-50%);
 
     color:#fff;
-
     font-size:30px;
 
     text-shadow:
@@ -306,18 +261,15 @@ body{
 }
 
 @keyframes rotateWheel{
-    to{
-        transform:rotate(360deg);
-    }
+    to{transform:rotate(360deg)}
 }
 
-/* ==========================================
+/* =========================
    МАГИЧЕСКАЯ ЗЕМЛЯ
-========================================== */
+========================= */
 
 .magic-ground{
     position:absolute;
-
     left:0;
     right:0;
     bottom:0;
@@ -330,25 +282,21 @@ body{
             color-mix(in srgb,var(--left) 30%,transparent),
             transparent 45%
         ),
-
         radial-gradient(
             ellipse at 80% 100%,
             color-mix(in srgb,var(--right) 30%,transparent),
             transparent 45%
         ),
-
         linear-gradient(
             to top,
-            rgba(0,0,8,.90),
+            rgba(0,0,8,.92),
             transparent
         );
 }
 
 .magic-ground::before{
     content:"";
-
     position:absolute;
-
     bottom:0;
     left:0;
 
@@ -367,9 +315,7 @@ body{
 
 .magic-ground::after{
     content:"";
-
     position:absolute;
-
     bottom:0;
     right:0;
 
@@ -386,82 +332,62 @@ body{
         );
 }
 
-/* ==========================================
-   КРИСТАЛЛЫ И МАГИЯ
-========================================== */
+/* =========================
+   ДЕКОР
+========================= */
 
 .magic-decoration{
     position:absolute;
-
-    font-size:34px;
-
+    font-size:38px;
     filter:drop-shadow(0 0 12px currentColor);
-
-    animation:magicFloat 4s ease-in-out infinite;
+    animation:floatMagic 4s ease-in-out infinite;
 }
 
 .crystal-left{
-    left:9%;
+    left:8%;
     bottom:11%;
-
     color:var(--left);
-}
-
-.crystal-right{
-    right:9%;
-    bottom:10%;
-
-    color:var(--right);
 }
 
 .book-left{
     left:3%;
     bottom:4%;
-
-    font-size:44px;
-
+    font-size:50px;
     color:#b998ff;
 }
 
+.crystal-right{
+    right:8%;
+    bottom:10%;
+    color:var(--right);
+}
+
 .fire-right{
-    right:4%;
+    right:3%;
     bottom:4%;
-
-    font-size:46px;
-
+    font-size:48px;
     color:#ff724c;
 }
 
-@keyframes magicFloat{
-    0%,100%{
-        transform:translateY(0);
-    }
-
-    50%{
-        transform:translateY(-10px);
-    }
+@keyframes floatMagic{
+    0%,100%{transform:translateY(0)}
+    50%{transform:translateY(-10px)}
 }
 
-/* ==========================================
-   ЛЕТАЮЩИЕ ЧАСТИЦЫ
-========================================== */
+/* =========================
+   ЧАСТИЦЫ
+========================= */
 
 .particles{
     position:fixed;
     inset:0;
-
-    pointer-events:none;
-
     z-index:1;
+    pointer-events:none;
 }
 
 .particles span{
     position:absolute;
-
-    font-size:15px;
-
     opacity:0;
-
     animation:particleFloat 8s linear infinite;
 }
 
@@ -473,40 +399,12 @@ body{
     color:var(--right);
 }
 
-.particles span:nth-child(1){
-    left:5%;
-    top:75%;
-}
-
-.particles span:nth-child(2){
-    left:16%;
-    top:48%;
-    animation-delay:2s;
-}
-
-.particles span:nth-child(3){
-    left:30%;
-    top:90%;
-    animation-delay:4s;
-}
-
-.particles span:nth-child(4){
-    left:73%;
-    top:80%;
-    animation-delay:1s;
-}
-
-.particles span:nth-child(5){
-    left:87%;
-    top:50%;
-    animation-delay:3s;
-}
-
-.particles span:nth-child(6){
-    left:95%;
-    top:75%;
-    animation-delay:5s;
-}
+.particles span:nth-child(1){left:5%;top:75%}
+.particles span:nth-child(2){left:16%;top:48%;animation-delay:2s}
+.particles span:nth-child(3){left:30%;top:90%;animation-delay:4s}
+.particles span:nth-child(4){left:73%;top:80%;animation-delay:1s}
+.particles span:nth-child(5){left:87%;top:50%;animation-delay:3s}
+.particles span:nth-child(6){left:95%;top:75%;animation-delay:5s}
 
 @keyframes particleFloat{
     0%{
@@ -528,46 +426,39 @@ body{
     }
 }
 
-/* ==========================================
-   ЦЕНТРАЛЬНОЕ ЗАТЕМНЕНИЕ
-========================================== */
+/* =========================
+   ЗАТЕМНЕНИЕ ПОД ФОРМОЙ
+========================= */
 
 .center-shadow{
     position:fixed;
     inset:0;
-
     z-index:1;
-
     pointer-events:none;
 
     background:
         linear-gradient(
             90deg,
-
             transparent 0%,
-            rgba(3,2,12,.12) 20%,
-
+            rgba(3,2,12,.10) 20%,
             rgba(3,2,15,.48) 34%,
-            rgba(3,2,15,.76) 46%,
-
-            rgba(3,2,15,.76) 54%,
+            rgba(3,2,15,.78) 46%,
+            rgba(3,2,15,.78) 54%,
             rgba(3,2,15,.48) 66%,
-
-            rgba(3,2,12,.12) 80%,
+            rgba(3,2,12,.10) 80%,
             transparent 100%
         );
 }
 
-/* ==========================================
-   ФОРМА
-========================================== */
+/* =========================
+   ОСНОВНАЯ ФОРМА
+========================= */
 
 .quiz-card{
     position:relative;
-
     z-index:3;
 
-    width:min(720px,94vw);
+    width:min(760px,94vw);
 
     padding:42px 44px 40px;
 
@@ -576,50 +467,44 @@ body{
     background:
         linear-gradient(
             145deg,
-            rgba(8,6,27,.89),
+            rgba(8,6,27,.88),
             rgba(5,3,18,.94)
         );
 
     backdrop-filter:blur(15px);
     -webkit-backdrop-filter:blur(15px);
 
-    border:1px solid
+    border:
+        1px solid
         color-mix(in srgb,var(--energy) 42%,transparent);
 
     box-shadow:
         -15px 0 50px
-            color-mix(in srgb,var(--left) 15%,transparent),
+        color-mix(in srgb,var(--left) 15%,transparent),
 
         15px 0 50px
-            color-mix(in srgb,var(--right) 15%,transparent),
+        color-mix(in srgb,var(--right) 15%,transparent),
 
         0 0 35px
-            color-mix(in srgb,var(--energy) 16%,transparent),
+        color-mix(in srgb,var(--energy) 16%,transparent),
 
         inset 0 0 45px rgba(255,255,255,.018);
 
     overflow:hidden;
-
-    transition:1s;
 }
 
 .quiz-card::before{
     content:"";
-
     position:absolute;
-
     inset:7px;
-
     border-radius:21px;
-
     border:1px solid rgba(255,255,255,.055);
-
     pointer-events:none;
 }
 
-/* ==========================================
+/* =========================
    HEADER
-========================================== */
+========================= */
 
 .header{
     text-align:center;
@@ -637,21 +522,15 @@ body{
 }
 
 @keyframes pulse{
-    0%,100%{
-        transform:scale(1);
-    }
-
-    50%{
-        transform:scale(1.13);
-    }
+    0%,100%{transform:scale(1)}
+    50%{transform:scale(1.13)}
 }
 
 h1{
     margin:4px 0 0;
 
     font-family:'Cormorant Garamond',serif;
-
-    font-size:45px;
+    font-size:46px;
     font-weight:700;
 
     background:
@@ -681,22 +560,18 @@ h1{
 
 .subtitle{
     margin:7px 0 0;
-
     font-family:'Cormorant Garamond',serif;
-
     font-size:19px;
-
     color:#cfc0dc;
 }
 
-/* ==========================================
-   FORM
-========================================== */
+/* =========================
+   ФОРМА
+========================= */
 
 .form-row{
     display:grid;
     grid-template-columns:1fr 1fr;
-
     gap:16px;
 }
 
@@ -706,23 +581,17 @@ h1{
 
 label{
     display:flex;
-
     align-items:center;
-
     gap:8px;
-
     margin-bottom:8px;
 
     font-size:14px;
-
     font-weight:600;
-
     color:#fff5fb;
 }
 
 .icon{
     font-size:18px;
-
     color:var(--energy);
 
     filter:
@@ -738,18 +607,17 @@ textarea{
 
     border-radius:12px;
 
-    border:1px solid
+    border:
+        1px solid
         color-mix(in srgb,var(--energy) 42%,transparent);
 
-    background:
-        rgba(3,2,15,.72);
+    background:rgba(3,2,15,.72);
 
     color:#fff;
 
     outline:none;
 
     font-family:'Montserrat',sans-serif;
-
     font-size:14px;
 
     transition:.3s;
@@ -770,7 +638,6 @@ select option{
 
 textarea{
     min-height:90px;
-
     resize:vertical;
 }
 
@@ -786,32 +653,24 @@ textarea:focus{
         color-mix(in srgb,var(--energy) 30%,transparent);
 }
 
-/* Первый знак */
-
 #zodiac1{
     border-color:
         color-mix(in srgb,var(--left) 70%,transparent);
 }
-
-/* Второй */
 
 #zodiac2{
     border-color:
         color-mix(in srgb,var(--right) 70%,transparent);
 }
 
-/* ==========================================
-   ПАРА
-========================================== */
+/* =========================
+   ПАРА ЗНАКОВ
+========================= */
 
 .compatibility-preview{
-    position:relative;
-
     margin:0 0 20px;
 
     padding:14px;
-
-    overflow:hidden;
 
     border-radius:13px;
 
@@ -828,15 +687,12 @@ textarea:focus{
     text-align:center;
 
     font-family:'Cormorant Garamond',serif;
-
     font-size:21px;
-
-    color:#fff;
 }
 
-/* ==========================================
+/* =========================
    ENERGY
-========================================== */
+========================= */
 
 .energy-info{
     margin-top:8px;
@@ -845,7 +701,8 @@ textarea:focus{
 
     border-radius:11px;
 
-    border:1px solid
+    border:
+        1px solid
         color-mix(in srgb,var(--energy) 25%,transparent);
 
     background:
@@ -854,25 +711,20 @@ textarea:focus{
     color:#cdbbd9;
 
     font-family:'Cormorant Garamond',serif;
-
     font-size:16px;
 }
 
-/* ==========================================
+/* =========================
    BUTTON
-========================================== */
+========================= */
 
 button{
-    position:relative;
-
     width:100%;
-
     margin-top:8px;
 
     padding:16px 20px;
 
     border:0;
-
     border-radius:50px;
 
     cursor:pointer;
@@ -880,9 +732,7 @@ button{
     color:#fff;
 
     font-family:'Montserrat',sans-serif;
-
     font-size:15px;
-
     font-weight:700;
 
     background:
@@ -904,13 +754,17 @@ button{
 
 button:hover{
     transform:translateY(-3px);
-
     background-position:100% 0;
 }
 
-/* ==========================================
+button:disabled{
+    opacity:.8;
+    cursor:default;
+}
+
+/* =========================
    MAGIC LOADING
-========================================== */
+========================= */
 
 .hidden{
     display:none!important;
@@ -918,15 +772,12 @@ button:hover{
 
 #magicBlock{
     text-align:center;
-
     padding:35px 10px;
 }
 
 .magic-title{
     font-family:'Cormorant Garamond',serif;
-
     font-size:30px;
-
     margin-bottom:30px;
 }
 
@@ -945,7 +796,6 @@ button:hover{
 
 .circle{
     position:absolute;
-
     inset:0;
 
     border-radius:50%;
@@ -960,72 +810,54 @@ button:hover{
 
 .circle:nth-child(2){
     inset:18px;
-
     border-color:var(--right);
-
     animation:rotateReverse 7s linear infinite;
 }
 
 .circle:nth-child(3){
     inset:38px;
-
     border-style:dashed;
-
     border-color:var(--energy);
-
     animation:rotate 4s linear infinite;
+}
+
+@keyframes rotate{
+    to{transform:rotate(360deg)}
+}
+
+@keyframes rotateReverse{
+    to{transform:rotate(-360deg)}
 }
 
 .magic-rune{
     font-size:58px;
-
-    filter:
-        drop-shadow(0 0 15px var(--energy));
-
+    filter:drop-shadow(0 0 15px var(--energy));
     animation:pulse 1.6s infinite;
-}
-
-@keyframes rotate{
-    to{
-        transform:rotate(360deg);
-    }
-}
-
-@keyframes rotateReverse{
-    to{
-        transform:rotate(-360deg);
-    }
 }
 
 .magic-status{
     font-family:'Cormorant Garamond',serif;
-
     font-size:22px;
-
     color:#cdbbd8;
 }
 
-/* ==========================================
+/* =========================
    RESULT
-========================================== */
+========================= */
 
 #successBlock{
     text-align:center;
-
     padding:20px 5px;
 }
 
 .success-title{
     font-family:'Cormorant Garamond',serif;
-
     font-size:31px;
 }
 
 .result-pair{
     font-family:'Cormorant Garamond',serif;
-
     font-size:25px;
-
     margin:15px 0;
 }
 
@@ -1033,7 +865,6 @@ button:hover{
     display:block;
 
     font-size:74px;
-
     font-weight:700;
 
     background:
@@ -1051,22 +882,37 @@ button:hover{
 }
 
 .verdict-text{
-    max-width:580px;
-
+    max-width:600px;
     margin:15px auto;
 
     font-family:'Cormorant Garamond',serif;
-
     font-size:21px;
-
     line-height:1.6;
 
     color:#ded0e7;
 }
 
-/* ==========================================
+.result-detail{
+    margin-top:20px;
+
+    padding:16px;
+
+    border-radius:14px;
+
+    background:rgba(255,255,255,.025);
+
+    border:1px solid rgba(255,255,255,.08);
+
+    font-family:'Cormorant Garamond',serif;
+    font-size:18px;
+    line-height:1.5;
+
+    color:#cdbbd8;
+}
+
+/* =========================
    MOBILE
-========================================== */
+========================= */
 
 @media(max-width:700px){
 
@@ -1076,7 +922,6 @@ button:hover{
 
     .quiz-card{
         width:100%;
-
         padding:35px 18px 30px;
     }
 
@@ -1092,19 +937,17 @@ button:hover{
     .moon{
         width:120px;
         height:120px;
-
         left:-25px;
     }
 
     .zodiac-wheel{
         width:220px;
         height:220px;
-
         right:-120px;
     }
 
     .magic-decoration{
-        opacity:.6;
+        opacity:.55;
     }
 }
 </style>
@@ -1112,34 +955,17 @@ button:hover{
 
 <body>
 
-<!-- МАГИЧЕСКИЙ МИР -->
-
 <div class="magic-world">
-
     <div class="stars"></div>
-
     <div class="moon"></div>
-
     <div class="zodiac-wheel"></div>
-
     <div class="magic-ground"></div>
 
-    <div class="magic-decoration crystal-left">
-        🔮
-    </div>
+    <div class="magic-decoration crystal-left">🔮</div>
+    <div class="magic-decoration book-left">📖</div>
 
-    <div class="magic-decoration crystal-right">
-        💎
-    </div>
-
-    <div class="magic-decoration book-left">
-        📖
-    </div>
-
-    <div class="magic-decoration fire-right">
-        🕯️
-    </div>
-
+    <div class="magic-decoration crystal-right">💎</div>
+    <div class="magic-decoration fire-right">🕯️</div>
 </div>
 
 <div class="center-shadow"></div>
@@ -1152,8 +978,6 @@ button:hover{
     <span>✧</span>
     <span>♦</span>
 </div>
-
-<!-- ФОРМА -->
 
 <div class="quiz-card">
 
@@ -1370,8 +1194,6 @@ placeholder="Ты — моё самое красивое приключение.
 
 </form>
 
-<!-- МАГИЧЕСКИЙ АНАЛИЗ -->
-
 <div
 id="magicBlock"
 class="hidden"
@@ -1405,8 +1227,6 @@ id="magicStatus"
 
 </div>
 
-<!-- РЕЗУЛЬТАТ -->
-
 <div
 id="successBlock"
 class="hidden"
@@ -1432,15 +1252,16 @@ id="verdictResult"
 Звёзды ещё молчат...
 </p>
 
+<div
+class="result-detail"
+id="energyResult"
+></div>
+
 </div>
 
 </div>
 
 <script>
-
-/* ==========================================
-   ЗНАКИ
-========================================== */
 
 const zodiacData={
 
@@ -1518,10 +1339,6 @@ element:"water"
 
 };
 
-/* ==========================================
-   ЦВЕТА СТИХИЙ
-========================================== */
-
 const zodiacThemes={
 
 fire:{
@@ -1545,10 +1362,6 @@ color2:"#9c4cff"
 }
 
 };
-
-/* ==========================================
-   ЭНЕРГИЯ
-========================================== */
 
 const energyThemes={
 
@@ -1584,10 +1397,6 @@ text:"😎 Сегодня хочется играть по своим прави
 
 };
 
-/* ==========================================
-   ELEMENTS
-========================================== */
-
 const form=
 document.getElementById("loveForm");
 
@@ -1618,10 +1427,6 @@ document.getElementById("successBlock");
 const magicStatus=
 document.getElementById("magicStatus");
 
-/* ==========================================
-   ТЕМА
-========================================== */
-
 function applyTheme(){
 
 let leftElement="water";
@@ -1631,24 +1436,16 @@ if(
 zodiac1.value &&
 zodiacData[zodiac1.value]
 ){
-
 leftElement=
-zodiacData[
-zodiac1.value
-].element;
-
+zodiacData[zodiac1.value].element;
 }
 
 if(
 zodiac2.value &&
 zodiacData[zodiac2.value]
 ){
-
 rightElement=
-zodiacData[
-zodiac2.value
-].element;
-
+zodiacData[zodiac2.value].element;
 }
 
 const leftTheme=
@@ -1660,8 +1457,6 @@ zodiacThemes[rightElement];
 const energyTheme=
 energyThemes[feelings.value];
 
-/* ЛЕВАЯ СТОРОНА */
-
 document.documentElement.style.setProperty(
 "--left",
 leftTheme.color
@@ -1672,8 +1467,6 @@ document.documentElement.style.setProperty(
 leftTheme.color2
 );
 
-/* ПРАВАЯ */
-
 document.documentElement.style.setProperty(
 "--right",
 rightTheme.color
@@ -1683,8 +1476,6 @@ document.documentElement.style.setProperty(
 "--right2",
 rightTheme.color2
 );
-
-/* ЭНЕРГИЯ */
 
 document.documentElement.style.setProperty(
 "--energy",
@@ -1698,10 +1489,6 @@ magicRune.innerText=
 energyTheme.symbol;
 
 }
-
-/* ==========================================
-   ПАРА
-========================================== */
 
 function updatePreview(){
 
@@ -1759,44 +1546,30 @@ preview.innerHTML=
 
 }
 
-/* ==========================================
-   EVENTS
-========================================== */
-
 zodiac1.addEventListener(
 "change",
 ()=>{
-
 applyTheme();
 updatePreview();
-
 }
 );
 
 zodiac2.addEventListener(
 "change",
 ()=>{
-
 applyTheme();
 updatePreview();
-
 }
 );
 
 feelings.addEventListener(
 "change",
 ()=>{
-
 applyTheme();
-
 }
 );
 
 applyTheme();
-
-/* ==========================================
-   SUBMIT
-========================================== */
 
 form.addEventListener(
 "submit",
@@ -1875,10 +1648,7 @@ setInterval(()=>{
 
 index++;
 
-if(
-index <
-messages.length
-){
+if(index < messages.length){
 
 magicStatus.innerText=
 messages[index];
@@ -1893,17 +1663,14 @@ const response=
 await fetch(
 "https://ser-4983.onrender.com/api/send",
 {
-
 method:"POST",
 
 headers:{
-"Content-Type":
-"application/json"
+"Content-Type":"application/json"
 },
 
 body:
 JSON.stringify(payload)
-
 }
 );
 
@@ -1946,6 +1713,11 @@ document.getElementById(
 "verdictResult"
 ).innerText=
 result.verdict;
+
+document.getElementById(
+"energyResult"
+).innerText=
+result.energyVerdict || "";
 
 }else{
 
